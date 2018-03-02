@@ -1,0 +1,3 @@
+/home/afonscosta/Dropbox/2º Semestre/2_CG/3_Trabalho/CG_1718/engine/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/home/afonscosta/Dropbox/2º Semestre/2_CG/3_Trabalho/CG_1718/engine/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/afonscosta/Dropbox/2º Semestre/2_CG/3_Trabalho/CG_1718/engine/cmake-build-debug/CMakeFiles/engine.dir
