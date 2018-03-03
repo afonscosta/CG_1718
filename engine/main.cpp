@@ -160,7 +160,7 @@ void renderScene(void) {
     std::string delimiter = " ";
 
     std::fstream fs;
-    fs.open ("plane.3d", std::fstream::in);
+    fs.open ("box.3d", std::fstream::in);
 
     if (fs.is_open())
     {
@@ -169,19 +169,19 @@ void renderScene(void) {
 
             vector<std::string> aux;
             split(buffer, ' ', aux);
-
-            //FALTA ACABAR!!!!!!! apenas falta completar a parte do split que não existe em c++
-
+            buffer_points[i * 3 + 0] = atof(aux[0].c_str());
+            buffer_points[i * 3 + 1] = atof(aux[1].c_str());
+            buffer_points[i * 3 + 2] = atof(aux[2].c_str());
 
             i++;
 
-            if (i == 9){
+            if (i == 3){
 
                 printf("INICIO TRIANGULO\n");
 
-                printf("buffer[0] -> %f\nbuffer[1] -> %f\nbuffer[2] -> %f\n",buffer_points[0],buffer_points[1],buffer_points[2]);
-                printf("buffer[3] -> %f\nbuffer[4] -> %f\nbuffer[5] -> %f\n",buffer_points[3],buffer_points[4],buffer_points[5]);
-                printf("buffer[6] -> %f\nbuffer[7] -> %f\nbuffer[8] -> %f\n",buffer_points[6],buffer_points[7],buffer_points[8]);
+                printf("buffer[0] -> %fbuffer[1] -> %fbuffer[2] -> %f\n",buffer_points[0],buffer_points[1],buffer_points[2]);
+                printf("buffer[3] -> %fbuffer[4] -> %fbuffer[5] -> %f\n",buffer_points[3],buffer_points[4],buffer_points[5]);
+                printf("buffer[6] -> %fbuffer[7] -> %fbuffer[8] -> %f\n",buffer_points[6],buffer_points[7],buffer_points[8]);
 
                 glBegin(GL_TRIANGLES);
                 glColor3f(0,0,1);
@@ -191,9 +191,9 @@ void renderScene(void) {
                 glEnd();
                 printf("FIM TRIANGULO\n");
 
-            }
+                i = 0;
 
-            i = i % 9;
+            }
 
         }
 
