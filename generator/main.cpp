@@ -3,6 +3,8 @@
 #include <cstring>
 #include <stdlib.h>
 #include <vector>
+#include <math.h>
+#include <stdio.h>
 
 using std::ofstream;
 using std::vector;
@@ -36,6 +38,15 @@ int writeFile (vector <Point> points, char* fig)
     }
     if (strcmp(fig, "box") == 0) {
         myfile.open("box.3d");
+        if (myfile.is_open()) {
+            for (int i = 0; i < points.size(); i++) {
+                myfile << points[i].getX() << " " << points[i].getY() << " " << points[i].getZ() << "\n";
+            }
+            myfile.close();
+        }
+    }
+    if (strcmp(fig, "cone") == 0) {
+        myfile.open("cone.3d");
         if (myfile.is_open()) {
             for (int i = 0; i < points.size(); i++) {
                 myfile << points[i].getX() << " " << points[i].getY() << " " << points[i].getZ() << "\n";
@@ -153,8 +164,40 @@ vector <Point> box_generate_points(vector <Point> points, float x, float y, floa
     return points;
 }
 
-vector <Point> cone_generate_points(vector <Point> points, float bottom_radius, float height, float slices, float stacks) {
+vector <Point> cone_generate_points(vector <Point> points, float radius, float height, float slices, float stacks) {
+    double increment = (2 * M_PI) / slices;
 
+    double angle = 0;
+
+    double height_aux = height / 2;
+
+    Point p;
+
+    for (int i = 0; i < slices; i++){
+
+        //faces
+        p.setPoint(0, height_aux, 0);
+        points.push_back(p);
+        p.setPoint(sin(angle) * radius, -height_aux, cos(angle) * radius);
+        points.push_back(p);
+        p.setPoint(sin(angle + increment) * radius, -height_aux, cos(angle + increment) * radius);
+        points.push_back(p);
+
+
+
+        //base
+        p.setPoint(0, -height_aux, 0);
+        points.push_back(p);
+        p.setPoint(sin(angle + increment) * radius, -height_aux, cos(angle + increment) * radius);
+        points.push_back(p);
+        p.setPoint(sin(angle) * radius, -height_aux, cos(angle) * radius);
+        points.push_back(p);
+
+
+        angle += increment;
+    }
+
+    return points;
 }
 
 
@@ -167,17 +210,18 @@ int main(int argc, char **argv) {
         }
     }
     else if (argc == 5) {
+        //falta colocar a receber o numero de divisoes
         if (strcmp(argv[1], "box") == 0) {
             points = box_generate_points(points, strtof(argv[2], NULL)/2, strtof(argv[3], NULL)/2, strtof(argv[4], NULL)/2);
             writeFile(points, argv[1]);
         }
     }
-    //codigo preparado para os argumentos do cone
-    /*else if (argc == 6) {
+    else if (argc == 6) {
         if (strcmp(argv[1], "cone") == 0) {
             points = cone_generate_points(points, strtof(argv[2], NULL), strtof(argv[3], NULL)/2, strtof(argv[4], NULL), strtof(argv[5], NULL));
             writeFile(points, argv[1]);
         }
-    }*/
+    }
+
     return 0;
 }

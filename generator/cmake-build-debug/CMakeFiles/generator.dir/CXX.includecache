@@ -17,4 +17,8 @@ stdlib.h
 -
 vector
 -
+math.h
+-
+stdio.h
+-
 
