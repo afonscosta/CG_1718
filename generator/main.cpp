@@ -153,6 +153,10 @@ vector <Point> box_generate_points(vector <Point> points, float x, float y, floa
     return points;
 }
 
+vector <Point> cone_generate_points(vector <Point> points, float bottom_radius, float height, float slices, float stacks) {
+
+}
+
 
 int main(int argc, char **argv) {
     vector <Point> points;
@@ -168,5 +172,12 @@ int main(int argc, char **argv) {
             writeFile(points, argv[1]);
         }
     }
+    //codigo preparado para os argumentos do cone
+    /*else if (argc == 6) {
+        if (strcmp(argv[1], "cone") == 0) {
+            points = cone_generate_points(points, strtof(argv[2], NULL), strtof(argv[3], NULL)/2, strtof(argv[4], NULL), strtof(argv[5], NULL));
+            writeFile(points, argv[1]);
+        }
+    }*/
     return 0;
 }
