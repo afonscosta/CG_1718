@@ -186,6 +186,24 @@ CMAKE_STRIP:FILEPATH=/Applications/Xcode.app/Contents/Developer/Toolchains/Xcode
 // Studio IDE projects all commands are done without /nologo.
 CMAKE_VERBOSE_MAKEFILE:BOOL=FALSE
 
+//Path to a file.
+GLUT_INCLUDE_DIR:PATH=/System/Library/Frameworks/GLUT.framework/Headers
+
+//Cocoa framework for OSX
+GLUT_cocoa_LIBRARY:FILEPATH=/System/Library/Frameworks/Cocoa.framework
+
+//GLUT library for OSX
+GLUT_glut_LIBRARY:FILEPATH=/System/Library/Frameworks/GLUT.framework
+
+//Include for OpenGL on OS X
+OPENGL_INCLUDE_DIR:PATH=/System/Library/Frameworks/OpenGL.framework
+
+//OpenGL library for OS X
+OPENGL_gl_LIBRARY:FILEPATH=/System/Library/Frameworks/OpenGL.framework
+
+//GLU library for OS X (usually same as OpenGL library)
+OPENGL_glu_LIBRARY:FILEPATH=/System/Library/Frameworks/OpenGL.framework
+
 //Path to a program.
 ProcessorCount_cmd_sysctl:FILEPATH=/usr/sbin/sysctl
 
@@ -335,6 +353,20 @@ CMAKE_STRIP-ADVANCED:INTERNAL=1
 CMAKE_UNAME:INTERNAL=/usr/bin/uname
 //ADVANCED property for variable: CMAKE_VERBOSE_MAKEFILE
 CMAKE_VERBOSE_MAKEFILE-ADVANCED:INTERNAL=1
+//Details about finding GLUT
+FIND_PACKAGE_MESSAGE_DETAILS_GLUT:INTERNAL=[/System/Library/Frameworks/GLUT.framework][/System/Library/Frameworks/GLUT.framework/Headers][v()]
+//Details about finding OpenGL
+FIND_PACKAGE_MESSAGE_DETAILS_OpenGL:INTERNAL=[/System/Library/Frameworks/OpenGL.framework][/System/Library/Frameworks/OpenGL.framework][v()]
+//ADVANCED property for variable: GLUT_INCLUDE_DIR
+GLUT_INCLUDE_DIR-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: GLUT_glut_LIBRARY
+GLUT_glut_LIBRARY-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: OPENGL_INCLUDE_DIR
+OPENGL_INCLUDE_DIR-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: OPENGL_gl_LIBRARY
+OPENGL_gl_LIBRARY-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: OPENGL_glu_LIBRARY
+OPENGL_glu_LIBRARY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: ProcessorCount_cmd_sysctl
 ProcessorCount_cmd_sysctl-ADVANCED:INTERNAL=1
 

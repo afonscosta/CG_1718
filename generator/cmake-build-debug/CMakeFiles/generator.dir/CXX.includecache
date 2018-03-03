@@ -6,7 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/home/afonscosta/Dropbox/2º Semestre/2_CG/3_Trabalho/CG_1718/generator/main.cpp
+/Users/MarcoSilva/CG_1718/generator/main.cpp
 iostream
 -
 fstream
