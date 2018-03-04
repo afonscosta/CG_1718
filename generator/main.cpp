@@ -201,6 +201,50 @@ vector <Point> cone_generate_points(vector <Point> points, float radius, float h
 }
 
 
+vector <Point> esphere_generate_points(vector <Point> points,float radius, int slices, int stacks) {
+
+    Point p;
+
+// put code to draw cone in here
+    double increment1 = (2 * M_PI) / slices;
+    double increment2 = (2 * M_PI) / stacks;
+
+    double BETA = (-M_PI) / 2;
+    double ALFA = 0;
+
+    //z = radius * cos(BETA) * cos(ALFA)
+    //x = radius * cos(BETA) * sin(ALFA)
+    //y = radius * cos(BETA)
+
+    for (int i = 0; i < stacks; i++){
+
+        for (int a = 0; a < slices; a++){
+
+            glBegin(GL_TRIANGLES);
+
+            //triangulo 1
+            glColor3f(0,1,1);
+            glVertex3f(radius * cos(BETA) * sin(ALFA + increment1) , radius * cos(BETA) , radius * cos(BETA) * cos(ALFA + increment1));
+            glVertex3f(radius * cos(BETA + increment2) * sin(ALFA) , radius * cos(BETA + increment2) , radius * cos(BETA) * cos(ALFA));
+            glVertex3f(radius * cos(BETA) * sin(ALFA) , radius * cos(BETA) , radius * cos(BETA) * cos(ALFA));
+
+
+
+            //triangulo 2
+            glColor3f(0,1,1);
+            glVertex3f(radius * cos(BETA + increment2) * sin(ALFA) , radius * cos(BETA + increment2) , radius * cos(BETA) * cos(ALFA));
+            glVertex3f(radius * cos(BETA) * sin(ALFA + increment1) , radius * cos(BETA) , radius * cos(BETA) * cos(ALFA + increment1));
+            glVertex3f(radius * cos(BETA + increment2) * sin(ALFA + increment1) , radius * cos(BETA + increment2) , radius * cos(BETA + increment2) * cos(ALFA + increment1));
+
+            glEnd();
+
+            ALFA += increment2;
+        }
+        BETA += increment1;
+    }
+}
+
+
 int main(int argc, char **argv) {
     vector <Point> points;
     if (argc == 3) {
