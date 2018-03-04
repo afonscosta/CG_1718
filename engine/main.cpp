@@ -160,7 +160,7 @@ void renderScene(void) {
     std::string delimiter = " ";
 
     std::fstream fs;
-    fs.open ("box.3d", std::fstream::in);
+    fs.open ("sphere.3d", std::fstream::in);
 
     if (fs.is_open())
     {

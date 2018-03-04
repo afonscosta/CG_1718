@@ -36,7 +36,7 @@ int writeFile (vector <Point> points, char* fig)
             myfile.close();
         }
     }
-    if (strcmp(fig, "box") == 0) {
+    else if (strcmp(fig, "box") == 0) {
         myfile.open("box.3d");
         if (myfile.is_open()) {
             for (int i = 0; i < points.size(); i++) {
@@ -45,8 +45,17 @@ int writeFile (vector <Point> points, char* fig)
             myfile.close();
         }
     }
-    if (strcmp(fig, "cone") == 0) {
+    else if (strcmp(fig, "cone") == 0) {
         myfile.open("cone.3d");
+        if (myfile.is_open()) {
+            for (int i = 0; i < points.size(); i++) {
+                myfile << points[i].getX() << " " << points[i].getY() << " " << points[i].getZ() << "\n";
+            }
+            myfile.close();
+        }
+    }
+    else if (strcmp(fig, "sphere") == 0) {
+        myfile.open("sphere.3d");
         if (myfile.is_open()) {
             for (int i = 0; i < points.size(); i++) {
                 myfile << points[i].getX() << " " << points[i].getY() << " " << points[i].getZ() << "\n";
@@ -201,13 +210,13 @@ vector <Point> cone_generate_points(vector <Point> points, float radius, float h
 }
 
 
-vector <Point> esphere_generate_points(vector <Point> points,float radius, int slices, int stacks) {
+vector <Point> sphere_generate_points(vector <Point> points,float radius, int slices, int stacks) {
 
     Point p;
 
 // put code to draw cone in here
     double increment1 = (2 * M_PI) / slices;
-    double increment2 = (2 * M_PI) / stacks;
+    double increment2 = M_PI / stacks;
 
     double BETA = (-M_PI) / 2;
     double ALFA = 0;
@@ -220,28 +229,28 @@ vector <Point> esphere_generate_points(vector <Point> points,float radius, int s
 
         for (int a = 0; a < slices; a++){
 
-            glBegin(GL_TRIANGLES);
-
             //triangulo 1
-            glColor3f(0,1,1);
-            glVertex3f(radius * cos(BETA) * sin(ALFA + increment1) , radius * cos(BETA) , radius * cos(BETA) * cos(ALFA + increment1));
-            glVertex3f(radius * cos(BETA + increment2) * sin(ALFA) , radius * cos(BETA + increment2) , radius * cos(BETA) * cos(ALFA));
-            glVertex3f(radius * cos(BETA) * sin(ALFA) , radius * cos(BETA) , radius * cos(BETA) * cos(ALFA));
-
+            p.setPoint(radius * cos(BETA) * sin(ALFA + increment1), radius * sin(BETA), radius * cos(BETA) * cos(ALFA + increment1));
+            points.push_back(p);
+            p.setPoint(radius * cos(BETA + increment2) * sin(ALFA) , radius * sin(BETA + increment2) , radius * cos(BETA) * cos(ALFA));
+            points.push_back(p);
+            p.setPoint(radius * cos(BETA) * sin(ALFA) , radius * sin(BETA) , radius * cos(BETA) * cos(ALFA));
+            points.push_back(p);
 
 
             //triangulo 2
-            glColor3f(0,1,1);
-            glVertex3f(radius * cos(BETA + increment2) * sin(ALFA) , radius * cos(BETA + increment2) , radius * cos(BETA) * cos(ALFA));
-            glVertex3f(radius * cos(BETA) * sin(ALFA + increment1) , radius * cos(BETA) , radius * cos(BETA) * cos(ALFA + increment1));
-            glVertex3f(radius * cos(BETA + increment2) * sin(ALFA + increment1) , radius * cos(BETA + increment2) , radius * cos(BETA + increment2) * cos(ALFA + increment1));
+            p.setPoint(radius * cos(BETA + increment2) * sin(ALFA) , radius * sin(BETA + increment2) , radius * cos(BETA) * cos(ALFA));
+            points.push_back(p);
+            p.setPoint(radius * cos(BETA) * sin(ALFA + increment1) , radius * sin(BETA) , radius * cos(BETA) * cos(ALFA + increment1));
+            points.push_back(p);
+            p.setPoint(radius * cos(BETA + increment2) * sin(ALFA + increment1) , radius * sin(BETA + increment2) , radius * cos(BETA + increment2) * cos(ALFA + increment1));
+            points.push_back(p);
 
-            glEnd();
-
-            ALFA += increment2;
+            ALFA += increment1;
         }
-        BETA += increment1;
+        BETA += increment2;
     }
+    return points;
 }
 
 
@@ -257,6 +266,10 @@ int main(int argc, char **argv) {
         //falta colocar a receber o numero de divisoes
         if (strcmp(argv[1], "box") == 0) {
             points = box_generate_points(points, strtof(argv[2], NULL)/2, strtof(argv[3], NULL)/2, strtof(argv[4], NULL)/2);
+            writeFile(points, argv[1]);
+        }
+        else if (strcmp(argv[1], "sphere") == 0) {
+            points = sphere_generate_points(points, strtof(argv[2], NULL), strtof(argv[3], NULL), strtof(argv[4], NULL));
             writeFile(points, argv[1]);
         }
     }
