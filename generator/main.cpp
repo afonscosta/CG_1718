@@ -95,7 +95,7 @@ vector <Point> box_generate_points(vector <Point> points, float x, float y, floa
     points.push_back(p);
     p.setPoint(x, -y, -z);
     points.push_back(p);
-    p.setPoint(-x, -y, z);
+    p.setPoint(x, -y, z);
     points.push_back(p);
     p.setPoint(-x, -y, -z);
     points.push_back(p);
