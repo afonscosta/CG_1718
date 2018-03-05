@@ -232,14 +232,13 @@ vector <Point> sphere_generate_points(vector <Point> points,float radius, int sl
             //triangulo 1
             p.setPoint(radius * cos(BETA) * sin(ALFA + increment1), radius * sin(BETA), radius * cos(BETA) * cos(ALFA + increment1));
             points.push_back(p);
-            p.setPoint(radius * cos(BETA + increment2) * sin(ALFA) , radius * sin(BETA + increment2) , radius * cos(BETA) * cos(ALFA));
+            p.setPoint(radius * cos(BETA + increment2) * sin(ALFA) , radius * sin(BETA + increment2) , radius * cos(BETA + increment2) * cos(ALFA));
             points.push_back(p);
             p.setPoint(radius * cos(BETA) * sin(ALFA) , radius * sin(BETA) , radius * cos(BETA) * cos(ALFA));
             points.push_back(p);
 
-
             //triangulo 2
-            p.setPoint(radius * cos(BETA + increment2) * sin(ALFA) , radius * sin(BETA + increment2) , radius * cos(BETA) * cos(ALFA));
+            p.setPoint(radius * cos(BETA + increment2) * sin(ALFA) , radius * sin(BETA + increment2) , radius * cos(BETA + increment2) * cos(ALFA));
             points.push_back(p);
             p.setPoint(radius * cos(BETA) * sin(ALFA + increment1) , radius * sin(BETA) , radius * cos(BETA) * cos(ALFA + increment1));
             points.push_back(p);
