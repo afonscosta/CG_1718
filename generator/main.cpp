@@ -174,36 +174,55 @@ vector <Point> box_generate_points(vector <Point> points, float x, float y, floa
 }
 
 vector <Point> cone_generate_points(vector <Point> points, float radius, float height, float slices, float stacks) {
-    double increment = (2 * M_PI) / slices;
-
-    double angle = 0;
-
-    double height_aux = height / 2;
 
     Point p;
 
-    for (int i = 0; i < slices; i++){
+    double increment = (2 * M_PI) / slices;
+    double height_aux = height / 2;
+    double height_increment = height / stacks;
+    double radius_decrement = radius / stacks;
+    double height_now = -height_aux;
+    double radius_now = radius;
+    double radius_next = radius_now - radius_decrement;
+    double height_next = height_increment + height_now;
 
-        //faces
-        p.setPoint(0, height_aux, 0);
-        points.push_back(p);
-        p.setPoint(sin(angle) * radius, -height_aux, cos(angle) * radius);
-        points.push_back(p);
-        p.setPoint(sin(angle + increment) * radius, -height_aux, cos(angle + increment) * radius);
-        points.push_back(p);
+    for (int j = 0; j < stacks; j++){
 
+        for (int i = 0; i < slices; i++) {
 
+            p.setPoint(radius_now * sin(increment * i) ,height_now ,radius_now * cos(increment * i) );
+            points.push_back(p);
+            p.setPoint(radius_now * sin(increment * (i + 1)) ,height_now ,radius_now * cos(increment * (i + 1)) );
+            points.push_back(p);
+            p.setPoint(radius_next * sin(increment * i) ,height_next ,radius_next * cos(increment * i ));
+            points.push_back(p);
 
-        //base
+            p.setPoint(radius_next * sin(increment * i) ,height_next ,radius_next * cos(increment * i ));
+            points.push_back(p);
+            p.setPoint(radius_now * sin(increment * (i + 1)) ,height_now ,radius_now * cos(increment * (i + 1)) );
+            points.push_back(p);
+            p.setPoint(radius_next * sin(increment * (i + 1)) ,height_next ,radius_next * cos(increment * (i + 1)) );
+            points.push_back(p);
+
+        }
+
+        height_now = height_next;
+        height_next += height_increment;
+
+        radius_now = radius_next;
+        radius_next -= radius_decrement;
+    }
+
+    for (int a = 0; a < slices; a++) {
+
+        //face inferior
         p.setPoint(0, -height_aux, 0);
         points.push_back(p);
-        p.setPoint(sin(angle + increment) * radius, -height_aux, cos(angle + increment) * radius);
+        p.setPoint(sin(increment * (a + 1)) * radius, -height_aux, cos(increment * (a + 1)) * radius);
         points.push_back(p);
-        p.setPoint(sin(angle) * radius, -height_aux, cos(angle) * radius);
+        p.setPoint(sin(increment * a) * radius, -height_aux, cos(increment * a) * radius);
         points.push_back(p);
 
-
-        angle += increment;
     }
 
     return points;

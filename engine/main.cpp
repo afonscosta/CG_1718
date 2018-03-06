@@ -177,19 +177,19 @@ void renderScene(void) {
 
             if (i == 3){
 
-                printf("INICIO TRIANGULO\n");
+                /*printf("INICIO TRIANGULO\n");
 
                 printf("buffer[0] -> %fbuffer[1] -> %fbuffer[2] -> %f\n",buffer_points[0],buffer_points[1],buffer_points[2]);
                 printf("buffer[3] -> %fbuffer[4] -> %fbuffer[5] -> %f\n",buffer_points[3],buffer_points[4],buffer_points[5]);
                 printf("buffer[6] -> %fbuffer[7] -> %fbuffer[8] -> %f\n",buffer_points[6],buffer_points[7],buffer_points[8]);
-
+*/
                 glBegin(GL_TRIANGLES);
                 glColor3f(0,0,1);
                 glVertex3f(buffer_points[0] , buffer_points[1] , buffer_points[2]);
                 glVertex3f(buffer_points[3] , buffer_points[4] , buffer_points[5]);
                 glVertex3f(buffer_points[6] , buffer_points[7] , buffer_points[8]);
                 glEnd();
-                printf("FIM TRIANGULO\n");
+                //printf("FIM TRIANGULO\n");
 
                 i = 0;
 
