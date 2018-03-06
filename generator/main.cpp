@@ -108,18 +108,18 @@ vector <Point> box_generate_points(vector <Point> points, float x, float y, floa
 
         for (int j = 0; j < divisions; j++){
 
-            p.setPoint(x_aux ,y_aux ,z_aux);
+            p.setPoint(x_aux, y_aux, z_aux);
             points.push_back(p);
-            p.setPoint(x_aux + increment_x , y_aux, z_aux);
+            p.setPoint(x_aux + increment_x, y_aux, z_aux);
             points.push_back(p);
-            p.setPoint(x_aux ,y_aux + increment_y ,z_aux );
+            p.setPoint(x_aux, y_aux + increment_y, z_aux );
             points.push_back(p);
 
-            p.setPoint(x_aux ,y_aux + increment_y ,z_aux );
+            p.setPoint(x_aux, y_aux + increment_y, z_aux );
             points.push_back(p);
-            p.setPoint(x_aux + increment_x , y_aux, z_aux);
+            p.setPoint(x_aux + increment_x, y_aux, z_aux);
             points.push_back(p);
-            p.setPoint(x_aux + increment_x ,y_aux + increment_y ,z_aux );
+            p.setPoint(x_aux + increment_x, y_aux + increment_y, z_aux );
             points.push_back(p);
 
             x_aux += increment_x;
@@ -139,18 +139,18 @@ vector <Point> box_generate_points(vector <Point> points, float x, float y, floa
 
         for (int j = 0; j < divisions; j++){
 
-            p.setPoint(x_aux ,y_aux ,z_aux);
+            p.setPoint(x_aux, y_aux, z_aux);
             points.push_back(p);
-            p.setPoint(x_aux - increment_x ,y_aux ,z_aux);
+            p.setPoint(x_aux - increment_x, y_aux, z_aux);
             points.push_back(p);
             p.setPoint(x_aux ,y_aux + increment_y ,z_aux );
             points.push_back(p);
 
-            p.setPoint(x_aux ,y_aux + increment_y ,z_aux );
+            p.setPoint(x_aux, y_aux + increment_y, z_aux );
             points.push_back(p);
-            p.setPoint(x_aux - increment_x ,y_aux ,z_aux);
+            p.setPoint(x_aux - increment_x, y_aux, z_aux);
             points.push_back(p);
-            p.setPoint(x_aux - increment_x ,y_aux + increment_y ,z_aux );
+            p.setPoint(x_aux - increment_x, y_aux + increment_y, z_aux );
             points.push_back(p);
 
             x_aux -= increment_x;
@@ -170,18 +170,18 @@ vector <Point> box_generate_points(vector <Point> points, float x, float y, floa
 
         for (int j = 0; j < divisions; j++){
 
-            p.setPoint(x_aux ,y_aux ,z_aux);
+            p.setPoint(x_aux, y_aux, z_aux);
             points.push_back(p);
-            p.setPoint(x_aux + increment_x ,y_aux ,z_aux);
+            p.setPoint(x_aux + increment_x, y_aux, z_aux);
             points.push_back(p);
-            p.setPoint(x_aux ,y_aux ,z_aux - increment_z );
+            p.setPoint(x_aux, y_aux, z_aux - increment_z );
             points.push_back(p);
 
-            p.setPoint(x_aux ,y_aux ,z_aux - increment_z );
+            p.setPoint(x_aux, y_aux, z_aux - increment_z );
             points.push_back(p);
-            p.setPoint(x_aux + increment_x ,y_aux ,z_aux);
+            p.setPoint(x_aux + increment_x, y_aux, z_aux);
             points.push_back(p);
-            p.setPoint(x_aux + increment_x ,y_aux ,z_aux - increment_z );
+            p.setPoint(x_aux + increment_x, y_aux, z_aux - increment_z );
             points.push_back(p);
 
             x_aux += increment_x;
@@ -201,18 +201,18 @@ vector <Point> box_generate_points(vector <Point> points, float x, float y, floa
 
         for (int j = 0; j < divisions; j++){
 
-            p.setPoint(x_aux ,y_aux ,z_aux);
+            p.setPoint(x_aux, y_aux, z_aux);
             points.push_back(p);
-            p.setPoint(x_aux + increment_x ,y_aux ,z_aux);
+            p.setPoint(x_aux + increment_x, y_aux, z_aux);
             points.push_back(p);
-            p.setPoint(x_aux ,y_aux ,z_aux + increment_z );
+            p.setPoint(x_aux, y_aux, z_aux + increment_z );
             points.push_back(p);
 
-            p.setPoint(x_aux ,y_aux ,z_aux + increment_z );
+            p.setPoint(x_aux, y_aux, z_aux + increment_z );
             points.push_back(p);
-            p.setPoint(x_aux + increment_x ,y_aux ,z_aux);
+            p.setPoint(x_aux + increment_x, y_aux, z_aux);
             points.push_back(p);
-            p.setPoint(x_aux + increment_x ,y_aux ,z_aux + increment_z );
+            p.setPoint(x_aux + increment_x, y_aux, z_aux + increment_z );
             points.push_back(p);
 
             x_aux += increment_x;
@@ -232,18 +232,18 @@ vector <Point> box_generate_points(vector <Point> points, float x, float y, floa
 
         for (int j = 0; j < divisions; j++){
 
-            p.setPoint(x_aux ,y_aux ,z_aux);
+            p.setPoint(x_aux, y_aux, z_aux);
             points.push_back(p);
-            p.setPoint(x_aux ,y_aux ,z_aux - increment_z);
+            p.setPoint(x_aux, y_aux, z_aux - increment_z);
             points.push_back(p);
-            p.setPoint(x_aux ,y_aux + increment_y ,z_aux );
+            p.setPoint(x_aux, y_aux + increment_y, z_aux );
             points.push_back(p);
 
-            p.setPoint(x_aux ,y_aux + increment_y ,z_aux );
+            p.setPoint(x_aux, y_aux + increment_y, z_aux );
             points.push_back(p);
-            p.setPoint(x_aux ,y_aux ,z_aux - increment_z);
+            p.setPoint(x_aux, y_aux, z_aux - increment_z);
             points.push_back(p);
-            p.setPoint(x_aux ,y_aux + increment_y ,z_aux - increment_z );
+            p.setPoint(x_aux, y_aux + increment_y, z_aux - increment_z );
             points.push_back(p);
 
             z_aux -= increment_z;
@@ -263,18 +263,18 @@ vector <Point> box_generate_points(vector <Point> points, float x, float y, floa
 
         for (int j = 0; j < divisions; j++){
 
-            p.setPoint(x_aux ,y_aux ,z_aux);
+            p.setPoint(x_aux, y_aux, z_aux);
             points.push_back(p);
-            p.setPoint(x_aux ,y_aux ,z_aux + increment_z);
+            p.setPoint(x_aux, y_aux, z_aux + increment_z);
             points.push_back(p);
-            p.setPoint(x_aux ,y_aux + increment_y ,z_aux );
+            p.setPoint(x_aux, y_aux + increment_y, z_aux );
             points.push_back(p);
 
-            p.setPoint(x_aux ,y_aux + increment_y ,z_aux );
+            p.setPoint(x_aux, y_aux + increment_y, z_aux );
             points.push_back(p);
-            p.setPoint(x_aux ,y_aux ,z_aux + increment_z);
+            p.setPoint(x_aux, y_aux, z_aux + increment_z);
             points.push_back(p);
-            p.setPoint(x_aux ,y_aux + increment_y ,z_aux + increment_z );
+            p.setPoint(x_aux, y_aux + increment_y, z_aux + increment_z );
             points.push_back(p);
 
             z_aux += increment_z;
@@ -304,16 +304,16 @@ vector <Point> cone_generate_points(vector <Point> points, float radius, float h
 
         for (int i = 0; i < slices; i++) {
 
-            p.setPoint(radius_now * sin(increment * i) ,height_now ,radius_now * cos(increment * i) );
+            p.setPoint(radius_now * sin(increment * i), height_now, radius_now * cos(increment * i) );
             points.push_back(p);
-            p.setPoint(radius_now * sin(increment * (i + 1)) ,height_now ,radius_now * cos(increment * (i + 1)) );
+            p.setPoint(radius_now * sin(increment * (i + 1)), height_now, radius_now * cos(increment * (i + 1)) );
             points.push_back(p);
-            p.setPoint(radius_next * sin(increment * i) ,height_next ,radius_next * cos(increment * i ));
+            p.setPoint(radius_next * sin(increment * i), height_next, radius_next * cos(increment * i ));
             points.push_back(p);
 
-            p.setPoint(radius_next * sin(increment * i) ,height_next ,radius_next * cos(increment * i ));
+            p.setPoint(radius_next * sin(increment * i), height_next, radius_next * cos(increment * i ));
             points.push_back(p);
-            p.setPoint(radius_now * sin(increment * (i + 1)) ,height_now ,radius_now * cos(increment * (i + 1)) );
+            p.setPoint(radius_now * sin(increment * (i + 1)), height_now, radius_now * cos(increment * (i + 1)) );
             points.push_back(p);
             p.setPoint(radius_next * sin(increment * (i + 1)) ,height_next ,radius_next * cos(increment * (i + 1)) );
             points.push_back(p);
@@ -365,17 +365,17 @@ vector <Point> sphere_generate_points(vector <Point> points,float radius, int sl
             //triangulo 1
             p.setPoint(radius * cos(BETA) * sin(ALFA + increment1), radius * sin(BETA), radius * cos(BETA) * cos(ALFA + increment1));
             points.push_back(p);
-            p.setPoint(radius * cos(BETA + increment2) * sin(ALFA) , radius * sin(BETA + increment2) , radius * cos(BETA + increment2) * cos(ALFA));
+            p.setPoint(radius * cos(BETA + increment2) * sin(ALFA), radius * sin(BETA + increment2), radius * cos(BETA + increment2) * cos(ALFA));
             points.push_back(p);
-            p.setPoint(radius * cos(BETA) * sin(ALFA) , radius * sin(BETA) , radius * cos(BETA) * cos(ALFA));
+            p.setPoint(radius * cos(BETA) * sin(ALFA), radius * sin(BETA), radius * cos(BETA) * cos(ALFA));
             points.push_back(p);
 
             //triangulo 2
-            p.setPoint(radius * cos(BETA + increment2) * sin(ALFA) , radius * sin(BETA + increment2) , radius * cos(BETA + increment2) * cos(ALFA));
+            p.setPoint(radius * cos(BETA + increment2) * sin(ALFA), radius * sin(BETA + increment2), radius * cos(BETA + increment2) * cos(ALFA));
             points.push_back(p);
-            p.setPoint(radius * cos(BETA) * sin(ALFA + increment1) , radius * sin(BETA) , radius * cos(BETA) * cos(ALFA + increment1));
+            p.setPoint(radius * cos(BETA) * sin(ALFA + increment1), radius * sin(BETA), radius * cos(BETA) * cos(ALFA + increment1));
             points.push_back(p);
-            p.setPoint(radius * cos(BETA + increment2) * sin(ALFA + increment1) , radius * sin(BETA + increment2) , radius * cos(BETA + increment2) * cos(ALFA + increment1));
+            p.setPoint(radius * cos(BETA + increment2) * sin(ALFA + increment1), radius * sin(BETA + increment2), radius * cos(BETA + increment2) * cos(ALFA + increment1));
             points.push_back(p);
 
             ALFA += increment1;

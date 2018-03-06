@@ -142,9 +142,9 @@ void renderScene(void) {
 
     // set the camera
     glLoadIdentity();
-    gluLookAt(5.0,5.0,5.0,
-              0.0,0.0,0.0,
-              0.0f,1.0f,0.0f);
+    gluLookAt(5.0, 5.0, 5.0,
+              0.0, 0.0, 0.0,
+              0.0f, 1.0f, 0.0f);
 
     glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
@@ -160,44 +160,53 @@ void renderScene(void) {
     std::string delimiter = " ";
 
     std::fstream fs;
-    fs.open ("box.3d", std::fstream::in);
 
-    if (fs.is_open())
-    {
+    pugi::xml_document doc;
+    pugi::xml_parse_result result = doc.load_file("primitives.xml");
 
-        while ( getline (fs,buffer) ){
 
-            vector<std::string> aux;
-            split(buffer, ' ', aux);
-            buffer_points[i * 3 + 0] = atof(aux[0].c_str());
-            buffer_points[i * 3 + 1] = atof(aux[1].c_str());
-            buffer_points[i * 3 + 2] = atof(aux[2].c_str());
+    if (result) {
+        for (pugi::xml_node model = doc.child("scene").child("model"); model; model = model.next_sibling()) {
+            fs.open(model.attribute("file").value(), std::fstream::in);
 
-            i++;
+            if (fs.is_open()) {
 
-            if (i == 3){
+                while (getline(fs, buffer)) {
 
-                /*printf("INICIO TRIANGULO\n");
+                    vector<std::string> aux;
+                    split(buffer, ' ', aux);
+                    buffer_points[i * 3 + 0] = atof(aux[0].c_str());
+                    buffer_points[i * 3 + 1] = atof(aux[1].c_str());
+                    buffer_points[i * 3 + 2] = atof(aux[2].c_str());
 
-                printf("buffer[0] -> %fbuffer[1] -> %fbuffer[2] -> %f\n",buffer_points[0],buffer_points[1],buffer_points[2]);
-                printf("buffer[3] -> %fbuffer[4] -> %fbuffer[5] -> %f\n",buffer_points[3],buffer_points[4],buffer_points[5]);
-                printf("buffer[6] -> %fbuffer[7] -> %fbuffer[8] -> %f\n",buffer_points[6],buffer_points[7],buffer_points[8]);
-*/
-                glBegin(GL_TRIANGLES);
-                glColor3f(0,0,1);
-                glVertex3f(buffer_points[0] , buffer_points[1] , buffer_points[2]);
-                glVertex3f(buffer_points[3] , buffer_points[4] , buffer_points[5]);
-                glVertex3f(buffer_points[6] , buffer_points[7] , buffer_points[8]);
-                glEnd();
-                //printf("FIM TRIANGULO\n");
+                    i++;
 
-                i = 0;
+                    if (i == 3) {
 
+                        /*printf("INICIO TRIANGULO\n");
+
+                        printf("buffer[0] -> %fbuffer[1] -> %fbuffer[2] -> %f\n",buffer_points[0],buffer_points[1],buffer_points[2]);
+                        printf("buffer[3] -> %fbuffer[4] -> %fbuffer[5] -> %f\n",buffer_points[3],buffer_points[4],buffer_points[5]);
+                        printf("buffer[6] -> %fbuffer[7] -> %fbuffer[8] -> %f\n",buffer_points[6],buffer_points[7],buffer_points[8]);
+        */
+                        glBegin(GL_TRIANGLES);
+                        glColor3f(0, 0, 1);
+                        glVertex3f(buffer_points[0], buffer_points[1], buffer_points[2]);
+                        glVertex3f(buffer_points[3], buffer_points[4], buffer_points[5]);
+                        glVertex3f(buffer_points[6], buffer_points[7], buffer_points[8]);
+                        glEnd();
+                        //printf("FIM TRIANGULO\n");
+
+                        i = 0;
+
+                    }
+
+                }
+
+                fs.close();
             }
-
+            printf("Saiu\n");
         }
-
-        fs.close();
     }
 
     // End of frame
