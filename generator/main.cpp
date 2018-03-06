@@ -83,92 +83,206 @@ vector<Point> plane_generate_points(vector <Point> points, float a) {
     return points;
 }
 
-vector <Point> box_generate_points(vector <Point> points, float x, float y, float z) {
+vector <Point> box_generate_points(vector <Point> points, float x, float y, float z, int divisions) {
     Point p;
 
-    //Face de baixo
-    p.setPoint(-x, -y, z);
-    points.push_back(p);
-    p.setPoint(-x, -y, -z);
-    points.push_back(p);
-    p.setPoint(x, -y, z);
-    points.push_back(p);
-    p.setPoint(x, -y, -z);
-    points.push_back(p);
-    p.setPoint(x, -y, z);
-    points.push_back(p);
-    p.setPoint(-x, -y, -z);
-    points.push_back(p);
+    double increment_x = x / divisions;
+    double increment_y = y / divisions;
+    double increment_z = z / divisions;
 
-    //Face de cima
-    p.setPoint(-x, y, z);
-    points.push_back(p);
-    p.setPoint(x, y, z);
-    points.push_back(p);
-    p.setPoint(x, y, -z);
-    points.push_back(p);
-    p.setPoint(x, y, -z);
-    points.push_back(p);
-    p.setPoint(-x, y, -z);
-    points.push_back(p);
-    p.setPoint(-x, y, z);
-    points.push_back(p);
+    x = x / 2;
+    y = y / 2;
+    z = z / 2;
 
-    //Face frontal
-    p.setPoint(x, y, z);
-    points.push_back(p);
-    p.setPoint(-x, -y, z);
-    points.push_back(p);
-    p.setPoint(x, -y, z);
-    points.push_back(p);
-    p.setPoint(x, y, z);
-    points.push_back(p);
-    p.setPoint(-x, y, z);
-    points.push_back(p);
-    p.setPoint(-x, -y, z);
-    points.push_back(p);
+    double x_aux;
+    double y_aux;
+    double z_aux;
 
-    //Face traseira
-    p.setPoint(-x, -y, -z);
-    points.push_back(p);
-    p.setPoint(x, y, -z);
-    points.push_back(p);
-    p.setPoint(x, -y, -z);
-    points.push_back(p);
-    p.setPoint(-x, -y, -z);
-    points.push_back(p);
-    p.setPoint(-x, y, -z);
-    points.push_back(p);
-    p.setPoint(x, y, -z);
-    points.push_back(p);
+    //face frontal
+    x_aux = -x;
+    y_aux = -y;
+    z_aux = z;
 
-    //Face lateral direita
-    p.setPoint(x, -y, -z);
-    points.push_back(p);
-    p.setPoint(x, y, z);
-    points.push_back(p);
-    p.setPoint(x, -y, z);
-    points.push_back(p);
-    p.setPoint(x, -y, -z);
-    points.push_back(p);
-    p.setPoint(x, y, -z);
-    points.push_back(p);
-    p.setPoint(x, y, z);
-    points.push_back(p);
+    //ciclo de desenho da face frontal
+    for (int i = 0; i < divisions; i++){
 
-    //Face lateral esquerda
-    p.setPoint(-x, y, z);
-    points.push_back(p);
-    p.setPoint(-x, y, -z);
-    points.push_back(p);
-    p.setPoint(-x, -y, -z);
-    points.push_back(p);
-    p.setPoint(-x, y, z);
-    points.push_back(p);
-    p.setPoint(-x, -y, -z);
-    points.push_back(p);
-    p.setPoint(-x, -y, z);
-    points.push_back(p);
+        for (int j = 0; j < divisions; j++){
+
+            p.setPoint(x_aux ,y_aux ,z_aux);
+            points.push_back(p);
+            p.setPoint(x_aux + increment_x , y_aux, z_aux);
+            points.push_back(p);
+            p.setPoint(x_aux ,y_aux + increment_y ,z_aux );
+            points.push_back(p);
+
+            p.setPoint(x_aux ,y_aux + increment_y ,z_aux );
+            points.push_back(p);
+            p.setPoint(x_aux + increment_x , y_aux, z_aux);
+            points.push_back(p);
+            p.setPoint(x_aux + increment_x ,y_aux + increment_y ,z_aux );
+            points.push_back(p);
+
+            x_aux += increment_x;
+        }
+
+        y_aux += increment_y;
+        x_aux = -x;
+    }
+
+    //face traseira
+    x_aux = x;
+    y_aux = -y;
+    z_aux = -z;
+
+    //ciclo de desenho da face traseira
+    for (int i = 0; i < divisions; i++){
+
+        for (int j = 0; j < divisions; j++){
+
+            p.setPoint(x_aux ,y_aux ,z_aux);
+            points.push_back(p);
+            p.setPoint(x_aux - increment_x ,y_aux ,z_aux);
+            points.push_back(p);
+            p.setPoint(x_aux ,y_aux + increment_y ,z_aux );
+            points.push_back(p);
+
+            p.setPoint(x_aux ,y_aux + increment_y ,z_aux );
+            points.push_back(p);
+            p.setPoint(x_aux - increment_x ,y_aux ,z_aux);
+            points.push_back(p);
+            p.setPoint(x_aux - increment_x ,y_aux + increment_y ,z_aux );
+            points.push_back(p);
+
+            x_aux -= increment_x;
+        }
+
+        y_aux += increment_y;
+        x_aux = x;
+    }
+
+    //face de cima
+    x_aux = -x;
+    y_aux = y;
+    z_aux = z;
+
+    //ciclo de desenho da face de cima
+    for (int i = 0; i < divisions; i++){
+
+        for (int j = 0; j < divisions; j++){
+
+            p.setPoint(x_aux ,y_aux ,z_aux);
+            points.push_back(p);
+            p.setPoint(x_aux + increment_x ,y_aux ,z_aux);
+            points.push_back(p);
+            p.setPoint(x_aux ,y_aux ,z_aux - increment_z );
+            points.push_back(p);
+
+            p.setPoint(x_aux ,y_aux ,z_aux - increment_z );
+            points.push_back(p);
+            p.setPoint(x_aux + increment_x ,y_aux ,z_aux);
+            points.push_back(p);
+            p.setPoint(x_aux + increment_x ,y_aux ,z_aux - increment_z );
+            points.push_back(p);
+
+            x_aux += increment_x;
+        }
+
+        z_aux -= increment_z;
+        x_aux = -x;
+    }
+
+    //face de baixo
+    x_aux = -x;
+    y_aux = -y;
+    z_aux = -z;
+
+    //ciclo de desenho da face de baixo
+    for (int i = 0; i < divisions; i++){
+
+        for (int j = 0; j < divisions; j++){
+
+            p.setPoint(x_aux ,y_aux ,z_aux);
+            points.push_back(p);
+            p.setPoint(x_aux + increment_x ,y_aux ,z_aux);
+            points.push_back(p);
+            p.setPoint(x_aux ,y_aux ,z_aux + increment_z );
+            points.push_back(p);
+
+            p.setPoint(x_aux ,y_aux ,z_aux + increment_z );
+            points.push_back(p);
+            p.setPoint(x_aux + increment_x ,y_aux ,z_aux);
+            points.push_back(p);
+            p.setPoint(x_aux + increment_x ,y_aux ,z_aux + increment_z );
+            points.push_back(p);
+
+            x_aux += increment_x;
+        }
+
+        z_aux += increment_z;
+        x_aux = -x;
+    }
+
+    //face da direita
+    x_aux = x;
+    y_aux = -y;
+    z_aux = z;
+
+    //ciclo de desenho da face da direita
+    for (int i = 0; i < divisions; i++){
+
+        for (int j = 0; j < divisions; j++){
+
+            p.setPoint(x_aux ,y_aux ,z_aux);
+            points.push_back(p);
+            p.setPoint(x_aux ,y_aux ,z_aux - increment_z);
+            points.push_back(p);
+            p.setPoint(x_aux ,y_aux + increment_y ,z_aux );
+            points.push_back(p);
+
+            p.setPoint(x_aux ,y_aux + increment_y ,z_aux );
+            points.push_back(p);
+            p.setPoint(x_aux ,y_aux ,z_aux - increment_z);
+            points.push_back(p);
+            p.setPoint(x_aux ,y_aux + increment_y ,z_aux - increment_z );
+            points.push_back(p);
+
+            z_aux -= increment_z;
+        }
+
+        y_aux += increment_y;
+        z_aux = z;
+    }
+
+    //face da esquerda
+    x_aux = -x;
+    y_aux = -y;
+    z_aux = -z;
+
+    //ciclo de desenho da face da esquerda
+    for (int i = 0; i < divisions; i++){
+
+        for (int j = 0; j < divisions; j++){
+
+            p.setPoint(x_aux ,y_aux ,z_aux);
+            points.push_back(p);
+            p.setPoint(x_aux ,y_aux ,z_aux + increment_z);
+            points.push_back(p);
+            p.setPoint(x_aux ,y_aux + increment_y ,z_aux );
+            points.push_back(p);
+
+            p.setPoint(x_aux ,y_aux + increment_y ,z_aux );
+            points.push_back(p);
+            p.setPoint(x_aux ,y_aux ,z_aux + increment_z);
+            points.push_back(p);
+            p.setPoint(x_aux ,y_aux + increment_y ,z_aux + increment_z );
+            points.push_back(p);
+
+            z_aux += increment_z;
+        }
+
+        y_aux += increment_y;
+        z_aux = -z;
+    }
 
     return points;
 }
@@ -281,12 +395,7 @@ int main(int argc, char **argv) {
         }
     }
     else if (argc == 5) {
-        //falta colocar a receber o numero de divisoes
-        if (strcmp(argv[1], "box") == 0) {
-            points = box_generate_points(points, strtof(argv[2], NULL)/2, strtof(argv[3], NULL)/2, strtof(argv[4], NULL)/2);
-            writeFile(points, argv[1]);
-        }
-        else if (strcmp(argv[1], "sphere") == 0) {
+        if (strcmp(argv[1], "sphere") == 0) {
             points = sphere_generate_points(points, strtof(argv[2], NULL), strtof(argv[3], NULL), strtof(argv[4], NULL));
             writeFile(points, argv[1]);
         }
@@ -294,6 +403,10 @@ int main(int argc, char **argv) {
     else if (argc == 6) {
         if (strcmp(argv[1], "cone") == 0) {
             points = cone_generate_points(points, strtof(argv[2], NULL), strtof(argv[3], NULL)/2, strtof(argv[4], NULL), strtof(argv[5], NULL));
+            writeFile(points, argv[1]);
+        }
+        else if (strcmp(argv[1], "box") == 0) {
+            points = box_generate_points(points, strtof(argv[2], NULL)/2, strtof(argv[3], NULL)/2, strtof(argv[4], NULL)/2, strtof(argv[5], NULL));
             writeFile(points, argv[1]);
         }
     }

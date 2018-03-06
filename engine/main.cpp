@@ -146,7 +146,7 @@ void renderScene(void) {
               0.0,0.0,0.0,
               0.0f,1.0f,0.0f);
 
-    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
     // rotações segundo os diversos eixos
     glRotatef(X_ANGLE, 1, 0, 0);
@@ -160,7 +160,7 @@ void renderScene(void) {
     std::string delimiter = " ";
 
     std::fstream fs;
-    fs.open ("sphere.3d", std::fstream::in);
+    fs.open ("box.3d", std::fstream::in);
 
     if (fs.is_open())
     {
@@ -294,8 +294,7 @@ int main(int argc, char **argv) {
 //  OpenGL settings
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_CULL_FACE);
-    //apenas para testar
-    glDisable(GL_CULL_FACE);
+    glEnable(GL_CULL_FACE);
 
 
 // enter GLUT's main cycle
