@@ -24,19 +24,19 @@ void Point::setPoint (float x, float y, float z) {
     this->z = z;
 }
 
-int writeFile (vector <Point> points, char* fig)
+int writeFile (vector <Point> points/*, char* fig*/, std::string file_name)
 {
     ofstream myfile;
-    if (strcmp(fig, "plane") == 0) {
-        myfile.open("plane.3d");
-        if (myfile.is_open()) {
-            for (int i = 0; i < points.size(); i++) {
-                myfile << points[i].getX() << " " << points[i].getY() << " " << points[i].getZ() << "\n";
-            }
-            myfile.close();
+    //if (strcmp(fig, "plane") == 0) {
+    myfile.open(file_name);
+    if (myfile.is_open()) {
+        for (int i = 0; i < points.size(); i++) {
+            myfile << points[i].getX() << " " << points[i].getY() << " " << points[i].getZ() << "\n";
         }
+        myfile.close();
     }
-    else if (strcmp(fig, "box") == 0) {
+    //}
+    /*else if (strcmp(fig, "box") == 0) {
         myfile.open("box.3d");
         if (myfile.is_open()) {
             for (int i = 0; i < points.size(); i++) {
@@ -62,7 +62,7 @@ int writeFile (vector <Point> points, char* fig)
             }
             myfile.close();
         }
-    }
+    }*/
     return 0;
 }
 
@@ -388,26 +388,30 @@ vector <Point> sphere_generate_points(vector <Point> points,float radius, int sl
 
 int main(int argc, char **argv) {
     vector <Point> points;
-    if (argc == 3) {
+    if (argc == 4) {
         if (strcmp(argv[1], "plane") == 0) {
             points = plane_generate_points(points, strtof(argv[2],NULL)/2);
-            writeFile(points, argv[1]);
-        }
-    }
-    else if (argc == 5) {
-        if (strcmp(argv[1], "sphere") == 0) {
-            points = sphere_generate_points(points, strtof(argv[2], NULL), strtof(argv[3], NULL), strtof(argv[4], NULL));
-            writeFile(points, argv[1]);
+            writeFile(points, argv[3]);
         }
     }
     else if (argc == 6) {
+        if (strcmp(argv[1], "sphere") == 0) {
+            points = sphere_generate_points(points, strtof(argv[2], NULL), strtof(argv[3], NULL), strtof(argv[4], NULL));
+            writeFile(points, argv[5]);
+        }
+        else if (strcmp(argv[1], "box") == 0) {
+            points = box_generate_points(points, strtof(argv[2], NULL)/2, strtof(argv[3], NULL)/2, strtof(argv[4], NULL)/2, 1);
+            writeFile(points, argv[5]);
+        }
+    }
+    else if (argc == 7) {
         if (strcmp(argv[1], "cone") == 0) {
             points = cone_generate_points(points, strtof(argv[2], NULL), strtof(argv[3], NULL)/2, strtof(argv[4], NULL), strtof(argv[5], NULL));
-            writeFile(points, argv[1]);
+            writeFile(points, argv[6]);
         }
         else if (strcmp(argv[1], "box") == 0) {
             points = box_generate_points(points, strtof(argv[2], NULL)/2, strtof(argv[3], NULL)/2, strtof(argv[4], NULL)/2, strtof(argv[5], NULL));
-            writeFile(points, argv[1]);
+            writeFile(points, argv[6]);
         }
     }
 
