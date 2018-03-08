@@ -11,6 +11,9 @@
 
 using std::vector;
 
+pugi::xml_document doc;
+
+pugi::xml_parse_result result;
 
 int X_TRANSLATE = 0;
 int Y_TRANSLATE = 0;
@@ -135,7 +138,7 @@ void changeSize(int w, int h) {
     glMatrixMode(GL_MODELVIEW);
 }
 
-void renderScene(void) {
+void renderScene() {
 
     // clear buffers
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -160,9 +163,6 @@ void renderScene(void) {
     std::string delimiter = " ";
 
     std::fstream fs;
-
-    pugi::xml_document doc;
-    pugi::xml_parse_result result = doc.load_file("primitives.xml");
 
 
     if (result) {
@@ -283,6 +283,8 @@ void rotate (int key, int x, int y) {
 }
 
 int main(int argc, char **argv) {
+
+    result = doc.load_file(argv[1]);
 
 // init GLUT and the window
     glutInit(&argc, argv);
