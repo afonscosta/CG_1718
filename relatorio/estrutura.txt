@@ -5,13 +5,13 @@ ESTRUTURA DO RELATÓRIO:
 • Descrição do Trabalho e Análise de Resultados
     + Introdução [AFONSO]
     + Generator
-        - Plano
+        - Plano [DANIEL]
         - Box [AFONSO]
-        - Cone 
+        - Cone [DANIEL]
         - Esfera [MARCO]
     + Engine
         - Formato XML [MARCO]
-        - Leitura e desenho das figuras
+        - Leitura e desenho das figuras [DANIEL]
 • Conclusões e Sugestões [AFONSO]
 • Referências
 • Anexos
