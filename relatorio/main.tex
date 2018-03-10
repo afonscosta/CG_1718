@@ -29,7 +29,7 @@
 
 {\large Relatório do trabalho prático de Computação Gráfica}\\[0.5cm]
 
-\vspace{10mm} 
+\vspace{10mm}
 
 % Title
 \rule{\linewidth}{0.5mm} \\[0.4cm]
@@ -51,31 +51,6 @@
 \end{minipage}%
 \vfill
 
-
-\begin{blochsphere}[radius=1.5 cm,tilt=15,rotation=-20,opacity=0]
-    \drawBallGrid[style={opacity=0.1}]{30}{30}
-
-    \drawGreatCircle[style={dashed}]{-60}{0}{0}
-    \drawGreatCircle[style={dashed}]{60}{0}{0}
-
-    \drawRotationLeft[scale=1.3,style={red}]{-60}{0}{0}{15}
-    \drawRotationRight[scale=1.3,style={red}]{60}{0}{0}{15}
-
-    \node at (-0.8,1.9) {\textcolor{red}{\tiny $J_{12}(t)$}};
-    \node at (1.1,1.8) {\textcolor{red}{\tiny $J_{23}(t)$}};
-
-    \labelLatLon{up}{90}{0};
-    \labelLatLon{down}{-90}{90};
-    \node[above] at (up) {{\tiny $\left|1\right>$ }};
-    \node[below] at (down) {{\tiny $\left|0\right>$}};
-
-    \labelLatLon[labelmark=false]{d}{15}{90};
-    \node at (d) {\color{gray}\fontsize{0.15cm}{1em}\selectfont $60^\circ$};
-
-    \labelLatLon[labelmark=false]{d2}{5}{78};
-    \node at (d2) {\color{gray}\fontsize{0.15cm}{1em}\selectfont $60^\circ$};
-\end{blochsphere}
-
 % Bottom of the page
 {\large Versão 1.0 \\ \today}
 
@@ -85,7 +60,7 @@
 
 \begin{abstract}
 
-\hspace{3mm} 
+\hspace{3mm}
 
 \end{abstract}
 
@@ -105,6 +80,44 @@
 % ===================================================
 \section{Descrição do Trabalho e Análise de Resultados}
 
+\subsection{Introdução}
+
+
+
+\subsection{Generator}
+
+\subsubsection{Plano} % nº de triângulos = 2
+
+\hspace{3mm} Trata-se de um quadrado com um comprimento N passado por argumento na linha de comandos. Como tal, é necessário apenas determinar quatro pontos com os quais se poderá definir dois triângulos. O plano está centrado em XZ, logo, os pontos seguem o formato (x, 0, z), x e z sendo \pm \[\frac{N}{2}\]. Para manter a semântica do OpenGL, dois destes pontos terão um duplicado no ficheiro plano.3d. %atenção que aqui não podemos dizer diretamente o nome do ficheiro uma vez que este pode ser especificado pelo utilizador
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=7cm]{plane.png}
+\caption{Exemplo de um plano.}
+\label{fig:plane}
+\end{figure}
+
+\subsubsection{Box} % nº de triângulos = 6 * (2^divisions)
+
+\subsubsection{Cone} % nº de triângulos = ( 2 * (stacks * slices) ) + slices
+
+\subsubsection{Esfera} % nº de triângulos = 2 * stack * slices
+
+\hspace{3mm} Para a construção da esfera, inicialmente foram estudadas as várias possibilidades para a representação das coordenadas. O mais comum seria a utilização de coordenadas cartesianas mas uma vez que para o desenho da esfera pretendemos representar superfícies planas foram utilizadas coordenadas planas.
+
+% introduzir aqui a imagem da esfera mas falta adicionar na imagem a representação em coordenadas esféricas o x, y e z.
+
+\par Uma vez que para o desenho de qualquer figura utilizando o OpenGL, foi necessário encontrar uma estratégia que fosse eficiente para o desenho desta figura. Uma vez que, juntamente com a especificação do raio da esfera a desenhar é também fornecido o número de \emph{slices} (divisões verticais) e \emph{stacks} (divisões horizontais), conclui-se que as variações dos ângulos $\alpha$ e $\beta$ que se podem ver representados na figura acima, irão estar diretamente relacionadas com o número de \emph{slices} e \emph{stacks} respetivamente.
+\par Primeiramente, são calculados os incrementos quer em $\alpha$ quer em $\beta$ com base no valor de \emph{slices} e \emph{stacks} que são necessários. No caso das \emph{slices} (correspondente ao $\alpha$ na figura), $increment1 = (2\Pi) / \emph{slices}$ uma vez que terão de ser desenhadas \emph{slices} em redor de toda a esfera enquanto que para as \emph{stacks}, $increment2 = \Pi / \emph{stacks}$. Para as \emph{stacks}, apenas é necessário percorrer $\Pi$ radianos visto que o desenho das \emph{slices} já percorrem $2\Pi$ radianos cobrindo assim por completo a superfície da esfera.
+\par Tendo este raciocínio consolidado, apenas é necessário explicitar os passos a tomar em cada uma das iterações. Tendo em atenção a imagem acima apresentada, podemos ver o desenho a vermelho de dois triângulos que juntos representam um retângulo. As coordenadas destes pontos são determinadas com base nos ângulos atuais quer de $\alpha$ e $\beta$ adicionando os incrementos respetivos calculados anteriormente.
+\par Este raciocínio encontra-se dentro de dois ciclos, cada um com o número de \emph{stacks} e \emph{slices} indicados.
+
+
+\subsection{Engine}
+
+\subsubsection{Formato XML}
+
+\subsubsection{Leitura e Desenho}
 
 % ===================================================
 \section{Conclusões e Sugestões}
