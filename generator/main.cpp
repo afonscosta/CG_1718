@@ -35,34 +35,6 @@ int writeFile (vector <Point> points/*, char* fig*/, std::string file_name)
         }
         myfile.close();
     }
-    //}
-    /*else if (strcmp(fig, "box") == 0) {
-        myfile.open("box.3d");
-        if (myfile.is_open()) {
-            for (int i = 0; i < points.size(); i++) {
-                myfile << points[i].getX() << " " << points[i].getY() << " " << points[i].getZ() << "\n";
-            }
-            myfile.close();
-        }
-    }
-    else if (strcmp(fig, "cone") == 0) {
-        myfile.open("cone.3d");
-        if (myfile.is_open()) {
-            for (int i = 0; i < points.size(); i++) {
-                myfile << points[i].getX() << " " << points[i].getY() << " " << points[i].getZ() << "\n";
-            }
-            myfile.close();
-        }
-    }
-    else if (strcmp(fig, "sphere") == 0) {
-        myfile.open("sphere.3d");
-        if (myfile.is_open()) {
-            for (int i = 0; i < points.size(); i++) {
-                myfile << points[i].getX() << " " << points[i].getY() << " " << points[i].getZ() << "\n";
-            }
-            myfile.close();
-        }
-    }*/
     return 0;
 }
 
@@ -347,7 +319,6 @@ vector <Point> sphere_generate_points(vector <Point> points,float radius, int sl
 
     Point p;
 
-// put code to draw cone in here
     double increment1 = (2 * M_PI) / slices;
     double increment2 = M_PI / stacks;
 
