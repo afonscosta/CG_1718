@@ -1,9 +1,8 @@
 ESTRUTURA DO RELATÓRIO:
 • Resumo
 • Índice
-• Introdução 
+• Introdução [AFONSO]
 • Descrição do Trabalho e Análise de Resultados
-    + Introdução [AFONSO]
     + Generator
         - Plano [DANIEL]
         - Box [AFONSO]
