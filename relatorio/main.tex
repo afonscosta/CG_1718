@@ -130,7 +130,7 @@
 
 \subsubsection{Leitura e Desenho}
 
-\hspace{3mm} Uma vez extraída a informação necessária do ficheiro XML, pode-se proceder então ao tratamento dos ficheiros em causa. Primeiramente, estes são abertos apenas com permissões de escrita e é feita a leitura linha a linha dos mesmos.
+\hspace{3mm} Uma vez extraída a informação necessária do ficheiro XML,utilizando a biblioteca \href{https://github.com/zeux/pugixml}{pugixml}, pode-se proceder então ao tratamento dos ficheiros em causa. Primeiramente, estes são abertos apenas com permissões de escrita e é feita a leitura linha a linha dos mesmos.
 \par Tendo em atenção à estrutura definida anteriormente destes ficheiros, para o tratamento do ficheiro foi utilizada uma função \emph{split} que dando um string, um delimitador e um vetor, procede à divisão da mesma colocando o resultado no vetor indicado.
 Tendo a informação já devidamente tratada, basta apenas proceder à conversão do formato \emph{string} para \emph{float} recorrendo à função \emph{atof}. Assim, percorrendo todas as linhas do ficheiro e fornecendo os dados extraidos ao OpenGL, as figuras são construidas na sua totalidade.
 
