@@ -1,0 +1,24 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/afonscosta/Repos/CG_1718/generator/main.cpp
+iostream
+-
+fstream
+-
+cstring
+-
+stdlib.h
+-
+vector
+-
+math.h
+-
+stdio.h
+-
+

@@ -7,7 +7,7 @@
 #include "pugixml/src/pugixml.cpp"
 #include <iostream>
 #include <vector>
-#include <fstream>      // std::fstream
+#include <fstream>
 
 using std::vector;
 
@@ -226,7 +226,6 @@ int main(int argc, char **argv) {
 // Required callback registry
     glutDisplayFunc(renderScene);
     glutReshapeFunc(changeSize);
-    glutIdleFunc(renderScene);
 
 // Callback registration for keyboard processing
     glutKeyboardFunc(keyboard);
