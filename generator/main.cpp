@@ -24,10 +24,9 @@ void Point::setPoint (float x, float y, float z) {
     this->z = z;
 }
 
-int writeFile (vector <Point> points/*, char* fig*/, std::string file_name)
+int writeFile (vector <Point> points, std::string file_name)
 {
     ofstream myfile;
-    //if (strcmp(fig, "plane") == 0) {
     myfile.open(file_name);
     if (myfile.is_open()) {
         for (int i = 0; i < points.size(); i++) {
