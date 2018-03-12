@@ -22,11 +22,6 @@ int Z_TRANSLATE = 0;
 int axle = 0;
 int mode = GL_FILL;
 int mode_aux = 0;
-int automatico = 0;
-
-float color1 = 0;
-float color2 = 0;
-float color3 = 0;
 
 float scale = 1;
 
@@ -84,14 +79,25 @@ void renderScene() {
               0.0, 0.0, 0.0,
               0.0f, 1.0f, 0.0f);
 
-    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    if (mode_aux == 0)
+        mode = GL_FILL;
+    else if (mode_aux == 1)
+        mode = GL_LINE;
+    else if (mode_aux == 2)
+        mode = GL_POINT;
+
+    glPolygonMode(GL_FRONT_AND_BACK, mode);
+
+    glScalef(scale, scale, scale);
+
+    // movimento no plano XZ
+    glTranslatef(X_TRANSLATE ,Y_TRANSLATE ,Z_TRANSLATE);
 
     // rotações segundo os diversos eixos
     glRotatef(X_ANGLE, 1, 0, 0);
     glRotatef(Y_ANGLE, 0, 1, 0);
     glRotatef(Z_ANGLE, 0, 0, 1);
 
-    //codigo de desenho da figura (ainda muito desorganizado e está constantemente a ler do ficheiro)
     std::string buffer;
     double buffer_points[9];
     int i = 0;
@@ -118,19 +124,12 @@ void renderScene() {
 
                     if (i == 3) {
 
-                        /*printf("INICIO TRIANGULO\n");
-
-                        printf("buffer[0] -> %fbuffer[1] -> %fbuffer[2] -> %f\n",buffer_points[0],buffer_points[1],buffer_points[2]);
-                        printf("buffer[3] -> %fbuffer[4] -> %fbuffer[5] -> %f\n",buffer_points[3],buffer_points[4],buffer_points[5]);
-                        printf("buffer[6] -> %fbuffer[7] -> %fbuffer[8] -> %f\n",buffer_points[6],buffer_points[7],buffer_points[8]);
-        */
                         glBegin(GL_TRIANGLES);
                         glColor3f(0, 0, 1);
                         glVertex3f(buffer_points[0], buffer_points[1], buffer_points[2]);
                         glVertex3f(buffer_points[3], buffer_points[4], buffer_points[5]);
                         glVertex3f(buffer_points[6], buffer_points[7], buffer_points[8]);
                         glEnd();
-                        //printf("FIM TRIANGULO\n");
 
                         i = 0;
 
@@ -140,9 +139,10 @@ void renderScene() {
 
                 fs.close();
             }
-            printf("Saiu\n");
         }
     }
+
+    glutPostRedisplay();
 
     // End of frame
     glutSwapBuffers();
@@ -172,11 +172,6 @@ void keyboard(unsigned char key, int x, int y){
     if (key == 'm') {
         mode_aux++;
         mode_aux = mode_aux % 3;
-    }
-
-    if (key == 'n') {
-        automatico++;
-        automatico = automatico % 2;
     }
 
     if (key == '+')
