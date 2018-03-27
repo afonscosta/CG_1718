@@ -18,7 +18,7 @@ int Y_TRANSLATE = 0;
 int Z_TRANSLATE = 0;
 
 int axle = 0;
-int mode = GL_FILL;
+int mode = GL_LINE;
 int mode_aux = 0;
 
 float scale = 1;
@@ -68,9 +68,9 @@ void changeSize(int w, int h) {
 
 void changeMode() {
     if (mode_aux == 0)
-        mode = GL_FILL;
-    else if (mode_aux == 1)
         mode = GL_LINE;
+    else if (mode_aux == 1)
+        mode = GL_FILL;
     else if (mode_aux == 2)
         mode = GL_POINT;
 
@@ -137,7 +137,7 @@ void parseScale(pugi::xml_node_iterator scale) {
     glScalef(X, Y, Z);
 }
 
-void drawModel(const pugi::char_t *string) {
+void drawModel(const pugi::char_t *string, float color1, float color2, float color3) {
     std::string buffer;
     float buffer_points[9];
     int i = 0;
@@ -163,7 +163,7 @@ void drawModel(const pugi::char_t *string) {
             if (i == 3) {
 
                 glBegin(GL_TRIANGLES);
-                glColor3f(0, 0, 1);
+                glColor3f(color1, color2, color3);
                 glVertex3f(buffer_points[0], buffer_points[1], buffer_points[2]);
                 glVertex3f(buffer_points[3], buffer_points[4], buffer_points[5]);
                 glVertex3f(buffer_points[6], buffer_points[7], buffer_points[8]);
@@ -180,10 +180,28 @@ void drawModel(const pugi::char_t *string) {
 }
 
 void parseModel(pugi::xml_node_iterator model) {
+    float color1 = 1, color2 = 1, color3 = 1;
+    char* file_name = '\0';
+
     for (pugi::xml_attribute_iterator ait = model->attributes_begin(); ait != model->attributes_end(); ++ait)
     {
-        drawModel(ait->value());
+        if (strcmp(ait->name(), "file") == 0) {
+            file_name = (char*) ait->value();
+        }
+        else if (strcmp(ait->name(), "color1") == 0) {
+            color1 = atof(ait->value());
+        }
+        else if (strcmp(ait->name(), "color2") == 0) {
+            color2 = atof(ait->value());
+        }
+        else if (strcmp(ait->name(), "color3") == 0) {
+            color3 = atof(ait->value());
+        }
+
+        printf("%f, %f, %f \n", color1, color2, color3);
     }
+
+    drawModel(file_name, color1, color2, color3);
 }
 
 void parseModels(pugi::xml_node_iterator models) {
