@@ -96,6 +96,47 @@ void parseTranslate(pugi::xml_node_iterator translate) {
     glTranslatef(x,y,z);
 }
 
+void parseRotate(pugi::xml_node_iterator rotate) {
+
+    float angle = 0, axisX = 0, axisY = 0, axisZ = 0;
+    for (pugi::xml_attribute_iterator ait = rotate->attributes_begin(); ait != rotate->attributes_end(); ++ait)
+    {
+        if (strcmp(ait->name(), "angle") == 0) {
+            angle = atof(ait->value());
+        }
+        else if (strcmp(ait->name(), "axisX") == 0) {
+            axisX = atof(ait->value());
+        }
+        else if (strcmp(ait->name(), "axisY") == 0) {
+            axisY = atof(ait->value());
+        }
+        else if (strcmp(ait->name(), "axisZ") == 0) {
+            axisZ = atof(ait->value());
+        }
+    }
+
+    glRotatef(angle, axisX, axisY, axisZ);
+}
+
+void parseScale(pugi::xml_node_iterator scale) {
+
+    float X = 0, Y = 0, Z = 0;
+    for (pugi::xml_attribute_iterator ait = scale->attributes_begin(); ait != scale->attributes_end(); ++ait)
+    {
+        if (strcmp(ait->name(), "axisX") == 0) {
+            X = atof(ait->value());
+        }
+        else if (strcmp(ait->name(), "axisY") == 0) {
+            Y = atof(ait->value());
+        }
+        else if (strcmp(ait->name(), "axisZ") == 0) {
+            Z = atof(ait->value());
+        }
+    }
+
+    glScalef(X, Y, Z);
+}
+
 void drawModel(const pugi::char_t *string) {
     std::string buffer;
     float buffer_points[9];
@@ -157,6 +198,12 @@ void parseGroup(pugi::xml_node_iterator group) {
     for (pugi::xml_node_iterator it = group->begin(); it != group->end(); ++it) {
         if (strcmp(it->name(), "translate") == 0) {
             parseTranslate(it);
+        }
+        else if (strcmp(it->name(), "rotate") == 0) {
+            parseRotate(it);
+        }
+        else if (strcmp(it->name(), "scale") == 0) {
+            parseScale(it);
         }
         else if (strcmp(it->name(), "models") == 0) {
             parseModels(it);

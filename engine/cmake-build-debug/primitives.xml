@@ -1,9 +1,12 @@
 <scene>
     <group>
+        <models>
+            <model file="plane.3d"/>
+        </models>
+        <rotate angle="45" axisX="0" axisY="1" axisZ="0"/>
         <translate X="1" Y="2" Z="3"/>
         <models>
             <model file="sphere.3d"/>
-            <model file="plane.3d"/>
         </models>
         <group>
             <translate Y="-3"/>
