@@ -123,13 +123,13 @@ void parseScale(pugi::xml_node_iterator scale) {
     float X = 0, Y = 0, Z = 0;
     for (pugi::xml_attribute_iterator ait = scale->attributes_begin(); ait != scale->attributes_end(); ++ait)
     {
-        if (strcmp(ait->name(), "axisX") == 0) {
+        if (strcmp(ait->name(), "X") == 0) {
             X = atof(ait->value());
         }
-        else if (strcmp(ait->name(), "axisY") == 0) {
+        else if (strcmp(ait->name(), "Y") == 0) {
             Y = atof(ait->value());
         }
-        else if (strcmp(ait->name(), "axisZ") == 0) {
+        else if (strcmp(ait->name(), "Z") == 0) {
             Z = atof(ait->value());
         }
     }
@@ -349,7 +349,7 @@ int main(int argc, char **argv) {
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DEPTH|GLUT_DOUBLE|GLUT_RGBA);
     glutInitWindowPosition(100,100);
-    glutInitWindowSize(800,800);
+    glutInitWindowSize(1440,800);
     glutCreateWindow("CG@DI-UM");
 
 // Required callback registry
