@@ -197,8 +197,6 @@ void parseModel(pugi::xml_node_iterator model) {
         else if (strcmp(ait->name(), "color3") == 0) {
             color3 = atof(ait->value());
         }
-
-        printf("%f, %f, %f \n", color1, color2, color3);
     }
 
     drawModel(file_name, color1, color2, color3);
