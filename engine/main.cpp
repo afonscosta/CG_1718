@@ -120,24 +120,24 @@ void parseRotate(pugi::xml_node_iterator rotate) {
 
 void parseScale(pugi::xml_node_iterator scale) {
 
-    float X = 0, Y = 0, Z = 0;
+    float x = 0, y = 0, z = 0;
     for (pugi::xml_attribute_iterator ait = scale->attributes_begin(); ait != scale->attributes_end(); ++ait)
     {
         if (strcmp(ait->name(), "X") == 0) {
-            X = atof(ait->value());
+            x = atof(ait->value());
         }
         else if (strcmp(ait->name(), "Y") == 0) {
-            Y = atof(ait->value());
+            y = atof(ait->value());
         }
         else if (strcmp(ait->name(), "Z") == 0) {
-            Z = atof(ait->value());
+            z = atof(ait->value());
         }
     }
 
-    glScalef(X, Y, Z);
+    glScalef(x, y, z);
 }
 
-void drawModel(const pugi::char_t *string, float color1, float color2, float color3) {
+void drawModel(const pugi::char_t *string) {
     std::string buffer;
     float buffer_points[9];
     int i = 0;
@@ -163,7 +163,6 @@ void drawModel(const pugi::char_t *string, float color1, float color2, float col
             if (i == 3) {
 
                 glBegin(GL_TRIANGLES);
-                glColor3f(color1, color2, color3);
                 glVertex3f(buffer_points[0], buffer_points[1], buffer_points[2]);
                 glVertex3f(buffer_points[3], buffer_points[4], buffer_points[5]);
                 glVertex3f(buffer_points[6], buffer_points[7], buffer_points[8]);
@@ -180,26 +179,10 @@ void drawModel(const pugi::char_t *string, float color1, float color2, float col
 }
 
 void parseModel(pugi::xml_node_iterator model) {
-    float color1 = 1, color2 = 1, color3 = 1;
-    char* file_name = '\0';
-
     for (pugi::xml_attribute_iterator ait = model->attributes_begin(); ait != model->attributes_end(); ++ait)
     {
-        if (strcmp(ait->name(), "file") == 0) {
-            file_name = (char*) ait->value();
-        }
-        else if (strcmp(ait->name(), "color1") == 0) {
-            color1 = atof(ait->value());
-        }
-        else if (strcmp(ait->name(), "color2") == 0) {
-            color2 = atof(ait->value());
-        }
-        else if (strcmp(ait->name(), "color3") == 0) {
-            color3 = atof(ait->value());
-        }
+        drawModel(ait->value());
     }
-
-    drawModel(file_name, color1, color2, color3);
 }
 
 void parseModels(pugi::xml_node_iterator models) {
