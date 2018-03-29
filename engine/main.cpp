@@ -18,7 +18,7 @@ int Y_TRANSLATE = 0;
 int Z_TRANSLATE = 0;
 
 int axle = 0;
-int mode = GL_FILL;
+int mode = GL_LINE;
 int mode_aux = 0;
 
 float scale = 1;
@@ -68,9 +68,9 @@ void changeSize(int w, int h) {
 
 void changeMode() {
     if (mode_aux == 0)
-        mode = GL_FILL;
-    else if (mode_aux == 1)
         mode = GL_LINE;
+    else if (mode_aux == 1)
+        mode = GL_FILL;
     else if (mode_aux == 2)
         mode = GL_POINT;
 
@@ -96,7 +96,48 @@ void parseTranslate(pugi::xml_node_iterator translate) {
     glTranslatef(x,y,z);
 }
 
-void drawModel(const pugi::char_t *string) {
+void parseRotate(pugi::xml_node_iterator rotate) {
+
+    float angle = 0, axisX = 0, axisY = 0, axisZ = 0;
+    for (pugi::xml_attribute_iterator ait = rotate->attributes_begin(); ait != rotate->attributes_end(); ++ait)
+    {
+        if (strcmp(ait->name(), "angle") == 0) {
+            angle = atof(ait->value());
+        }
+        else if (strcmp(ait->name(), "axisX") == 0) {
+            axisX = atof(ait->value());
+        }
+        else if (strcmp(ait->name(), "axisY") == 0) {
+            axisY = atof(ait->value());
+        }
+        else if (strcmp(ait->name(), "axisZ") == 0) {
+            axisZ = atof(ait->value());
+        }
+    }
+
+    glRotatef(angle, axisX, axisY, axisZ);
+}
+
+void parseScale(pugi::xml_node_iterator scale) {
+
+    float X = 0, Y = 0, Z = 0;
+    for (pugi::xml_attribute_iterator ait = scale->attributes_begin(); ait != scale->attributes_end(); ++ait)
+    {
+        if (strcmp(ait->name(), "X") == 0) {
+            X = atof(ait->value());
+        }
+        else if (strcmp(ait->name(), "Y") == 0) {
+            Y = atof(ait->value());
+        }
+        else if (strcmp(ait->name(), "Z") == 0) {
+            Z = atof(ait->value());
+        }
+    }
+
+    glScalef(X, Y, Z);
+}
+
+void drawModel(const pugi::char_t *string, float color1, float color2, float color3) {
     std::string buffer;
     float buffer_points[9];
     int i = 0;
@@ -122,7 +163,7 @@ void drawModel(const pugi::char_t *string) {
             if (i == 3) {
 
                 glBegin(GL_TRIANGLES);
-                glColor3f(0, 0, 1);
+                glColor3f(color1, color2, color3);
                 glVertex3f(buffer_points[0], buffer_points[1], buffer_points[2]);
                 glVertex3f(buffer_points[3], buffer_points[4], buffer_points[5]);
                 glVertex3f(buffer_points[6], buffer_points[7], buffer_points[8]);
@@ -139,10 +180,26 @@ void drawModel(const pugi::char_t *string) {
 }
 
 void parseModel(pugi::xml_node_iterator model) {
+    float color1 = 1, color2 = 1, color3 = 1;
+    char* file_name = '\0';
+
     for (pugi::xml_attribute_iterator ait = model->attributes_begin(); ait != model->attributes_end(); ++ait)
     {
-        drawModel(ait->value());
+        if (strcmp(ait->name(), "file") == 0) {
+            file_name = (char*) ait->value();
+        }
+        else if (strcmp(ait->name(), "color1") == 0) {
+            color1 = atof(ait->value());
+        }
+        else if (strcmp(ait->name(), "color2") == 0) {
+            color2 = atof(ait->value());
+        }
+        else if (strcmp(ait->name(), "color3") == 0) {
+            color3 = atof(ait->value());
+        }
     }
+
+    drawModel(file_name, color1, color2, color3);
 }
 
 void parseModels(pugi::xml_node_iterator models) {
@@ -157,6 +214,12 @@ void parseGroup(pugi::xml_node_iterator group) {
     for (pugi::xml_node_iterator it = group->begin(); it != group->end(); ++it) {
         if (strcmp(it->name(), "translate") == 0) {
             parseTranslate(it);
+        }
+        else if (strcmp(it->name(), "rotate") == 0) {
+            parseRotate(it);
+        }
+        else if (strcmp(it->name(), "scale") == 0) {
+            parseScale(it);
         }
         else if (strcmp(it->name(), "models") == 0) {
             parseModels(it);
@@ -302,7 +365,7 @@ int main(int argc, char **argv) {
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DEPTH|GLUT_DOUBLE|GLUT_RGBA);
     glutInitWindowPosition(100,100);
-    glutInitWindowSize(800,800);
+    glutInitWindowSize(1440,800);
     glutCreateWindow("CG@DI-UM");
 
 // Required callback registry
