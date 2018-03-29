@@ -1,0 +1,102 @@
+<scene>
+    <!-- SOL -->
+    <group>
+        <models>
+            <model file="sphere.3d"/>
+        </models>
+        <translate X="10" Y="0" Z="0"/>
+        <models>
+            <model file="sphere.3d"/>
+        </models>
+    </group>
+    <!-- MERCURIO -->
+    <group>
+        <models>
+            <model file="sphere.3d"/>
+        </models>
+        <translate X="20" Y="0" Z="0"/>
+        <models>
+            <model file="sphere.3d"/>
+        </models>
+    </group>
+    <!-- VENUS -->
+    <group>
+        <models>
+            <model file="sphere.3d"/>
+        </models>
+        <translate X="30" Y="0" Z="0"/>
+        <models>
+            <model file="sphere.3d"/>
+        </models>
+    </group>
+    <!-- TERRA -->
+    <group>
+        <models>
+            <model file="sphere.3d"/>
+        </models>
+        <translate X="50" Y="0" Z="0"/>
+        <models>
+            <model file="sphere.3d"/>
+        </models>
+    </group>
+    <!-- MARTE -->
+    <group>
+        <models>
+            <model file="sphere.3d"/>
+        </models>
+        <translate X="60" Y="0" Z="0"/>
+        <models>
+            <model file="sphere.3d"/>
+        </models>
+    </group>
+    <!-- JUPITER -->
+    <group>
+        <models>
+            <model file="sphere.3d"/>
+        </models>
+        <translate X="70" Y="0" Z="0"/>
+        <models>
+            <model file="sphere.3d"/>
+        </models>
+    </group>
+    <!-- SATURNO -->
+    <group>
+        <models>
+            <model file="sphere.3d"/>
+        </models>
+        <translate X="80" Y="0" Z="0"/>
+        <models>
+            <model file="sphere.3d"/>
+        </models>
+    </group>
+    <!-- URANO -->
+    <group>
+        <models>
+            <model file="sphere.3d"/>
+        </models>
+        <translate X="90" Y="0" Z="0"/>
+        <models>
+            <model file="sphere.3d"/>
+        </models>
+    </group>
+    <!-- NEPTUNO -->
+    <group>
+        <models>
+            <model file="sphere.3d"/>
+        </models>
+        <translate X="100" Y="0" Z="0"/>
+        <models>
+            <model file="sphere.3d"/>
+        </models>
+    </group>
+    <!-- PLUTAO -->
+    <group>
+        <models>
+            <model file="sphere.3d"/>
+        </models>
+        <translate X="40" Y="0" Z="0"/>
+        <models>
+            <model file="sphere.3d"/>
+        </models>
+    </group>
+</scene>
