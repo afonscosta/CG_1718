@@ -26,6 +26,7 @@
   4. Lua (https://en.wikipedia.org/wiki/Moon)
     1. Esfera (raio = 0.273 * rT)
     2. Distância da Terra é 384399 km (60.3357400722 * rT)
+    3. Tempo de translação = 0.0748042288 anos
 
 5. Marte (https://en.wikipedia.org/wiki/Mars)
   1. Esfera (raio = 0.533 * rT)
@@ -35,9 +36,11 @@
     1. Phobos
       1. "Objeto irregular" (provavelmente se considera esfera) (raio = 1.76941 * 10^-3 rT)
       2. Distância de Marte é 9376 km (1.47166849788 * rT)
+      3. Tempo de translação = 0.000873147273 anos
     2. Deimos
       1. "Objeto irregular" (raio = 0.97316 * 10^-3 rT)
       2. Distância de Marte é 23463.2 km (3.68281274525 * rT)
+      3. Tempo de translação = 0.0034579794 anos
 
 6. Cinto de asteroides (principal) (https://en.wikipedia.org/wiki/Asteroid_belt)
   1. Torus (https://space-facts.com/asteroid-belt/)
@@ -54,15 +57,19 @@
     1. Io (https://en.wikipedia.org/wiki/Io_(moon))
       1. Esfera (raio = 0.286 * rT)
       2. Distância de Júpiter é 421 700 km (66.1905509339 * rT)
+      3. Tempo de translação = 0.0048460994 anos
     2. Europa (https://en.wikipedia.org/wiki/Europa_(moon))
       1. Esfera (raio = 0.245 * rT)
       2. Distância de Júpiter é 670 900 km (105.305289593 * rT)
+      3. Tempo de translação = 0.00971957789 anos
     3. Ganimedes (https://en.wikipedia.org/wiki/Ganymede_(moon))
       1. Esfera (raio = 0.413 * rT)
       2. Distânica de Júpiter é 1 070 400 km (168.011301209 * rT)
+      3. Tempo de translação = 0.0195760512 anos
     4. Calisto (https://en.wikipedia.org/wiki/Callisto_(moon))
       1. Esfera (raio = 0.378 * rT)
       2. Distância de Júpiter é 1 882 700 km (295.510908806 * rT)
+      3. Tempo de translação = 0.0456957056 anos
 
 8. Saturno (https://en.wikipedia.org/wiki/Saturn)
   1. Esfera (raio = 9.449 * rT)
@@ -77,6 +84,7 @@
     1. Titã (https://en.wikipedia.org/wiki/Titan_(moon))
       1. Esfera (raio = 0.202 * rT)
       2. Distância de Saturno 1 221 870 km (191.786218804 * rT)
+      3. Tempo de translação = 0.0436559632 anos
 
 9. Urano (https://en.wikipedia.org/wiki/Uranus)
   1. Esfera (raio = 4.007 * rT)
@@ -87,7 +95,7 @@
     2. Raio exterior = 51 149 km = 8.02840998273 rT
     3. Altura = 20 km = 0.00313922461 rT
     4. Orientação quase vertical (http://www.skymarvels.com/infopages/images/Uranus%20Orientation%20-%20SkyMarvels.jpg)
-  5. Luas: 27 (https://en.wikipedia.org/wiki/Moons_of_Uranus) tryujkgdfsa
+  5. Luas: 27 (https://en.wikipedia.org/wiki/Moons_of_Uranus)
 
 10. Neptuno (https://en.wikipedia.org/wiki/Neptune)
   1. Esfera (raio = 3.883 * rT)
