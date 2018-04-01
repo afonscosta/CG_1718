@@ -1,6 +1,6 @@
 /opt/clion-2017.3.3/bin/cmake/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /home/afonscosta/Repos/CG_1718/generator
--- The C compiler identification is GNU 7.3.0
--- The CXX compiler identification is GNU 7.3.0
+-- The C compiler identification is GNU 7.3.1
+-- The CXX compiler identification is GNU 7.3.1
 -- Check for working C compiler: /usr/bin/cc
 -- Check for working C compiler: /usr/bin/cc -- works
 -- Detecting C compiler ABI info

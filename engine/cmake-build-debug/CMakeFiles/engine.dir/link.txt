@@ -1,1 +1,1 @@
-/usr/bin/c++  -g   CMakeFiles/engine.dir/main.cpp.o  -o engine /usr/lib/libGLU.so /usr/lib/libGL.so /usr/lib/libglut.so /usr/lib/libXmu.so /usr/lib/libXi.so 
+/usr/bin/c++  -g   CMakeFiles/engine.dir/main.cpp.o  -o engine /usr/lib/libGL.so /usr/lib/libGLU.so /usr/lib/libglut.so /usr/lib/libXmu.so /usr/lib/libXi.so 
