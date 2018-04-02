@@ -306,8 +306,11 @@ void keyboard(unsigned char key, int x, int y){
         scale += 0.1;
 
 
-    if (key == '-')
+    if (key == '-') {
         scale -= 0.1;
+        if (scale <= 0.1)
+            scale = 0.1;
+    }
 
 
     glutPostRedisplay();
