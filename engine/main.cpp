@@ -11,6 +11,158 @@
 
 using std::vector;
 
+
+/*
+ * ============================================================================
+ * ESTRUTURAS DE DADOS ========================================================
+ * ============================================================================
+ */
+class Point {
+    float x, y, z;
+public:
+    void setPoint (float, float, float);
+    float getX() { return x; }
+    float getY() { return y; }
+    float getZ() { return z; }
+};
+
+void Point::setPoint (float x, float y, float z) {
+    this->x = x;
+    this->y = y;
+    this->z = z;
+}
+
+
+class Model {
+    vector<Point> primitive;
+public:
+    void setPrimitive(vector<Point>);
+    void drawPrimitive();
+};
+
+void Model::setPrimitive(vector<Point> pri) {
+    Point p;
+    for (auto &it : pri) {
+        p.setPoint(it.getX(), it.getY(), it.getZ());
+        primitive.push_back(p); //Assim fica-se com acesso exterior à primitiva
+    }
+}
+
+void Model::drawPrimitive() {
+
+    int i = 0;
+    float buffer_points[9];
+
+    for (auto &it : primitive) {
+
+        buffer_points[i * 3 + 0] = it.getX();
+        buffer_points[i * 3 + 1] = it.getY();
+        buffer_points[i * 3 + 2] = it.getZ();
+
+        i++;
+
+        if (i == 3) {
+
+            glBegin(GL_TRIANGLES);
+            glVertex3f(buffer_points[0], buffer_points[1], buffer_points[2]);
+            glVertex3f(buffer_points[3], buffer_points[4], buffer_points[5]);
+            glVertex3f(buffer_points[6], buffer_points[7], buffer_points[8]);
+            glEnd();
+
+            i = 0;
+
+        }
+
+    }
+}
+
+
+class Group {
+    Point translate;
+    float angle;
+    Point rotate;
+    Point scale;
+    vector<Model> models;
+    vector<Group *> groups;
+private:
+    void doTranslate();
+    void doRotate();
+    void doScale();
+    void drawModels();
+public:
+    void setTranslate (Point); //Null = 0, 0, 0
+    void setRotate (float, Point); //Null = 0, 0, 0, 0
+    void setScale (Point); //Null = 0, 0, 0
+    void setModels (vector<Model>); //Null = vector vazio
+    void addGroup (Group*); //Null = vector vazio
+    void drawGroup();
+};
+
+void Group::setTranslate(Point p) {
+    translate.setPoint(p.getX(), p.getY(), p.getZ());
+}
+
+void Group::setRotate(float a, Point p) {
+    angle = a;
+    rotate.setPoint(p.getX(), p.getY(), p.getZ());
+}
+
+void Group::setScale(Point p) {
+    scale.setPoint(p.getX(), p.getY(), p.getZ());
+}
+
+void Group::setModels(vector<Model> ms) {
+    models = ms; //Assim fica-se com acesso exterior aos models
+}
+
+void Group::addGroup(Group* g) {
+    groups.push_back(g); //Assim fica-se com acesso exterior aos grupos
+}
+
+void Group::doTranslate() {
+    glTranslatef(translate.getX(), translate.getY(), translate.getZ());
+}
+
+void Group::doRotate() {
+    glRotatef(angle, rotate.getX(), rotate.getY(), rotate.getZ());
+}
+
+void Group::doScale() {
+    if (scale.getX() != 0 && scale.getY() != 0 && scale.getZ() != 0)
+        glScalef(scale.getX(), scale.getY(), scale.getZ());
+}
+
+void Group::drawModels() {
+    for (auto &it : models) {
+        it.drawPrimitive();
+    }
+}
+
+void Group::drawGroup() {
+    glPushMatrix();
+
+    doTranslate();
+    doRotate();
+    doScale();
+    drawModels();
+    for (auto &it : groups) {
+        glPushMatrix();
+
+        it->drawGroup();
+
+        glPopMatrix();
+    }
+
+    glPopMatrix();
+}
+
+
+
+/*
+ * ============================================================================
+ * VARIÁVEIS GLOBAIS ==========================================================
+ * ============================================================================
+ */
 pugi::xml_document doc;
 
 int X_TRANSLATE = 0;
@@ -27,7 +179,17 @@ int X_ANGLE = 0;
 int Y_ANGLE = 0;
 int Z_ANGLE = 0;
 
+Group scene;
 
+
+
+
+
+/*
+ * ============================================================================
+ * PARSE DO FICHEIRO XML ======================================================
+ * ============================================================================
+ */
 void split(const std::string& s, char delim,vector<std::string>& v) {
     auto i = 0;
     auto pos = s.find(delim);
@@ -41,6 +203,210 @@ void split(const std::string& s, char delim,vector<std::string>& v) {
     }
 }
 
+Point parseTranslate(pugi::xml_node_iterator translate) {
+
+    Point p;
+    float x = 0, y = 0, z = 0;
+
+    for (pugi::xml_attribute_iterator ait = translate->attributes_begin(); ait != translate->attributes_end(); ++ait)
+    {
+        if (strcmp(ait->name(), "X") == 0) {
+            x = atof(ait->value());
+        }
+        else if (strcmp(ait->name(), "Y") == 0) {
+            y = atof(ait->value());
+        }
+        else if (strcmp(ait->name(), "Z") == 0) {
+            z = atof(ait->value());
+        }
+    }
+
+    p.setPoint(x,y,z);
+    return p;
+}
+
+Point parseRotate(pugi::xml_node_iterator rotate, float *angleDest) {
+
+    Point p;
+    float axisX = 0, axisY = 0, axisZ = 0;
+
+    for (pugi::xml_attribute_iterator ait = rotate->attributes_begin(); ait != rotate->attributes_end(); ++ait)
+    {
+        if (strcmp(ait->name(), "angle") == 0) {
+            *angleDest = atof(ait->value());
+        }
+        else if (strcmp(ait->name(), "axisX") == 0) {
+            axisX = atof(ait->value());
+        }
+        else if (strcmp(ait->name(), "axisY") == 0) {
+            axisY = atof(ait->value());
+        }
+        else if (strcmp(ait->name(), "axisZ") == 0) {
+            axisZ = atof(ait->value());
+        }
+    }
+
+    p.setPoint(axisX, axisY, axisZ);
+    return p;
+}
+
+Point parseScale(pugi::xml_node_iterator scale) {
+
+    Point p;
+    float x = 0, y = 0, z = 0;
+
+    for (pugi::xml_attribute_iterator ait = scale->attributes_begin(); ait != scale->attributes_end(); ++ait)
+    {
+        if (strcmp(ait->name(), "X") == 0) {
+            x = atof(ait->value());
+        }
+        else if (strcmp(ait->name(), "Y") == 0) {
+            y = atof(ait->value());
+        }
+        else if (strcmp(ait->name(), "Z") == 0) {
+            z = atof(ait->value());
+        }
+    }
+
+    p.setPoint(x,y,z);
+    return p;
+}
+
+void loadModel(const pugi::char_t *string, Model* model) {
+
+    vector<Point> primitive;
+    Point p;
+
+    std::string buffer;
+    float buffer_points[9];
+    int i = 0;
+    std::string delimiter = " ";
+
+    std::fstream fs;
+
+    fs.open(string, std::fstream::in);
+
+    if (fs.is_open()) {
+
+        while (getline(fs, buffer)) {
+
+            vector<std::string> aux;
+            split(buffer, ' ', aux);
+            buffer_points[i * 3 + 0] = strtof(aux[0].c_str(),0);
+            buffer_points[i * 3 + 1] = strtof(aux[1].c_str(),0);
+            buffer_points[i * 3 + 2] = strtof(aux[2].c_str(),0);
+
+            i++;
+
+            if (i == 3) {
+
+                p.setPoint(buffer_points[0], buffer_points[1], buffer_points[2]);
+                primitive.push_back(p);
+                p.setPoint(buffer_points[3], buffer_points[4], buffer_points[5]);
+                primitive.push_back(p);
+                p.setPoint(buffer_points[6], buffer_points[7], buffer_points[8]);
+                primitive.push_back(p);
+
+                i = 0;
+            }
+
+        }
+
+        fs.close();
+    }
+
+    (*model).setPrimitive(primitive);
+}
+
+Model parseModel(pugi::xml_node_iterator model) {
+
+    Model modelDest;
+
+    for (pugi::xml_attribute_iterator ait = model->attributes_begin(); ait != model->attributes_end(); ++ait)
+    {
+        printf("%s\n", ait->value());
+        loadModel(ait->value(), &modelDest);
+    }
+    return modelDest;
+}
+
+vector<Model> parseModels(pugi::xml_node_iterator models) {
+
+    vector<Model> modelsDest;
+
+    for (pugi::xml_node_iterator it = models->begin(); it != models->end(); ++it)
+    {
+        modelsDest.push_back(parseModel(it));
+    }
+
+    return modelsDest;
+}
+
+Group* parseGroup(pugi::xml_node_iterator groupSrc) {
+
+    Group * groupDest = new Group();
+
+    for (pugi::xml_node_iterator it = groupSrc->begin(); it != groupSrc->end(); ++it) {
+        if (strcmp(it->name(), "translate") == 0) {
+            (*groupDest).setTranslate(parseTranslate(it));
+        }
+        else if (strcmp(it->name(), "rotate") == 0) {
+            float angle = 0;
+            Point p = parseRotate(it, &angle);
+            (*groupDest).setRotate(angle, p);
+        }
+        else if (strcmp(it->name(), "scale") == 0) {
+            (*groupDest).setScale(parseScale(it));
+        }
+        else if (strcmp(it->name(), "models") == 0) {
+            (*groupDest).setModels(parseModels(it));
+        }
+        else if (strcmp(it->name(), "group") == 0) {
+            glPushMatrix();
+            (*groupDest).addGroup(parseGroup(it)); //FALTA VER ESTA PARTE
+            glPopMatrix();
+        }
+    }
+
+    return groupDest;
+}
+
+
+void parseScene() {
+
+    pugi::xml_node groups = doc.child("scene");
+
+    for (pugi::xml_node_iterator it = groups.begin(); it != groups.end(); ++it) {
+        if (strcmp(it->name(), "group") == 0) {
+            printf("Entrou!");
+            glPushMatrix();
+            scene = *parseGroup(it);
+            glPopMatrix();
+        }
+    }
+}
+
+
+void parseXML() {
+
+    //Antes de começar a desenhar a cena guardo o referencial
+    glPushMatrix();
+
+    parseScene();
+
+    //Reponho o referencial original
+    glPopMatrix();
+
+}
+
+
+
+
+/*
+ * ============================================================================
+ * CÓDIGO =====================================================================
+ * ============================================================================
+ */
 void changeSize(int w, int h) {
 
     // Prevent a divide by zero, when window is too short
@@ -77,172 +443,6 @@ void changeMode() {
     glPolygonMode(GL_FRONT_AND_BACK, mode);
 }
 
-void parseTranslate(pugi::xml_node_iterator translate) {
-
-    float x = 0, y = 0, z = 0;
-    for (pugi::xml_attribute_iterator ait = translate->attributes_begin(); ait != translate->attributes_end(); ++ait)
-    {
-        if (strcmp(ait->name(), "X") == 0) {
-            x = atof(ait->value());
-        }
-        else if (strcmp(ait->name(), "Y") == 0) {
-            y = atof(ait->value());
-        }
-        else if (strcmp(ait->name(), "Z") == 0) {
-            z = atof(ait->value());
-        }
-    }
-
-    glTranslatef(x,y,z);
-}
-
-void parseRotate(pugi::xml_node_iterator rotate) {
-
-    float angle = 0, axisX = 0, axisY = 0, axisZ = 0;
-    for (pugi::xml_attribute_iterator ait = rotate->attributes_begin(); ait != rotate->attributes_end(); ++ait)
-    {
-        if (strcmp(ait->name(), "angle") == 0) {
-            angle = atof(ait->value());
-        }
-        else if (strcmp(ait->name(), "axisX") == 0) {
-            axisX = atof(ait->value());
-        }
-        else if (strcmp(ait->name(), "axisY") == 0) {
-            axisY = atof(ait->value());
-        }
-        else if (strcmp(ait->name(), "axisZ") == 0) {
-            axisZ = atof(ait->value());
-        }
-    }
-
-    glRotatef(angle, axisX, axisY, axisZ);
-}
-
-void parseScale(pugi::xml_node_iterator scale) {
-
-    float x = 0, y = 0, z = 0;
-    for (pugi::xml_attribute_iterator ait = scale->attributes_begin(); ait != scale->attributes_end(); ++ait)
-    {
-        if (strcmp(ait->name(), "X") == 0) {
-            x = atof(ait->value());
-        }
-        else if (strcmp(ait->name(), "Y") == 0) {
-            y = atof(ait->value());
-        }
-        else if (strcmp(ait->name(), "Z") == 0) {
-            z = atof(ait->value());
-        }
-    }
-
-    glScalef(x, y, z);
-}
-
-void drawModel(const pugi::char_t *string) {
-    std::string buffer;
-    float buffer_points[9];
-    int i = 0;
-    std::string delimiter = " ";
-
-    std::fstream fs;
-
-
-    fs.open(string, std::fstream::in);
-
-    if (fs.is_open()) {
-
-        while (getline(fs, buffer)) {
-
-            vector<std::string> aux;
-            split(buffer, ' ', aux);
-            buffer_points[i * 3 + 0] = strtof(aux[0].c_str(),0);
-            buffer_points[i * 3 + 1] = strtof(aux[1].c_str(),0);
-            buffer_points[i * 3 + 2] = strtof(aux[2].c_str(),0);
-
-            i++;
-
-            if (i == 3) {
-
-                glBegin(GL_TRIANGLES);
-                glVertex3f(buffer_points[0], buffer_points[1], buffer_points[2]);
-                glVertex3f(buffer_points[3], buffer_points[4], buffer_points[5]);
-                glVertex3f(buffer_points[6], buffer_points[7], buffer_points[8]);
-                glEnd();
-
-                i = 0;
-
-            }
-
-        }
-
-        fs.close();
-    }
-}
-
-void parseModel(pugi::xml_node_iterator model) {
-    for (pugi::xml_attribute_iterator ait = model->attributes_begin(); ait != model->attributes_end(); ++ait)
-    {
-        drawModel(ait->value());
-    }
-}
-
-void parseModels(pugi::xml_node_iterator models) {
-    for (pugi::xml_node_iterator it = models->begin(); it != models->end(); ++it)
-    {
-        parseModel(it);
-    }
-}
-
-void parseGroup(pugi::xml_node_iterator group) {
-
-    for (pugi::xml_node_iterator it = group->begin(); it != group->end(); ++it) {
-        if (strcmp(it->name(), "translate") == 0) {
-            parseTranslate(it);
-        }
-        else if (strcmp(it->name(), "rotate") == 0) {
-            parseRotate(it);
-        }
-        else if (strcmp(it->name(), "scale") == 0) {
-            parseScale(it);
-        }
-        else if (strcmp(it->name(), "models") == 0) {
-            parseModels(it);
-        }
-        else if (strcmp(it->name(), "group") == 0) {
-            glPushMatrix();
-            parseGroup(it);
-            glPopMatrix();
-        }
-    }
-}
-
-
-void parseScene() {
-
-    pugi::xml_node groups = doc.child("scene");
-
-    for (pugi::xml_node_iterator it = groups.begin(); it != groups.end(); ++it) {
-        if (strcmp(it->name(), "group") == 0) {
-            glPushMatrix();
-            parseGroup(it);
-            glPopMatrix();
-        }
-    }
-}
-
-
-
-
-void parseXML() {
-
-    //Antes de começar a desenhar a cena guardo o referencial
-    glPushMatrix();
-
-    parseScene();
-
-    //Reponho o referencial original
-    glPopMatrix();
-
-}
 
 void renderScene() {
 
@@ -258,6 +458,24 @@ void renderScene() {
     //Muda o modo de desenho das figuras
     changeMode();
 
+    //Eixos
+    glBegin(GL_LINES);
+    glColor3f(1,0,0);
+    glVertex3f(0.0f, 0.0f, 0.0f);
+    glVertex3f(10.0f, 0.0f, 0.0f);
+
+    glColor3f(0,1,0);
+    glVertex3f(0.0f, 0.0f, 0.0f);
+    glVertex3f(0.0f, 10.0f, 0.0f);
+
+    glColor3f(0,0,1);
+    glVertex3f(0.0f, 0.0f, 0.0f);
+    glVertex3f(0.0f, 0.0f, 10.0f);
+    glEnd();
+
+    //Coloca a cor como branca para as primitivas
+    glColor3f(1,1,1);
+
     // movimento no plano XZ
     glTranslatef(X_TRANSLATE ,Y_TRANSLATE ,Z_TRANSLATE);
 
@@ -269,15 +487,14 @@ void renderScene() {
     //Zoom in & Zoom out
     glScalef(scale, scale, scale);
 
-    //Carrega e desenha o conteúdo do xml
-    parseXML();
+    //Desenha a cena
+    scene.drawGroup();
 
     // End of frame
     glutSwapBuffers();
 }
 
 // write function to process keyboard events
-
 void keyboard(unsigned char key, int x, int y){
 
     if (key == 'a')
@@ -364,6 +581,8 @@ int main(int argc, char **argv) {
     glEnable(GL_CULL_FACE);
     glEnable(GL_CULL_FACE);
 
+//  Parse do ficheiro XML
+    parseXML();
 
 // enter GLUT's main cycle
     glutMainLoop();
