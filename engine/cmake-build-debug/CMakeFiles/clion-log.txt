@@ -16,4 +16,4 @@
 -- Found OpenGL: /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk/System/Library/Frameworks/OpenGL.framework   
 -- Configuring done
 -- Generating done
--- Build files have been written to: /Users/MarcoSilva/Repositories/CG_1718/engine/cmake-build-debug
+-- Build files have been written to: /home/afonscosta/Repos/CG_1718/engine/cmake-build-debug

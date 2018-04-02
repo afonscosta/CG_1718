@@ -1,4 +1,4 @@
-# Install script for directory: /Users/MarcoSilva/Repositories/CG_1718/engine
+# Install script for directory: /home/afonscosta/Repos/CG_1718/engine
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -40,5 +40,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/Users/MarcoSilva/Repositories/CG_1718/engine/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/afonscosta/Repos/CG_1718/engine/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
