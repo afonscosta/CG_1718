@@ -31,6 +31,11 @@
         <models>
             <model file="sphere.3d"/>
         </models>
+        <translate X="3" Y="0" Z="0"/>
+        <scale X="0.1" Y="0.1" Z="0.1"/>
+        <models>
+            <model file="sphere.3d"/>
+        </models>
     </group>
     <!-- MARTE -->
     <group>
