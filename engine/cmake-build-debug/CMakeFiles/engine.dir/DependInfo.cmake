@@ -4,13 +4,12 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/Users/MarcoSilva/Repositories/CG_1718/engine/main.cpp" "/Users/MarcoSilva/Repositories/CG_1718/engine/cmake-build-debug/CMakeFiles/engine.dir/main.cpp.o"
+  "/home/afonscosta/Repos/CG_1718/engine/main.cpp" "/home/afonscosta/Repos/CG_1718/engine/cmake-build-debug/CMakeFiles/engine.dir/main.cpp.o"
   )
-set(CMAKE_CXX_COMPILER_ID "AppleClang")
+set(CMAKE_CXX_COMPILER_ID "GNU")
 
 # The include file search paths:
 set(CMAKE_CXX_TARGET_INCLUDE_PATH
-  "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk/System/Library/Frameworks/GLUT.framework/Headers"
   )
 
 # Targets to which this target links.
