@@ -78,6 +78,7 @@ void Model::drawPrimitive() {
 
 
 class Group {
+    vector<char> order;
     Point translate;
     float angle;
     Point rotate;
@@ -90,6 +91,7 @@ private:
     void doScale();
     void drawModels();
 public:
+    void addOrder(char);
     void setTranslate (Point); //Null = 0, 0, 0
     void setRotate (float, Point); //Null = 0, 0, 0, 0
     void setScale (Point); //Null = 0, 0, 0
@@ -97,6 +99,10 @@ public:
     void addGroup (Group*); //Null = vector vazio
     void drawGroup();
 };
+
+void Group::addOrder(char c) {
+    order.push_back(c);
+}
 
 void Group::setTranslate(Point p) {
     translate.setPoint(p.getX(), p.getY(), p.getZ());
@@ -140,10 +146,14 @@ void Group::drawModels() {
 
 void Group::drawGroup() {
     glPushMatrix();
-
-    doTranslate();
-    doRotate();
-    doScale();
+    for (auto &it : order) {
+        if (it == 't')
+            doTranslate();
+        else if (it == 'r')
+            doRotate();
+        else if (it == 's')
+            doScale();
+    }
     drawModels();
     for (auto &it : groups) {
         glPushMatrix();
@@ -178,6 +188,11 @@ float scale = 1;
 int X_ANGLE = 0;
 int Y_ANGLE = 0;
 int Z_ANGLE = 0;
+
+//Mouse movements
+int alpha = 0, beta = 45, r = 50;
+float camX = 05, camY = 30, camZ = 40;
+int startX, startY, tracking = 0;
 
 Group scene;
 
@@ -324,7 +339,6 @@ Model parseModel(pugi::xml_node_iterator model) {
 
     for (pugi::xml_attribute_iterator ait = model->attributes_begin(); ait != model->attributes_end(); ++ait)
     {
-        printf("%s\n", ait->value());
         loadModel(ait->value(), &modelDest);
     }
     return modelDest;
@@ -349,14 +363,17 @@ Group* parseGroup(pugi::xml_node_iterator groupSrc) {
     for (pugi::xml_node_iterator it = groupSrc->begin(); it != groupSrc->end(); ++it) {
         if (strcmp(it->name(), "translate") == 0) {
             (*groupDest).setTranslate(parseTranslate(it));
+            (*groupDest).addOrder('t');
         }
         else if (strcmp(it->name(), "rotate") == 0) {
             float angle = 0;
             Point p = parseRotate(it, &angle);
             (*groupDest).setRotate(angle, p);
+            (*groupDest).addOrder('r');
         }
         else if (strcmp(it->name(), "scale") == 0) {
             (*groupDest).setScale(parseScale(it));
+            (*groupDest).addOrder('s');
         }
         else if (strcmp(it->name(), "models") == 0) {
             (*groupDest).setModels(parseModels(it));
@@ -378,7 +395,6 @@ void parseScene() {
 
     for (pugi::xml_node_iterator it = groups.begin(); it != groups.end(); ++it) {
         if (strcmp(it->name(), "group") == 0) {
-            printf("Entrou!");
             glPushMatrix();
             scene = *parseGroup(it);
             glPopMatrix();
@@ -451,9 +467,12 @@ void renderScene() {
 
     // set the camera
     glLoadIdentity();
-    gluLookAt(5.0, 5.0, 5.0,
-              0.0, 0.0, 0.0,
-              0.0f, 1.0f, 0.0f);
+    gluLookAt(camX, camY, camZ,
+              0.0,0.0,0.0,
+              0.0f,1.0f,0.0f);
+//    gluLookAt(5.0, 5.0, 5.0,
+//              0.0, 0.0, 0.0,
+//              0.0f, 1.0f, 0.0f);
 
     //Muda o modo de desenho das figuras
     changeMode();
@@ -560,6 +579,76 @@ void rotate (int key, int x, int y) {
     glutPostRedisplay();
 }
 
+void processMouseButtons(int button, int state, int xx, int yy) {
+
+    if (state == GLUT_DOWN)  {
+        startX = xx;
+        startY = yy;
+        if (button == GLUT_LEFT_BUTTON)
+            tracking = 1;
+        else if (button == GLUT_RIGHT_BUTTON)
+            tracking = 2;
+        else
+            tracking = 0;
+    }
+    else if (state == GLUT_UP) {
+        if (tracking == 1) {
+            alpha += (xx - startX);
+            beta += (yy - startY);
+        }
+        else if (tracking == 2) {
+
+            r -= yy - startY;
+            if (r < 3)
+                r = 3.0;
+        }
+        tracking = 0;
+    }
+
+    glutPostRedisplay();
+}
+
+
+void processMouseMotion(int xx, int yy) {
+
+    int deltaX, deltaY;
+    int alphaAux, betaAux;
+    int rAux;
+
+    if (!tracking)
+        return;
+
+    deltaX = xx - startX;
+    deltaY = yy - startY;
+
+    if (tracking == 1) {
+
+
+        alphaAux = alpha + deltaX;
+        betaAux = beta + deltaY;
+
+        if (betaAux > 85.0)
+            betaAux = 85.0;
+        else if (betaAux < -85.0)
+            betaAux = -85.0;
+
+        rAux = r;
+    }
+    else if (tracking == 2) {
+
+        alphaAux = alpha;
+        betaAux = beta;
+        rAux = r - deltaY;
+        if (rAux < 3)
+            rAux = 3;
+    }
+    camX = rAux * sin(alphaAux * 3.14 / 180.0) * cos(betaAux * 3.14 / 180.0);
+    camZ = rAux * cos(alphaAux * 3.14 / 180.0) * cos(betaAux * 3.14 / 180.0);
+    camY = rAux * 							     sin(betaAux * 3.14 / 180.0);
+
+    glutPostRedisplay();
+}
+
 int main(int argc, char **argv) {
 
     if (!doc.load_file(argv[1])) return -1;
@@ -578,6 +667,8 @@ int main(int argc, char **argv) {
 // Callback registration for keyboard processing
     glutKeyboardFunc(keyboard);
     glutSpecialFunc(rotate);
+    glutMouseFunc(processMouseButtons);
+    glutMotionFunc(processMouseMotion);
 
 //  OpenGL settings
     glEnable(GL_DEPTH_TEST);
