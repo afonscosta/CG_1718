@@ -4,25 +4,26 @@
             <model file="plane.3d"/>
         </models>
         <group>
-        <translate X="5"/>
+            <translate X="5"/>
+            <rotate angle="45" axisZ="1"/>
             <models>
                 <model file="box.3d"/>
             </models>
-        </group>
-        <group>
-            <rotate angle="90" axisY="1"/>
-            <translate X="5" Y="0" Z="0"/>
-            <models>
-                <model file="sphere.3d"/>
-            </models>
-        </group>
             <group>
-                <rotate angle="-90" axisY="1"/>
+                <rotate angle="90" axisZ="1"/>
                 <translate X="5"/>
                 <scale X="0.5" Y="0.5" Z="0.5"/>
                 <models>
                     <model file="cone.3d"/>
                 </models>
             </group>
+        </group>
+        <group>
+            <rotate angle="90" axisX="1"/>
+            <translate X="0" Y="5" Z="0"/>
+            <models>
+                <model file="sphere.3d"/>
+            </models>
+        </group>
     </group>
 </scene>
