@@ -27,6 +27,12 @@ int X_ANGLE = 0;
 int Y_ANGLE = 0;
 int Z_ANGLE = 0;
 
+float camX = 00, camY = 30, camZ = 40;
+float cam1X = 0, cam1Y = 0, cam1Z = 0;
+int startX, startY, tracking = 0;
+
+int alpha = 0, beta = 45, r = 50;
+
 
 void split(const std::string& s, char delim,vector<std::string>& v) {
     auto i = 0;
@@ -265,6 +271,75 @@ void parseXML() {
 
 }
 
+void processMouseButtons(int button, int state, int xx, int yy) {
+
+    if (state == GLUT_DOWN)  {
+        startX = xx;
+        startY = yy;
+        if (button == GLUT_LEFT_BUTTON)
+            tracking = 1;
+        else if (button == GLUT_RIGHT_BUTTON)
+            tracking = 2;
+        else
+            tracking = 0;
+    }
+    else if (state == GLUT_UP) {
+        if (tracking == 1) {
+            alpha += (xx - startX);
+            beta += (yy - startY);
+        }
+        else if (tracking == 2) {
+
+            r -= yy - startY;
+            if (r < 3)
+                r = 3.0;
+        }
+        tracking = 0;
+    }
+
+    glutPostRedisplay();
+}
+
+void processMouseMotion(int xx, int yy) {
+
+    int deltaX, deltaY;
+    int alphaAux, betaAux;
+    int rAux;
+
+    if (!tracking)
+        return;
+
+    deltaX = xx - startX;
+    deltaY = yy - startY;
+
+    if (tracking == 1) {
+
+
+        alphaAux = alpha + deltaX;
+        betaAux = beta + deltaY;
+
+        if (betaAux > 85.0)
+            betaAux = 85.0;
+        else if (betaAux < -85.0)
+            betaAux = -85.0;
+
+        rAux = r;
+    }
+    else if (tracking == 2) {
+
+        alphaAux = alpha;
+        betaAux = beta;
+        rAux = r - deltaY;
+        if (rAux < 3)
+            rAux = 3;
+    }
+    camX = rAux * sin(alphaAux * 3.14 / 180.0) * cos(betaAux * 3.14 / 180.0);
+    camZ = rAux * cos(alphaAux * 3.14 / 180.0) * cos(betaAux * 3.14 / 180.0);
+    camY = rAux * 							     sin(betaAux * 3.14 / 180.0);
+
+    glutPostRedisplay();
+}
+
 void renderScene() {
 
     // clear buffers
@@ -272,9 +347,9 @@ void renderScene() {
 
     // set the camera
     glLoadIdentity();
-    gluLookAt(5.0, 5.0, 5.0,
-              0.0, 0.0, 0.0,
-              0.0f, 1.0f, 0.0f);
+    gluLookAt(camX, camY, camZ,
+              cam1X, cam1Y,cam1Z,
+              0.0f,1.0f,0.0f);
 
     //Muda o modo de desenho das figuras
     changeMode();
@@ -337,29 +412,27 @@ void keyboard(unsigned char key, int x, int y){
     glutPostRedisplay();
 }
 
-void rotate (int key, int x, int y) {
+void movement (int key, int x, int y) {
 
-    if (key == GLUT_KEY_LEFT && axle == 0)
-        X_ANGLE += 10;
+    if (key == GLUT_KEY_LEFT) {
+        cam1X += 5;
+        camX += 5;
+    }
 
-    if (key == GLUT_KEY_RIGHT && axle == 0)
-        X_ANGLE -= 10;
+    if (key == GLUT_KEY_RIGHT) {
+        cam1X -= 5;
+        camX -= 5;
+    }
 
+    if (key == GLUT_KEY_UP) {
+        cam1Y += 5;
+        camY += 5;
+    }
 
-
-    if (key == GLUT_KEY_LEFT && axle == 1)
-        Y_ANGLE += 10;
-
-    if (key == GLUT_KEY_RIGHT && axle == 1)
-        Y_ANGLE -= 10;
-
-
-
-    if (key == GLUT_KEY_LEFT && axle == 2)
-        Z_ANGLE += 10;
-
-    if (key == GLUT_KEY_RIGHT && axle == 2)
-        Z_ANGLE -= 10;
+    if (key == GLUT_KEY_DOWN) {
+        cam1Y -= 5;
+        camY -= 5;
+    }
 
     glutPostRedisplay();
 }
@@ -381,7 +454,9 @@ int main(int argc, char **argv) {
 
 // Callback registration for keyboard processing
     glutKeyboardFunc(keyboard);
-    glutSpecialFunc(rotate);
+    glutSpecialFunc(movement);
+    glutMouseFunc(processMouseButtons);
+    glutMotionFunc(processMouseMotion);
 
 //  OpenGL settings
     glEnable(GL_DEPTH_TEST);
