@@ -178,6 +178,24 @@ void drawModel(const pugi::char_t *string) {
     }
 }
 
+void draw_orbit(float radius){
+
+    float angle = 0;
+    int sides = 50;
+    float increment = (2*M_PI) / sides;
+
+    for (int i = 0; i  < sides; i++){
+
+        glBegin(GL_LINES);
+        glVertex3f(radius * sin(increment * i), 0, radius * cos(increment * i));
+        glVertex3f(radius * sin(increment * (i + 1)), 0, radius * cos(increment * (i + 1)));
+        glEnd();
+
+
+        angle += increment;
+    }
+}
+
 void parseModel(pugi::xml_node_iterator model) {
     for (pugi::xml_attribute_iterator ait = model->attributes_begin(); ait != model->attributes_end(); ++ait)
     {
