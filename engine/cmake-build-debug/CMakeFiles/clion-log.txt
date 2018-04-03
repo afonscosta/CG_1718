@@ -13,6 +13,7 @@
 -- Detecting CXX compiler ABI info - done
 -- Detecting CXX compile features
 -- Detecting CXX compile features - done
+-- Found GLUT: /usr/lib/libglut.so  
 -- Found OpenGL: /usr/lib/libOpenGL.so   
 -- Configuring done
 -- Generating done
