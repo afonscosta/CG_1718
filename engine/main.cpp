@@ -11,6 +11,168 @@
 
 using std::vector;
 
+
+/*
+ * ============================================================================
+ * ESTRUTURAS DE DADOS ========================================================
+ * ============================================================================
+ */
+class Point {
+    float x, y, z;
+public:
+    void setPoint (float, float, float);
+    float getX() { return x; }
+    float getY() { return y; }
+    float getZ() { return z; }
+};
+
+void Point::setPoint (float x, float y, float z) {
+    this->x = x;
+    this->y = y;
+    this->z = z;
+}
+
+
+class Model {
+    vector<Point> primitive;
+public:
+    void setPrimitive(vector<Point>);
+    void drawPrimitive();
+};
+
+void Model::setPrimitive(vector<Point> pri) {
+    Point p;
+    for (auto &it : pri) {
+        p.setPoint(it.getX(), it.getY(), it.getZ());
+        primitive.push_back(p); //Assim fica-se com acesso exterior à primitiva
+    }
+}
+
+void Model::drawPrimitive() {
+
+    int i = 0;
+    float buffer_points[9];
+
+    for (auto &it : primitive) {
+
+        buffer_points[i * 3 + 0] = it.getX();
+        buffer_points[i * 3 + 1] = it.getY();
+        buffer_points[i * 3 + 2] = it.getZ();
+
+        i++;
+
+        if (i == 3) {
+
+            glBegin(GL_TRIANGLES);
+            glVertex3f(buffer_points[0], buffer_points[1], buffer_points[2]);
+            glVertex3f(buffer_points[3], buffer_points[4], buffer_points[5]);
+            glVertex3f(buffer_points[6], buffer_points[7], buffer_points[8]);
+            glEnd();
+
+            i = 0;
+
+        }
+
+    }
+}
+
+
+class Group {
+    vector<char> order;
+    Point translate;
+    float angle;
+    Point rotate;
+    Point scale;
+    vector<Model> models;
+    vector<Group *> groups;
+private:
+    void doTranslate();
+    void doRotate();
+    void doScale();
+    void drawModels();
+public:
+    void addOrder(char);
+    void setTranslate (Point); //Null = 0, 0, 0
+    void setRotate (float, Point); //Null = 0, 0, 0, 0
+    void setScale (Point); //Null = 0, 0, 0
+    void setModels (vector<Model>); //Null = vector vazio
+    void addGroup (Group*); //Null = vector vazio
+    void drawGroup();
+};
+
+void Group::addOrder(char c) {
+    order.push_back(c);
+}
+
+void Group::setTranslate(Point p) {
+    translate.setPoint(p.getX(), p.getY(), p.getZ());
+}
+
+void Group::setRotate(float a, Point p) {
+    angle = a;
+    rotate.setPoint(p.getX(), p.getY(), p.getZ());
+}
+
+void Group::setScale(Point p) {
+    scale.setPoint(p.getX(), p.getY(), p.getZ());
+}
+
+void Group::setModels(vector<Model> ms) {
+    models = ms; //Assim fica-se com acesso exterior aos models
+}
+
+void Group::addGroup(Group* g) {
+    groups.push_back(g); //Assim fica-se com acesso exterior aos grupos
+}
+
+void Group::doTranslate() {
+    glTranslatef(translate.getX(), translate.getY(), translate.getZ());
+}
+
+void Group::doRotate() {
+    glRotatef(angle, rotate.getX(), rotate.getY(), rotate.getZ());
+}
+
+void Group::doScale() {
+    if (scale.getX() != 0 && scale.getY() != 0 && scale.getZ() != 0)
+        glScalef(scale.getX(), scale.getY(), scale.getZ());
+}
+
+void Group::drawModels() {
+    for (auto &it : models) {
+        it.drawPrimitive();
+    }
+}
+
+void Group::drawGroup() {
+    glPushMatrix();
+    for (auto &it : order) {
+        if (it == 't')
+            doTranslate();
+        else if (it == 'r')
+            doRotate();
+        else if (it == 's')
+            doScale();
+    }
+    drawModels();
+    for (auto &it : groups) {
+        glPushMatrix();
+
+        it->drawGroup();
+
+        glPopMatrix();
+    }
+
+    glPopMatrix();
+}
+
+
+
+/*
+ * ============================================================================
+ * VARIÁVEIS GLOBAIS ==========================================================
+ * ============================================================================
+ */
 pugi::xml_document doc;
 
 int X_TRANSLATE = 0;
@@ -27,9 +189,12 @@ int X_ANGLE = 0;
 int Y_ANGLE = 0;
 int Z_ANGLE = 0;
 
-float camX = 00, camY = 30, camZ = 40;
-float cam1X = 0, cam1Y = 0, cam1Z = 0;
+//Mouse movements
+int alpha = 0, beta = 45, r = 50;
+float camX = 05, camY = 30, camZ = 40;
 int startX, startY, tracking = 0;
+
+Group scene;
 
 int alpha = 0, beta = 45, r = 50;
 
@@ -208,7 +373,7 @@ void drawModel(const pugi::char_t *string) {
 void parseModel(pugi::xml_node_iterator model) {
     for (pugi::xml_attribute_iterator ait = model->attributes_begin(); ait != model->attributes_end(); ++ait)
     {
-        drawModel(ait->value());
+        loadModel(ait->value(), &modelDest);
     }
 }
 
@@ -223,14 +388,19 @@ void parseGroup(pugi::xml_node_iterator group) {
 
     for (pugi::xml_node_iterator it = group->begin(); it != group->end(); ++it) {
         if (strcmp(it->name(), "translate") == 0) {
-            parseTranslate(it);
+            (*groupDest).setTranslate(parseTranslate(it));
+            (*groupDest).addOrder('t');
         }
         else if (strcmp(it->name(), "rotate") == 0) {
-            parseRotate(it);
+            float angle = 0;
+            Point p = parseRotate(it, &angle);
+            (*groupDest).setRotate(angle, p);
+            (*groupDest).addOrder('r');
         }
         else if (strcmp(it->name(), "scale") == 0) {
-            parseScale(it);
-        }
+            (*groupDest).setScale(parseScale(it));
+            (*groupDest).addOrder('s');
+       	}
         else if (strcmp(it->name(), "models") == 0) {
             parseModels(it);
         }
@@ -348,8 +518,11 @@ void renderScene() {
     // set the camera
     glLoadIdentity();
     gluLookAt(camX, camY, camZ,
-              cam1X, cam1Y,cam1Z,
+              0.0,0.0,0.0,
               0.0f,1.0f,0.0f);
+//    gluLookAt(5.0, 5.0, 5.0,
+//              0.0, 0.0, 0.0,
+//              0.0f, 1.0f, 0.0f);
 
     //Muda o modo de desenho das figuras
     changeMode();
@@ -437,6 +610,76 @@ void movement (int key, int x, int y) {
     glutPostRedisplay();
 }
 
+void processMouseButtons(int button, int state, int xx, int yy) {
+
+    if (state == GLUT_DOWN)  {
+        startX = xx;
+        startY = yy;
+        if (button == GLUT_LEFT_BUTTON)
+            tracking = 1;
+        else if (button == GLUT_RIGHT_BUTTON)
+            tracking = 2;
+        else
+            tracking = 0;
+    }
+    else if (state == GLUT_UP) {
+        if (tracking == 1) {
+            alpha += (xx - startX);
+            beta += (yy - startY);
+        }
+        else if (tracking == 2) {
+
+            r -= yy - startY;
+            if (r < 3)
+                r = 3.0;
+        }
+        tracking = 0;
+    }
+
+    glutPostRedisplay();
+}
+
+
+void processMouseMotion(int xx, int yy) {
+
+    int deltaX, deltaY;
+    int alphaAux, betaAux;
+    int rAux;
+
+    if (!tracking)
+        return;
+
+    deltaX = xx - startX;
+    deltaY = yy - startY;
+
+    if (tracking == 1) {
+
+
+        alphaAux = alpha + deltaX;
+        betaAux = beta + deltaY;
+
+        if (betaAux > 85.0)
+            betaAux = 85.0;
+        else if (betaAux < -85.0)
+            betaAux = -85.0;
+
+        rAux = r;
+    }
+    else if (tracking == 2) {
+
+        alphaAux = alpha;
+        betaAux = beta;
+        rAux = r - deltaY;
+        if (rAux < 3)
+            rAux = 3;
+    }
+    camX = rAux * sin(alphaAux * 3.14 / 180.0) * cos(betaAux * 3.14 / 180.0);
+    camZ = rAux * cos(alphaAux * 3.14 / 180.0) * cos(betaAux * 3.14 / 180.0);
+    camY = rAux * 							     sin(betaAux * 3.14 / 180.0);
+
+    glutPostRedisplay();
+}
+
 int main(int argc, char **argv) {
 
     if (!doc.load_file(argv[1])) return -1;
@@ -454,7 +697,7 @@ int main(int argc, char **argv) {
 
 // Callback registration for keyboard processing
     glutKeyboardFunc(keyboard);
-    glutSpecialFunc(movement);
+    glutSpecialFunc(rotate);
     glutMouseFunc(processMouseButtons);
     glutMotionFunc(processMouseMotion);
 
