@@ -108,6 +108,13 @@
     4. Orientação está a ser difícil de encontrar mas penso que ficam parecidos como os de Urano.
   5. Luas: 14 (https://en.wikipedia.org/wiki/Moons_of_Neptune)
 
-11. Cometas
 
-12. Cinto de Kuiper
+11. Plutão (https://en.wikipedia.org/wiki/Pluto)
+  1. Esfera (raio = 0.1868 * rT)
+  2. Distância do Sol é 5 906 123 940 km (927032.481557 * rT)
+  3. Tempo de translação = 248.00 anos
+  4. Luas: 5 (https://en.wikipedia.org/wiki/Moons_of_Pluto)
+
+12. Cometas
+
+13. Cinto de Kuiper
