@@ -329,6 +329,7 @@ void loadModel(const pugi::char_t *string, Model* model) {
 
         fs.close();
     }
+    else {printf("Erro!");}
 
     (*model).setPrimitive(primitive);
 }
