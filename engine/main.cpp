@@ -654,6 +654,8 @@ int main(int argc, char **argv) {
 
     if (!doc.load_file(argv[1])) return -1;
 
+    printf("%s\n", argv[1]);
+
 // init GLUT and the window
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DEPTH|GLUT_DOUBLE|GLUT_RGBA);

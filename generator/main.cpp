@@ -360,7 +360,7 @@ vector <Point> orbit_generate_points(vector <Point> points, float radius){
     Point p;
 
     float angle = 0;
-    int sides = 50;
+    int sides = 300;
     float increment = (2*M_PI) / sides;
 
     for (int i = 0; i  < sides; i++){
@@ -368,6 +368,8 @@ vector <Point> orbit_generate_points(vector <Point> points, float radius){
         p.setPoint(radius * sin(increment * i), 0, radius * cos(increment * i));
         points.push_back(p);
         p.setPoint(radius * sin(increment * (i + 1)), 0, radius * cos(increment * (i + 1)));
+        points.push_back(p);
+        p.setPoint(radius * sin(increment * (i + 2)), 0, radius * cos(increment * (i + 2)));
         points.push_back(p);
 
         angle += increment;
