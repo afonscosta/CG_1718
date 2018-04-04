@@ -81,12 +81,6 @@
 					<model file="sphere.3d"/>
 				</models>
 			</group>
-			<!-- CINTURA DE ASTEROIDES -->
-			<group>
-				<models>
-					<model file="belt.3d"/>
-				</models>
-			</group>
 			<!-- JUPITER -->
 			<group>
 				<scale X="95.91209462" Y="95.91209462" Z="95.91209462"/>
@@ -113,6 +107,7 @@
 				<scale X="4.7245" Y="4.7245" Z="4.7245"/>
 				<models>
 					<model file="sphere.3d"/>
+					<model file="belt.3d"/>
 				</models>
 			</group>
 			<!-- URANO -->
@@ -155,12 +150,6 @@
 				<scale X="0.09" Y="0.09" Z="0.09"/>
 				<models>
 					<model file="sphere.3d"/>
-				</models>
-			</group>
-
-			<group>
-				<models>
-					<model file="belt1.3d"/>
 				</models>
 			</group>
 		</group>
