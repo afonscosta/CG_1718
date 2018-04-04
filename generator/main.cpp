@@ -355,12 +355,37 @@ vector <Point> sphere_generate_points(vector <Point> points,float radius, int sl
     return points;
 }
 
+vector <Point> orbit_generate_points(vector <Point> points, float radius){
+
+    Point p;
+
+    float angle = 0;
+    int sides = 50;
+    float increment = (2*M_PI) / sides;
+
+    for (int i = 0; i  < sides; i++){
+
+        p.setPoint(radius * sin(increment * i), 0, radius * cos(increment * i));
+        points.push_back(p);
+        p.setPoint(radius * sin(increment * (i + 1)), 0, radius * cos(increment * (i + 1)));
+        points.push_back(p);
+
+        angle += increment;
+    }
+
+    return points;
+}
+
 
 int main(int argc, char **argv) {
     vector <Point> points;
     if (argc == 4) {
         if (strcmp(argv[1], "plane") == 0) {
             points = plane_generate_points(points, strtof(argv[2],NULL)/2);
+            writeFile(points, argv[3]);
+        }
+        else if (strcmp(argv[1], "orbit") == 0) {
+            points = orbit_generate_points(points, strtof(argv[2],NULL) );
             writeFile(points, argv[3]);
         }
     }
