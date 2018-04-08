@@ -478,22 +478,22 @@ void renderScene() {
     changeMode();
 
     //Eixos
-    glBegin(GL_LINES);
-    glColor3f(1,0,0);
-    glVertex3f(0.0f, 0.0f, 0.0f);
-    glVertex3f(10.0f, 0.0f, 0.0f);
+    //glBegin(GL_LINES);
+    //glColor3f(1,0,0);
+    //glVertex3f(0.0f, 0.0f, 0.0f);
+    //glVertex3f(10.0f, 0.0f, 0.0f);
 
-    glColor3f(0,1,0);
-    glVertex3f(0.0f, 0.0f, 0.0f);
-    glVertex3f(0.0f, 10.0f, 0.0f);
+    //glColor3f(0,1,0);
+    //glVertex3f(0.0f, 0.0f, 0.0f);
+    //glVertex3f(0.0f, 10.0f, 0.0f);
 
-    glColor3f(0,0,1);
-    glVertex3f(0.0f, 0.0f, 0.0f);
-    glVertex3f(0.0f, 0.0f, 10.0f);
-    glEnd();
+    //glColor3f(0,0,1);
+    //glVertex3f(0.0f, 0.0f, 0.0f);
+    //glVertex3f(0.0f, 0.0f, 10.0f);
+    //glEnd();
 
     //Coloca a cor como branca para as primitivas
-    glColor3f(1,1,1);
+    //glColor3f(1,1,1);
 
     // movimento no plano XZ
     glTranslatef(X_TRANSLATE ,Y_TRANSLATE ,Z_TRANSLATE);
@@ -517,16 +517,16 @@ void renderScene() {
 void keyboard(unsigned char key, int x, int y){
 
     if (key == 'a')
-        X_TRANSLATE -= 100;
+        X_TRANSLATE -= 1;
 
     if (key == 'd')
-        X_TRANSLATE += 100;
+        X_TRANSLATE += 1;
 
     if (key == 'w')
-        Z_TRANSLATE -= 100;
+        Z_TRANSLATE -= 1;
 
     if (key == 's')
-        Z_TRANSLATE += 100;
+        Z_TRANSLATE += 1;
 
     if (key == ' ') {
         axle++;
@@ -672,7 +672,6 @@ int main(int argc, char **argv) {
 
 //  OpenGL settings
     glEnable(GL_DEPTH_TEST);
-    glEnable(GL_CULL_FACE);
     glEnable(GL_CULL_FACE);
 
 //  Parse do ficheiro XML
