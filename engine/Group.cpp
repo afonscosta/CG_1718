@@ -2,7 +2,11 @@
 // Created by afonscosta on 08-04-2018.
 //
 
-#include <GL/gl.h>
+#ifdef __APPLE__
+#include <GLUT/glut.h>
+#else
+#include <GL/glut.h>
+#endif
 #include "Group.h"
 
 void Group::addOrder(char c) {
