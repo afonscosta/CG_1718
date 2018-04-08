@@ -1,0 +1,155 @@
+<scene>
+	<group>
+		<!-- SOL -->
+		<group>
+			<scale X="20" Y="20" Z="20"/>
+			<models>
+				<model file="sphere.3d"/>
+			</models>
+		</group>
+		<!-- MERCURIO -->
+		<group>
+			<scale X="34.9025385" Y="34.9025385" Z="34.9025385"/>
+			<models>
+				<model file="orbit.3d"/>
+			</models>
+		</group>
+		<group>
+			<translate X="34.9025385" Y="0" Z="0"/>
+			<scale X="0.1915" Y="0.1915" Z="0.1915"/>
+			<models>
+				<model file="sphere.3d"/>
+			</models>
+		</group>
+		<!-- VENUS -->
+		<group>
+			<scale X="39.15998387" Y="39.15998387" Z="39.15998387"/>
+			<models>
+				<model file="orbit.3d"/>
+			</models>
+		</group>
+		<group>
+			<translate X="39.16066113" Y="0" Z="0"/>
+			<scale X="0.47495" Y="0.47495" Z="0.47495"/>
+			<models>
+				<model file="sphere.3d"/>
+			</models>
+		</group>
+		<!-- TERRA -->
+		<group>
+			<scale X="42.66465321" Y="42.66465321" Z="42.66465321"/>
+			<models>
+				<model file="orbit.3d"/>
+			</models>
+		</group>
+		<group>
+			<translate X="42.66465321" Y="0" Z="0"/>
+
+			<scale X="0.5" Y="0.5" Z="0.5"/>
+			<models>
+				<model file="sphere.3d"/>
+			</models>
+
+			<group>
+				<scale X="3" Y="3" Z="3"/>
+				<models>
+					<model file="orbit.3d"/>
+				</models>
+			</group>
+
+			<group>
+				<translate X="3" Y="0" Z="0"/>
+				<scale X="0.1" Y="0.1" Z="0.1"/>
+				<models>
+					<model file="sphere.3d"/>
+				</models>
+			</group>
+
+		</group>
+		<!-- MARTE -->
+		<group>
+			<scale X="49.29685207" Y="49.29685207" Z="49.29685207"/>
+			<models>
+				<model file="orbit.3d"/>
+			</models>
+		</group>
+		<group>
+			<translate X="49.29685207" Y="0" Z="0"/>
+			<scale X="0.2665" Y="0.2665" Z="0.2665"/>
+			<models>
+				<model file="sphere.3d"/>
+			</models>
+		</group>
+		<!-- JUPITER -->
+		<group>
+			<scale X="95.91209462" Y="95.91209462" Z="95.91209462"/>
+			<models>
+				<model file="orbit.3d"/>
+			</models>
+		</group>
+		<group>
+			<translate X="95.91209462" Y="0" Z="0"/>
+			<scale X="5.6045" Y="5.6045" Z="5.6045"/>
+			<models>
+				<model file="sphere.3d"/>
+			</models>
+		</group>
+		<!-- SATURNO -->
+		<group>
+			<scale X="151.3596273" Y="151.3596273" Z="151.3596273"/>
+			<models>
+				<model file="orbit.3d"/>
+			</models>
+		</group>
+		<group>
+			<translate X="151.3596273" Y="0" Z="0"/>
+			<scale X="4.7245" Y="4.7245" Z="4.7245"/>
+			<models>
+				<model file="sphere.3d"/>
+				<model file="belt.3d"/>
+			</models>
+		</group>
+		<!-- URANO -->
+		<group>
+			<scale X="273.3940626" Y="273.3940626" Z="273.3940626"/>
+			<models>
+				<model file="orbit.3d"/>
+			</models>
+		</group>
+		<group>
+			<translate X="273.3940626" Y="0" Z="0"/>
+			<scale X="2" Y="2" Z="2"/>
+			<models>
+				<model file="sphere.3d"/>
+			</models>
+		</group>
+		<!-- NEPTUNO -->
+		<group>
+			<scale X="410.960512" Y="410.960512" Z="410.960512"/>
+			<models>
+				<model file="orbit.3d"/>
+			</models>
+		</group>
+		<group>
+			<translate X="410.960512" Y="0" Z="0"/>
+			<scale X="1.94" Y="1.94" Z="1.94"/>
+			<models>
+				<model file="sphere.3d"/>
+			</models>
+		</group>
+		<!-- PLUTAO -->
+		<group>
+			<scale X="530" Y="530" Z="530"/>
+			<models>
+				<model file="orbit.3d"/>
+			</models>
+		</group>
+		<group>
+			<translate X="530" Y="0" Z="0"/>
+			<scale X="0.09" Y="0.09" Z="0.09"/>
+			<models>
+				<model file="sphere.3d"/>
+			</models>
+		</group>
+	</group>
+</scene>
