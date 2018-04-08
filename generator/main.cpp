@@ -368,7 +368,7 @@ vector <Point> orbit_generate_points(vector <Point> points, float radius){
         points.push_back(p);
         p.setPoint(radius * sin(increment * (i + 1)), 0, radius * cos(increment * (i + 1)));
         points.push_back(p);
-        p.setPoint(radius * sin(increment * (i + 2)), 0, radius * cos(increment * (i + 2)));
+        p.setPoint(radius * sin(increment * (i + 1)), 0, radius * cos(increment * (i + 1)));
         points.push_back(p);
 
     }
