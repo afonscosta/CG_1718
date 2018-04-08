@@ -226,13 +226,13 @@ Point parseTranslate(pugi::xml_node_iterator translate) {
     for (pugi::xml_attribute_iterator ait = translate->attributes_begin(); ait != translate->attributes_end(); ++ait)
     {
         if (strcmp(ait->name(), "X") == 0) {
-            x = atof(ait->value());
+            x = strtof(ait->value(), nullptr);
         }
         else if (strcmp(ait->name(), "Y") == 0) {
-            y = atof(ait->value());
+            y = strtof(ait->value(), nullptr);
         }
         else if (strcmp(ait->name(), "Z") == 0) {
-            z = atof(ait->value());
+            z = strtof(ait->value(), nullptr);
         }
     }
 
@@ -248,16 +248,16 @@ Point parseRotate(pugi::xml_node_iterator rotate, float *angleDest) {
     for (pugi::xml_attribute_iterator ait = rotate->attributes_begin(); ait != rotate->attributes_end(); ++ait)
     {
         if (strcmp(ait->name(), "angle") == 0) {
-            *angleDest = atof(ait->value());
+            *angleDest = strtof(ait->value(), nullptr);
         }
         else if (strcmp(ait->name(), "axisX") == 0) {
-            axisX = atof(ait->value());
+            axisX = strtof(ait->value(), nullptr);
         }
         else if (strcmp(ait->name(), "axisY") == 0) {
-            axisY = atof(ait->value());
+            axisY = strtof(ait->value(), nullptr);
         }
         else if (strcmp(ait->name(), "axisZ") == 0) {
-            axisZ = atof(ait->value());
+            axisZ = strtof(ait->value(), nullptr);
         }
     }
 
@@ -273,13 +273,13 @@ Point parseScale(pugi::xml_node_iterator scale) {
     for (pugi::xml_attribute_iterator ait = scale->attributes_begin(); ait != scale->attributes_end(); ++ait)
     {
         if (strcmp(ait->name(), "X") == 0) {
-            x = atof(ait->value());
+            x = strtof(ait->value(), nullptr);
         }
         else if (strcmp(ait->name(), "Y") == 0) {
-            y = atof(ait->value());
+            y = strtof(ait->value(), nullptr);
         }
         else if (strcmp(ait->name(), "Z") == 0) {
-            z = atof(ait->value());
+            z = strtof(ait->value(), nullptr);
         }
     }
 
@@ -379,9 +379,7 @@ Group* parseGroup(pugi::xml_node_iterator groupSrc) {
             (*groupDest).setModels(parseModels(it));
         }
         else if (strcmp(it->name(), "group") == 0) {
-            glPushMatrix();
-            (*groupDest).addGroup(parseGroup(it)); //FALTA VER ESTA PARTE
-            glPopMatrix();
+            (*groupDest).addGroup(parseGroup(it));
         }
     }
 
@@ -397,7 +395,7 @@ void parseXML() {
 
     for (pugi::xml_node_iterator it = groups.begin(); it != groups.end(); ++it) {
         if (strcmp(it->name(), "group") == 0) {
-            (*groupDest).addGroup(parseGroup(it)); //FALTA VER ESTA PARTE
+            (*groupDest).addGroup(parseGroup(it));
         }
     }
 
