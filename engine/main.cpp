@@ -517,16 +517,16 @@ void renderScene() {
 void keyboard(unsigned char key, int x, int y){
 
     if (key == 'a')
-        X_TRANSLATE--;
+        X_TRANSLATE -= 100;
 
     if (key == 'd')
-        X_TRANSLATE++;
+        X_TRANSLATE += 100;
 
     if (key == 'w')
-        Z_TRANSLATE--;
+        Z_TRANSLATE -= 100;
 
     if (key == 's')
-        Z_TRANSLATE++;
+        Z_TRANSLATE += 100;
 
     if (key == ' ') {
         axle++;
