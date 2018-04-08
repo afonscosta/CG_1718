@@ -389,30 +389,19 @@ Group* parseGroup(pugi::xml_node_iterator groupSrc) {
 }
 
 
-void parseScene() {
+void parseXML() {
+
+    Group * groupDest = new Group();
 
     pugi::xml_node groups = doc.child("scene");
 
     for (pugi::xml_node_iterator it = groups.begin(); it != groups.end(); ++it) {
         if (strcmp(it->name(), "group") == 0) {
-            glPushMatrix();
-            scene = *parseGroup(it);
-            glPopMatrix();
+            (*groupDest).addGroup(parseGroup(it)); //FALTA VER ESTA PARTE
         }
     }
-}
 
-
-void parseXML() {
-
-    //Antes de começar a desenhar a cena guardo o referencial
-    glPushMatrix();
-
-    parseScene();
-
-    //Reponho o referencial original
-    glPopMatrix();
-
+    scene = *groupDest;
 }
 
 
