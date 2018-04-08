@@ -44,7 +44,7 @@ void Model::setPrimitive(vector<Point> pri) {
     Point p;
     for (auto &it : pri) {
         p.setPoint(it.getX(), it.getY(), it.getZ());
-        primitive.push_back(p); //Assim fica-se com acesso exterior à primitiva
+        primitive.push_back(p);
     }
 }
 
@@ -453,9 +453,6 @@ void renderScene() {
     gluLookAt(camX, camY, camZ,
               0.0,0.0,0.0,
               0.0f,1.0f,0.0f);
-//    gluLookAt(5.0, 5.0, 5.0,
-//              0.0, 0.0, 0.0,
-//              0.0f, 1.0f, 0.0f);
 
     //Muda o modo de desenho das figuras
     changeMode();
