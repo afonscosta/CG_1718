@@ -156,11 +156,7 @@ void Group::drawGroup() {
     }
     drawModels();
     for (auto &it : groups) {
-        glPushMatrix();
-
         it->drawGroup();
-
-        glPopMatrix();
     }
 
     glPopMatrix();
