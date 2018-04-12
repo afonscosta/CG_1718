@@ -374,3 +374,33 @@ vector <Point> belt_generate_points(vector <Point> points, float radius_in, floa
 
     return points;
 }
+
+vector <Point> torus_generate_points(vector <Point> points, float radius, float radius_torus, float stacks, int slices) {
+
+    Point p;
+
+    double increment = (2 * M_PI) / slices;
+    double increment1 = (2 * M_PI) / stacks;
+
+    for (int i = 0; i < slices; i++){
+        for(int j = 0; j < stacks; j++) {
+
+            p.setPoint((radius + (radius_torus * cos(i * increment))) * cos(j * increment1), (radius + (radius_torus * cos(i * increment))) * sin(j * increment1), radius_torus * sin(i * increment));
+            points.push_back(p);
+            p.setPoint((radius + (radius_torus * cos(i * increment))) * cos((j + 1) * increment1), (radius + (radius_torus * cos(i * increment))) * sin((j + 1) * increment1), radius_torus * sin(i * increment));
+            points.push_back(p);
+            p.setPoint((radius + (radius_torus * cos((i + 1) * increment))) * cos((j + 1) * increment1), (radius + (radius_torus * cos((i + 1) * increment))) * sin((j + 1) * increment1), radius_torus * sin((i + 1) * increment));
+            points.push_back(p);
+
+            p.setPoint((radius + (radius_torus * cos((i + 1) * increment))) * cos((j + 1) * increment1), (radius + (radius_torus * cos((i + 1) * increment))) * sin((j + 1) * increment1), radius_torus * sin((i + 1) * increment));
+            points.push_back(p);
+            p.setPoint((radius + (radius_torus * cos((i + 1) * increment))) * cos(j * increment1), (radius + (radius_torus * cos((i + 1) * increment))) * sin(j * increment1), radius_torus * sin((i + 1) * increment));
+            points.push_back(p);
+            p.setPoint((radius + (radius_torus * cos(i * increment))) * cos(j * increment1), (radius + (radius_torus * cos(i * increment))) * sin(j * increment1), radius_torus * sin(i * increment));
+            points.push_back(p);
+
+        }
+    }
+
+    return points;
+}

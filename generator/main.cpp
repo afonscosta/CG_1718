@@ -54,6 +54,10 @@ int main(int argc, char **argv) {
             points = box_generate_points(points, strtof(argv[2], NULL)/2, strtof(argv[3], NULL)/2, strtof(argv[4], NULL)/2, strtof(argv[5], NULL));
             writeFile(points, argv[6]);
         }
+        else if (strcmp(argv[1], "torus") == 0) {
+            points = torus_generate_points(points, strtof(argv[2], NULL), strtof(argv[3], NULL), strtof(argv[4], NULL), strtof(argv[5], NULL));
+            writeFile(points, argv[6]);
+        }
     }
 
     return 0;
