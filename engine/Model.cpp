@@ -9,38 +9,23 @@
 #endif
 #include "Model.h"
 
-void Model::setPrimitive(vector<Point> pri) {
-    Point p;
-    for (auto &it : pri) {
-        p.setPoint(it.getX(), it.getY(), it.getZ());
-        primitive.push_back(p);
-    }
+
+
+int j = 0;
+
+
+void Model::setPrimitive(vector<float> points, int nvertices) {
+
+    glGenBuffers(1, &buffers[0]);
+    glBindBuffer(GL_ARRAY_BUFFER, buffers[0]);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(float) * points.size(), &(points[0]), GL_STATIC_DRAW);
+
 }
 
 void Model::drawPrimitive() {
 
-    int i = 0;
-    float buffer_points[9];
+    glBindBuffer(GL_ARRAY_BUFFER, buffers[0]);
 
-    for (auto &it : primitive) {
-
-        buffer_points[i * 3 + 0] = it.getX();
-        buffer_points[i * 3 + 1] = it.getY();
-        buffer_points[i * 3 + 2] = it.getZ();
-
-        i++;
-
-        if (i == 3) {
-
-            glBegin(GL_TRIANGLES);
-            glVertex3f(buffer_points[0], buffer_points[1], buffer_points[2]);
-            glVertex3f(buffer_points[3], buffer_points[4], buffer_points[5]);
-            glVertex3f(buffer_points[6], buffer_points[7], buffer_points[8]);
-            glEnd();
-
-            i = 0;
-
-        }
-
-    }
+    glVertexPointer(3,GL_FLOAT,0,0);
+    glDrawArrays(GL_TRIANGLES, 0, nvertices);
 }

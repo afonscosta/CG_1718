@@ -14,8 +14,6 @@
 using std::vector;
 
 
-
-
 /*
  * ============================================================================
  * VARIÁVEIS GLOBAIS ==========================================================
@@ -137,8 +135,10 @@ Point parseScale(pugi::xml_node_iterator scale) {
 
 void loadModel(const pugi::char_t *string, Model* model) {
 
-    vector<Point> primitive;
-    Point p;
+    GLuint buffers[1];
+    std::vector<float> points;
+
+    int vertexCount;
 
     std::string buffer;
     float buffer_points[9];
@@ -163,14 +163,26 @@ void loadModel(const pugi::char_t *string, Model* model) {
 
             if (i == 3) {
 
-                p.setPoint(buffer_points[0], buffer_points[1], buffer_points[2]);
-                primitive.push_back(p);
-                p.setPoint(buffer_points[3], buffer_points[4], buffer_points[5]);
-                primitive.push_back(p);
-                p.setPoint(buffer_points[6], buffer_points[7], buffer_points[8]);
-                primitive.push_back(p);
+                points.push_back(buffer_points[0]);
+                points.push_back(buffer_points[1]);
+                points.push_back(buffer_points[2]);
+
+                vertexCount++;
+
+                points.push_back(buffer_points[3]);
+                points.push_back(buffer_points[4]);
+                points.push_back(buffer_points[5]);
+
+                vertexCount++;
+
+                points.push_back(buffer_points[6]);
+                points.push_back(buffer_points[7]);
+                points.push_back(buffer_points[8]);
+
+                vertexCount++;
 
                 i = 0;
+
             }
 
         }
@@ -178,7 +190,9 @@ void loadModel(const pugi::char_t *string, Model* model) {
         fs.close();
     }
 
-    (*model).setPrimitive(primitive);
+    //acho que não precisamos do set primitive, apenas temos é de passar o vertexB para a nossa estrutura de dados
+    (*model).setPrimitive(points, vertexCount);
+
 }
 
 Model parseModel(pugi::xml_node_iterator model) {

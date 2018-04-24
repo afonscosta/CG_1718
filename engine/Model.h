@@ -10,10 +10,14 @@
 #include <vector>
 using std::vector;
 
+
 class Model {
-    vector<Point> primitive;
+
+    GLuint buffers[1];
+    int nvertices;
+
 public:
-    void setPrimitive(vector<Point>);
+    void setPrimitive(vector<float> points, int nvertices);
     void drawPrimitive();
 };
 
