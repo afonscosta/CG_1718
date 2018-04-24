@@ -9,11 +9,6 @@
 #endif
 #include "Model.h"
 
-
-
-int j = 0;
-
-
 void Model::setPrimitive(vector<float> points, int nvertices) {
 
     glGenBuffers(1, &buffers[0]);
