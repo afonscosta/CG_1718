@@ -13,8 +13,8 @@ void Group::addOrder(char c) {
     order.push_back(c);
 }
 
-void Group::setTranslate(Point p) {
-    translate.setPoint(p.getX(), p.getY(), p.getZ());
+void Group::setTranslate(Translate t) {
+    this->translate = t;
 }
 
 void Group::setRotate(float a, Point p) {
@@ -35,7 +35,7 @@ void Group::addGroup(Group* g) {
 }
 
 void Group::doTranslate() {
-    glTranslatef(translate.getX(), translate.getY(), translate.getZ());
+    translate.doTranslate();
 }
 
 void Group::doRotate() {

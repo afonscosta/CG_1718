@@ -64,26 +64,36 @@ void split(const std::string& s, char delim,vector<std::string>& v) {
     }
 }
 
-Point parseTranslate(pugi::xml_node_iterator translate) {
+Translate parseTranslate(pugi::xml_node_iterator translate) {
 
     Point p;
+    vector<Point> points;
     float x = 0, y = 0, z = 0;
+    float time = 0;
 
-    for (pugi::xml_attribute_iterator ait = translate->attributes_begin(); ait != translate->attributes_end(); ++ait)
+    for (pugi::xml_attribute_iterator ait = translate->attributes_begin(); ait != translate->attributes_end(); ++ait) {
+        if (strcmp(ait->name(), "time") == 0)
+            time = strtof(ait->value(), nullptr);
+    }
+
+    for (pugi::xml_node_iterator nit = translate->begin() ; nit != translate->end() ; ++nit)
     {
-        if (strcmp(ait->name(), "X") == 0) {
-            x = strtof(ait->value(), nullptr);
-        }
-        else if (strcmp(ait->name(), "Y") == 0) {
-            y = strtof(ait->value(), nullptr);
-        }
-        else if (strcmp(ait->name(), "Z") == 0) {
-            z = strtof(ait->value(), nullptr);
+        for (pugi::xml_attribute_iterator ait2 = nit->attributes_begin(); ait2 != nit->attributes_end(); ++ait2) {
+            if (strcmp(ait2->name(), "X") == 0)
+                x = strtof(ait2->value(), nullptr);
+            else if (strcmp(ait2->name(), "Y") == 0)
+                y = strtof(ait2->value(), nullptr);
+            else if (strcmp(ait2->name(), "Z") == 0)
+                z = strtof(ait2->value(), nullptr);
+
+            p.setPoint(x,y,z);
+            points.push_back(p);
         }
     }
 
-    p.setPoint(x,y,z);
-    return p;
+    Translate tr;
+    tr.setTranslate(time, points);
+    return tr;
 }
 
 Point parseRotate(pugi::xml_node_iterator rotate, float *angleDest) {
