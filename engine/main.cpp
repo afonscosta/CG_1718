@@ -67,7 +67,7 @@ void split(const std::string& s, char delim,vector<std::string>& v) {
 Translate parseTranslate(pugi::xml_node_iterator translate) {
 
     Point p;
-    vector<Point> points;
+    vector<Point> pts;
     float x = 0, y = 0, z = 0;
     float time = 0;
 
@@ -87,12 +87,12 @@ Translate parseTranslate(pugi::xml_node_iterator translate) {
                 z = strtof(ait2->value(), nullptr);
 
             p.setPoint(x,y,z);
-            points.push_back(p);
         }
+        pts.push_back(p);
     }
 
     Translate tr;
-    tr.setTranslate(time, points);
+    tr.setTranslate(time, pts);
     return tr;
 }
 
@@ -518,6 +518,7 @@ int main(int argc, char **argv) {
 
 // Required callback registry
     glutDisplayFunc(renderScene);
+    glutIdleFunc(renderScene);
     glutReshapeFunc(changeSize);
 
 // Callback registration for keyboard processing
