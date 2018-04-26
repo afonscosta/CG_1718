@@ -96,15 +96,15 @@ Translate parseTranslate(pugi::xml_node_iterator translate) {
     return tr;
 }
 
-Point parseRotate(pugi::xml_node_iterator rotate, float *angleDest) {
+Point parseRotate(pugi::xml_node_iterator rotate, float *timeDest) {
 
     Point p;
     float axisX = 0, axisY = 0, axisZ = 0;
 
     for (pugi::xml_attribute_iterator ait = rotate->attributes_begin(); ait != rotate->attributes_end(); ++ait)
     {
-        if (strcmp(ait->name(), "angle") == 0) {
-            *angleDest = strtof(ait->value(), nullptr);
+        if (strcmp(ait->name(), "time") == 0) {
+            *timeDest = strtof(ait->value(), nullptr);
         }
         else if (strcmp(ait->name(), "axisX") == 0) {
             axisX = strtof(ait->value(), nullptr);

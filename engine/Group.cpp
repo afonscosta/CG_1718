@@ -7,7 +7,9 @@
 #else
 #include <GL/glut.h>
 #endif
+#include <math.h>
 #include "Group.h"
+
 
 void Group::addOrder(char c) {
     order.push_back(c);
@@ -17,8 +19,9 @@ void Group::setTranslate(Translate t) {
     this->translate = t;
 }
 
-void Group::setRotate(float a, Point p) {
-    angle = a;
+void Group::setRotate(float t, Point p) {
+    angle = (glutGet(GLUT_ELAPSED_TIME) * (2 * M_PI)) / t * 1000;
+    printf("%f\n", time);
     rotate.setPoint(p.getX(), p.getY(), p.getZ());
 }
 
