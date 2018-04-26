@@ -1,6 +1,3 @@
-//
-// Created by Marco Silva on 25/04/2018.
-//
 
 #include "Translate.h"
 #include <math.h>

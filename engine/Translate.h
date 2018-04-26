@@ -1,6 +1,3 @@
-//
-// Created by Marco Silva on 25/04/2018.
-//
 
 #ifndef ENGINE_TRANSLATE_H
 #define ENGINE_TRANSLATE_H

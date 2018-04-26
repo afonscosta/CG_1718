@@ -1,6 +1,3 @@
-//
-// Created by afonscosta on 08-04-2018.
-//
 
 #ifndef ENGINE_GROUP_H
 #define ENGINE_GROUP_H

@@ -1,7 +1,3 @@
-//
-// Created by afonscosta on 08-04-2018.
-//
-
 #ifdef __APPLE__
 #include <GLUT/glut.h>
 #else
