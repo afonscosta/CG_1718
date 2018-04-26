@@ -1,8 +1,3 @@
-#ifdef __APPLE__
-#include <GLUT/glut.h>
-#else
-#include <GL/glut.h>
-#endif
 
 #include "pugixml/src/pugixml.cpp"
 #include <iostream>
@@ -10,6 +5,13 @@
 #include <fstream>
 #include <stdlib.h>
 #include "Group.h"
+
+#ifdef __APPLE__
+#include <GLUT/glut.h>
+#else
+#include <GL/glew.h>
+#include <GL/glut.h>
+#endif
 
 using std::vector;
 
