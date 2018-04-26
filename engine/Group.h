@@ -12,7 +12,7 @@ using std::vector;
 class Group {
     vector<char> order;
     Translate translate;
-    float angle;
+    float time;
     Point rotate;
     Point scale;
     vector<Model> models;

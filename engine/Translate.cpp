@@ -115,11 +115,12 @@ void Translate::doTranslate(){
     renderCatmullRomCurve();
 
     //regra de 3 simples para que o tempo dado ao getGlobalCatmullRomPoint seja sempre entre 0 e 1
-    float t = glutGet(GLUT_ELAPSED_TIME) / (time * 1000);
-    //float gt = t / (time * 1000);
+    float t = glutGet(GLUT_ELAPSED_TIME) % (int)(time * 1000);
+    float gt = t / (time * 1000);
 
+    printf("%f\n", gt);
     //movimento do teapot
-    getGlobalCatmullRomPoint(t, pos, deriv);
+    getGlobalCatmullRomPoint(gt, pos, deriv);
     glTranslatef(pos[0], pos[1], pos[2]);
 
 }

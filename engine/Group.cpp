@@ -17,8 +17,7 @@ void Group::setTranslate(Translate t) {
 }
 
 void Group::setRotate(float t, Point p) {
-    angle = (glutGet(GLUT_ELAPSED_TIME) * (2 * M_PI)) / t * 1000;
-    //printf("%f\n", time);
+    time = t;
     rotate.setPoint(p.getX(), p.getY(), p.getZ());
 }
 
@@ -39,7 +38,9 @@ void Group::doTranslate() {
 }
 
 void Group::doRotate() {
-    glRotatef(angle, rotate.getX(), rotate.getY(), rotate.getZ());
+    float t = (glutGet(GLUT_ELAPSED_TIME) % (int) (time * 1000));
+    float gt = 360 * (t / (time * 1000));
+    glRotatef(gt , rotate.getX(), rotate.getY(), rotate.getZ());
 }
 
 void Group::doScale() {
