@@ -1,8 +1,3 @@
-#ifdef __APPLE__
-#include <GLUT/glut.h>
-#else
-#include <GL/glut.h>
-#endif
 
 #include "pugixml/src/pugixml.cpp"
 #include <iostream>
@@ -11,9 +6,14 @@
 #include <stdlib.h>
 #include "Group.h"
 
+#ifdef __APPLE__
+#include <GLUT/glut.h>
+#else
+#include <GL/glew.h>
+#include <GL/glut.h>
+#endif
+
 using std::vector;
-
-
 
 
 /*
@@ -39,7 +39,7 @@ int Z_ANGLE = 0;
 
 //Mouse movements
 int alpha = 0, beta = 45, r = 50;
-float camX = 05, camY = 30, camZ = 40;
+float camX = 5, camY=5, camZ = 5;
 int startX, startY, tracking = 0;
 
 Group scene;
@@ -66,37 +66,47 @@ void split(const std::string& s, char delim,vector<std::string>& v) {
     }
 }
 
-Point parseTranslate(pugi::xml_node_iterator translate) {
+Translate parseTranslate(pugi::xml_node_iterator translate) {
 
     Point p;
+    vector<Point> pts;
     float x = 0, y = 0, z = 0;
+    float time = 0;
 
-    for (pugi::xml_attribute_iterator ait = translate->attributes_begin(); ait != translate->attributes_end(); ++ait)
-    {
-        if (strcmp(ait->name(), "X") == 0) {
-            x = strtof(ait->value(), nullptr);
-        }
-        else if (strcmp(ait->name(), "Y") == 0) {
-            y = strtof(ait->value(), nullptr);
-        }
-        else if (strcmp(ait->name(), "Z") == 0) {
-            z = strtof(ait->value(), nullptr);
-        }
+    for (pugi::xml_attribute_iterator ait = translate->attributes_begin(); ait != translate->attributes_end(); ++ait) {
+        if (strcmp(ait->name(), "time") == 0)
+            time = strtof(ait->value(), nullptr);
     }
 
-    p.setPoint(x,y,z);
-    return p;
+    for (pugi::xml_node_iterator nit = translate->begin() ; nit != translate->end() ; ++nit)
+    {
+        for (pugi::xml_attribute_iterator ait2 = nit->attributes_begin(); ait2 != nit->attributes_end(); ++ait2) {
+            if (strcmp(ait2->name(), "X") == 0)
+                x = strtof(ait2->value(), nullptr);
+            else if (strcmp(ait2->name(), "Y") == 0)
+                y = strtof(ait2->value(), nullptr);
+            else if (strcmp(ait2->name(), "Z") == 0)
+                z = strtof(ait2->value(), nullptr);
+
+        }
+        p.setPoint(x,y,z);
+        pts.push_back(p);
+    }
+
+    Translate tr;
+    tr.setTranslate(time, pts);
+    return tr;
 }
 
-Point parseRotate(pugi::xml_node_iterator rotate, float *angleDest) {
+Point parseRotate(pugi::xml_node_iterator rotate, float *timeDest) {
 
     Point p;
     float axisX = 0, axisY = 0, axisZ = 0;
 
     for (pugi::xml_attribute_iterator ait = rotate->attributes_begin(); ait != rotate->attributes_end(); ++ait)
     {
-        if (strcmp(ait->name(), "angle") == 0) {
-            *angleDest = strtof(ait->value(), nullptr);
+        if (strcmp(ait->name(), "time") == 0) {
+            *timeDest = strtof(ait->value(), nullptr);
         }
         else if (strcmp(ait->name(), "axisX") == 0) {
             axisX = strtof(ait->value(), nullptr);
@@ -137,8 +147,10 @@ Point parseScale(pugi::xml_node_iterator scale) {
 
 void loadModel(const pugi::char_t *string, Model* model) {
 
-    vector<Point> primitive;
-    Point p;
+    GLuint buffers[1];
+    std::vector<float> points;
+
+    int vertexCount;
 
     std::string buffer;
     float buffer_points[9];
@@ -163,14 +175,26 @@ void loadModel(const pugi::char_t *string, Model* model) {
 
             if (i == 3) {
 
-                p.setPoint(buffer_points[0], buffer_points[1], buffer_points[2]);
-                primitive.push_back(p);
-                p.setPoint(buffer_points[3], buffer_points[4], buffer_points[5]);
-                primitive.push_back(p);
-                p.setPoint(buffer_points[6], buffer_points[7], buffer_points[8]);
-                primitive.push_back(p);
+                points.push_back(buffer_points[0]);
+                points.push_back(buffer_points[1]);
+                points.push_back(buffer_points[2]);
+
+                vertexCount++;
+
+                points.push_back(buffer_points[3]);
+                points.push_back(buffer_points[4]);
+                points.push_back(buffer_points[5]);
+
+                vertexCount++;
+
+                points.push_back(buffer_points[6]);
+                points.push_back(buffer_points[7]);
+                points.push_back(buffer_points[8]);
+
+                vertexCount++;
 
                 i = 0;
+
             }
 
         }
@@ -178,7 +202,9 @@ void loadModel(const pugi::char_t *string, Model* model) {
         fs.close();
     }
 
-    (*model).setPrimitive(primitive);
+    //acho que não precisamos do set primitive, apenas temos é de passar o vertexB para a nossa estrutura de dados
+    (*model).setPrimitive(points, vertexCount);
+
 }
 
 Model parseModel(pugi::xml_node_iterator model) {
@@ -494,6 +520,7 @@ int main(int argc, char **argv) {
 
 // Required callback registry
     glutDisplayFunc(renderScene);
+    glutIdleFunc(renderScene);
     glutReshapeFunc(changeSize);
 
 // Callback registration for keyboard processing
@@ -505,6 +532,11 @@ int main(int argc, char **argv) {
 //  OpenGL settings
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_CULL_FACE);
+    glEnableClientState(GL_VERTEX_ARRAY);
+
+#ifndef __APPLE__
+    glewInit();
+#endif
 
 //  Parse do ficheiro XML
     parseXML();
