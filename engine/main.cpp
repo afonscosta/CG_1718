@@ -37,7 +37,7 @@ int Z_ANGLE = 0;
 
 //Mouse movements
 int alpha = 0, beta = 45, r = 50;
-float camX = 05, camY = 30, camZ = 40;
+float camX = 5, camY=5, camZ = 5;
 int startX, startY, tracking = 0;
 
 Group scene;
@@ -86,8 +86,8 @@ Translate parseTranslate(pugi::xml_node_iterator translate) {
             else if (strcmp(ait2->name(), "Z") == 0)
                 z = strtof(ait2->value(), nullptr);
 
-            p.setPoint(x,y,z);
         }
+        p.setPoint(x,y,z);
         pts.push_back(p);
     }
 
@@ -531,6 +531,10 @@ int main(int argc, char **argv) {
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_CULL_FACE);
     glEnableClientState(GL_VERTEX_ARRAY);
+
+#ifndef __APPLE__
+    glewInit();
+#endif
 
 //  Parse do ficheiro XML
     parseXML();

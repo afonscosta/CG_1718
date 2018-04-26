@@ -1,12 +1,5 @@
 <scene>
 		<!-- SOL -->
-		<group>
-			<rotate time="10" axisX="0" axisY="1" axisZ="0"/>
-			<scale X="20" Y="20" Z="20"/>
-			<models>
-				<model file="../files/sphere.3d"/>
-			</models>
-		</group>
 		<!-- MERCURIO -->
 		<!--<group>
 			<models>
@@ -15,16 +8,15 @@
 		</group> -->
 		<group>
 			<translate time="60">
-				<point X="29.8875" Y="0" Z="0"/>
-                <point X="21.1266" Y="0" Z="21.1266"/>
-                <point X="0" Y="0" Z="29.8775"/>
-                <point X="-21.1266" Y="0" Z="21.1266"/>
-                <point X="-29.8775" Y="0" Z="0"/>
-                <point X="-21.1266" Y="0" Z="-21.1266"/>
-                <point X="0" Y="0" Z="-29.8775"/>
-                <point X="21.1266" Y="0" Z="-21.1266"/>
+				<point X="29.8775" Y="0" Z="0"/>
+				<point X="21.1266" Y="0" Z="21.1266"/>
+				<point X="0" Y="0" Z="29.8775"/>
+				<point X="-21.1266" Y="0" Z="21.1266"/>
+				<point X="-29.8775" Y="0" Z="0"/>
+				<point X="-21.1266" Y="0" Z="-21.1266"/>
+				<point X="0" Y="0" Z="-29.8775"/>
+				<point X="21.1266" Y="0" Z="-21.1266"/>
 			</translate>
-			<scale X="0.1915" Y="0.1915" Z="0.1915"/>
 			<models>
 				<model file="../files/sphere.3d"/>
 			</models>

@@ -67,24 +67,24 @@ void Translate::getCatmullRomPoint(float t, float *p0, float *p1, float *p2, flo
 // given  global t, returns the point in the curve
 void Translate::getGlobalCatmullRomPoint(float gt, float *pos, float *deriv) {
 
-    float t = gt * POINT_COUNT; // this is the real global t
+    float t = gt * points.size(); // this is the real global t
     int index = floor(t);  // which segment
     t = t - index; // where within  the segment
 
     // indices store the points
     int indices[4];
-    indices[0] = (index + POINT_COUNT-1)%POINT_COUNT;
-    indices[1] = (indices[0]+1)%POINT_COUNT;
-    indices[2] = (indices[1]+1)%POINT_COUNT;
-    indices[3] = (indices[2]+1)%POINT_COUNT;
+    indices[0] = (index + points.size()-1) % points.size();
+    indices[1] = (indices[0]+1) % points.size();
+    indices[2] = (indices[1]+1) % points.size();
+    indices[3] = (indices[2]+1) % points.size();
 
     // Points that make up the loop for catmull-rom interpolation
     float p[points.size()][3];
 
     for (int i = 0; i < points.size(); i++){
-        p[i][1] = points.at(i).getX();
-        p[i][2] = points.at(i).getY();
-        p[i][3] = points.at(i).getZ();
+        p[i][0] = points.at(i).getX();
+        p[i][1] = points.at(i).getY();
+        p[i][2] = points.at(i).getZ();
     }
 
     getCatmullRomPoint(t, p[indices[0]], p[indices[1]], p[indices[2]], p[indices[3]], pos, deriv);
@@ -102,7 +102,6 @@ void Translate::renderCatmullRomCurve() {
         getGlobalCatmullRomPoint(i, pos, deriv);
         glVertex3f(pos[0], pos[1], pos[2]);
     }
-
     glEnd();
 }
 
@@ -120,6 +119,7 @@ void Translate::doTranslate(){
 
     //regra de 3 simples para que o tempo dado ao getGlobalCatmullRomPoint seja sempre entre 0 e 1
     float t = glutGet(GLUT_ELAPSED_TIME) / (time * 1000);
+    //float gt = t / (time * 1000);
 
     //movimento do teapot
     getGlobalCatmullRomPoint(t, pos, deriv);

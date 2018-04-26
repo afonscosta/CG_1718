@@ -21,7 +21,7 @@ void Group::setTranslate(Translate t) {
 
 void Group::setRotate(float t, Point p) {
     angle = (glutGet(GLUT_ELAPSED_TIME) * (2 * M_PI)) / t * 1000;
-    printf("%f\n", time);
+    //printf("%f\n", time);
     rotate.setPoint(p.getX(), p.getY(), p.getZ());
 }
 
