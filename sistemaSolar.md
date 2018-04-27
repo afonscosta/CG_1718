@@ -123,5 +123,6 @@
     1. Semieixo maior (ponto mais afastado do centro da órbita) = 418291.2353882 rT
     2. Semieixo menor (ponto mais próximo do centro da órbita) = 106980.1999203 rT
   5. Tempo de translação = 75.32 anos (no sentido dos ponteiros do relógio)
+  6. Representação visual da órbita: https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Halley%27s_Comet_animation.gif/330px-Halley%27s_Comet_animation.gif
 
 13. Cinto de Kuiper
