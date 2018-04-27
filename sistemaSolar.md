@@ -115,6 +115,13 @@
   3. Tempo de translação = 248.00 anos
   4. Luas: 5 (https://en.wikipedia.org/wiki/Moons_of_Pluto)
 
-12. Cometas
+12. Cometa de Halley (https://en.wikipedia.org/wiki/Halley's_Comet)
+  1. Esfera (raio = 0.00086328676 * rT)
+  2. Ponto mais próximo do Sol = 13744.45799806 rT
+  3. Ponto mais afastado do Sol = 822838.0127782 rT
+  4. O centro da sua órbita não é o Sol, por isso ponho os semieixos também:
+    1. Semieixo maior (ponto mais afastado do centro da órbita) = 418291.2353882 rT
+    2. Semieixo menor (ponto mais próximo do centro da órbita) = 106980.1999203 rT
+  5. Tempo de translação = 75.32 anos (no sentido dos ponteiros do relógio)
 
 13. Cinto de Kuiper
