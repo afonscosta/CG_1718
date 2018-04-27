@@ -4,38 +4,34 @@
 
 #include "Point.h"
 #include "generator.h"
+#include <math.h>
 using std::vector;
 
 class Patch {
+    int tess;
     int num_patches;
     int num_ctrl_pt;
-    vector<Point> indices;
+    vector<int> indices;
     vector<Point> control_points;
+    vector<Point> curve_points;
 
 private:
     void split(const std::string& s, char delim,vector<std::string>& v);
 
 public:
+    void setCurve_points(vector<Point> curve_points);
+
+    vector<Point> getCurve_points() const;
+
     void parse_patch(char* file_name);
 
-    int getNum_patches() const;
+    void generateBezier();
 
-    int getNum_ctrl_pt() const;
+    void setTesselation(int i);
 
-    const vector<Point> &getIndices() const;
+    void multMatrixVector(float *m, float *v, float *res);
 
-    const vector<Point> &getControl_points() const;
-
-    void setNum_patches(int num_patches);
-
-    void setNum_ctrl_pt(int num_ctrl_pt);
-
-    void setIndices(const vector<Point> &indices);
-
-    void setControl_points(const vector<Point> &control_points);
-
-    vector<Point> generateBezier();
-
+    void calcBezierPoints(int tess, Point p0[][4], Point p1[][4], Point p2[][4], Point p3[][4]) {
 };
 
 

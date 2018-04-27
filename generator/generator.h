@@ -12,9 +12,10 @@
 #include <string.h>
 #include <algorithm>
 
-#import "Point.h"
+#include "Point.h"
 
 using std::vector;
+using std::ofstream;
 
 vector<Point> plane_generate_points(vector <Point> points, float a);
 vector <Point> box_generate_points(vector <Point> points, float x, float y, float z, int divisions);
@@ -23,7 +24,6 @@ vector <Point> sphere_generate_points(vector <Point> points,float radius, int sl
 vector <Point> orbit_generate_points(vector <Point> points, float radius);
 vector <Point> belt_generate_points(vector <Point> points, float radius_in, float radius_out);
 vector <Point> torus_generate_points(vector <Point> points, float radius, float radius_torus, float stacks, int slices);
-vector <Point> bezier_generate_points(vector <Point> points, char* name_file);
 
 
 
