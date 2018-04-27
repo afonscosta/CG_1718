@@ -31,7 +31,7 @@ public:
 
     void multMatrixVector(float *m, float *v, float *res);
 
-    void calcBezierPoints(int tess, Point p0[][4], Point p1[][4], Point p2[][4], Point p3[][4]) {
+    void calcBezierPoints(int tess, Point p0[], Point p1[], Point p2[], Point p3[]);
 };
 
 

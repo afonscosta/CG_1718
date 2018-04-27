@@ -77,7 +77,7 @@ void Patch::parse_patch(char* file_name) {
 //        printf("NUM PATCHES -> %d\nNUM CTRL PTS -> %d\n", num_patches, num_ctrl_pt);
 //
 //        for (int i = 0; i < num_patches; i++)
-//            printf("indices %d -> %f %f %f \n",i,indices[i].getX(), indices[i].getY(), indices[i].getZ());
+//            printf("indices %d -> %d\n",i,indices[i]);
 //
 //        for (int i = 0; i < num_ctrl_pt; i++)
 //            printf("control point nº%d -> %f %f %f\n",i, control_points[i].getX(), control_points[i].getY(), control_points[i].getZ());
@@ -106,13 +106,14 @@ void normalize(float *a) {
     a[2] = a[2]/l;
 }
 
+
 void calcPointsSurface(float passo, float *U, float *V, float* M, float *Mt, float *P, vector<float> *curvePoints) {
 
     float res[4];
     float res1[4];
     Point p;
-    for (float u = 0; u < 1 - passo; u += passo) {
-        for (float v = 0; v < 1 - passo; v += passo) {
+    for (float u = 0; u <= 1 - passo; u += passo) {
+        for (float v = 0; v <= 1 - passo; v += passo) {
 
             //v, u
             U[0] = (float) pow(u, 3);
@@ -126,9 +127,11 @@ void calcPointsSurface(float passo, float *U, float *V, float* M, float *Mt, flo
             V[3] = 1;
 
             multMatrixVector((float *) M, U, res); //U * M
-            multMatrixVector(res, (float *) P, res1); //U * M * P
-            multMatrixVector(res1, (float *) Mt, res); //U * M * P * Mt
+            multMatrixVector((float *) P, res, res1); //U * M * P
+            multMatrixVector((float *) Mt, res1, res); //U * M * P * Mt
             res1[0] = res[0] * V[0] + res[1] * V[1] + res[2] * V[2] + res[3] * V[3];
+
+//            printf("Res: %f\n", res1[0]);
 
             (*curvePoints).push_back(res1[0]);
 
@@ -139,8 +142,8 @@ void calcPointsSurface(float passo, float *U, float *V, float* M, float *Mt, flo
             U[3] = 1;
 
             multMatrixVector((float *) M, U, res); //U * M
-            multMatrixVector(res, (float *) P, res1); //U * M * P
-            multMatrixVector(res1, (float *) Mt, res); //U * M * P * Mt
+            multMatrixVector((float *) P, res, res1); //U * M * P
+            multMatrixVector((float *) Mt, res1, res); //U * M * P * Mt
             res1[0] = res[0] * V[0] + res[1] * V[1] + res[2] * V[2] + res[3] * V[3];
 
             p.setPoint(res1[0], 0, 0);
@@ -153,8 +156,8 @@ void calcPointsSurface(float passo, float *U, float *V, float* M, float *Mt, flo
             V[3] = 1;
 
             multMatrixVector((float *) M, U, res); //U * M
-            multMatrixVector(res, (float *) P, res1); //U * M * P
-            multMatrixVector(res1, (float *) Mt, res); //U * M * P * Mt
+            multMatrixVector((float *) P, res, res1); //U * M * P
+            multMatrixVector((float *) Mt, res1, res); //U * M * P * Mt
             res1[0] = res[0] * V[0] + res[1] * V[1] + res[2] * V[2] + res[3] * V[3];
 
             (*curvePoints).push_back(res1[0]);
@@ -171,8 +174,8 @@ void calcPointsSurface(float passo, float *U, float *V, float* M, float *Mt, flo
             V[3] = 1;
 
             multMatrixVector((float *) M, U, res); //U * M
-            multMatrixVector(res, (float *) P, res1); //U * M * P
-            multMatrixVector(res1, (float *) Mt, res); //U * M * P * Mt
+            multMatrixVector((float *) P, res, res1); //U * M * P
+            multMatrixVector((float *) Mt, res1, res); //U * M * P * Mt
             res1[0] = res[0] * V[0] + res[1] * V[1] + res[2] * V[2] + res[3] * V[3];
 
             (*curvePoints).push_back(res1[0]);
@@ -189,8 +192,8 @@ void calcPointsSurface(float passo, float *U, float *V, float* M, float *Mt, flo
             V[3] = 1;
 
             multMatrixVector((float *) M, U, res); //U * M
-            multMatrixVector(res, (float *) P, res1); //U * M * P
-            multMatrixVector(res1, (float *) Mt, res); //U * M * P * Mt
+            multMatrixVector((float *) P, res, res1); //U * M * P
+            multMatrixVector((float *) Mt, res1, res); //U * M * P * Mt
             res1[0] = res[0] * V[0] + res[1] * V[1] + res[2] * V[2] + res[3] * V[3];
 
             (*curvePoints).push_back(res1[0]);
@@ -202,8 +205,8 @@ void calcPointsSurface(float passo, float *U, float *V, float* M, float *Mt, flo
             U[3] = 1;
 
             multMatrixVector((float *) M, U, res); //U * M
-            multMatrixVector(res, (float *) P, res1); //U * M * P
-            multMatrixVector(res1, (float *) Mt, res); //U * M * P * Mt
+            multMatrixVector((float *) P, res, res1); //U * M * P
+            multMatrixVector((float *) Mt, res1, res); //U * M * P * Mt
             res1[0] = res[0] * V[0] + res[1] * V[1] + res[2] * V[2] + res[3] * V[3];
 
             (*curvePoints).push_back(res1[0]);
@@ -217,27 +220,28 @@ void calcPointsSurface(float passo, float *U, float *V, float* M, float *Mt, flo
 
 }
 
-void Patch::calcBezierPoints(int tess, Point p0[][4], Point p1[][4], Point p2[][4], Point p3[][4]) {
+void Patch::calcBezierPoints(int tess, Point p0[], Point p1[], Point p2[], Point p3[]) {
     float passo = 0;
-    if (tess)
-        passo = 1/tess;
+    if (tess) {
+        passo = 1 / (float) tess;
+    }
     float u = 0;
     float v = 0;
-    float Px[4][4] = { {p0[0]->getX(), p0[0]->getX(), p0[0]->getX(), p0[0]->getX()},
-                       {p1[0]->getX(), p1[0]->getX(), p1[0]->getX(), p1[0]->getX()},
-                       {p2[0]->getX(), p2[0]->getX(), p2[0]->getX(), p2[0]->getX()},
-                       {p3[0]->getX(), p3[0]->getX(), p3[0]->getX(), p3[0]->getX()} };
-    float Py[4][4] = { {p0[0]->getY(), p0[0]->getY(), p0[0]->getY(), p0[0]->getY()},
-                       {p1[0]->getY(), p1[0]->getY(), p1[0]->getY(), p1[0]->getY()},
-                       {p2[0]->getY(), p2[0]->getY(), p2[0]->getY(), p2[0]->getY()},
-                       {p3[0]->getY(), p3[0]->getY(), p3[0]->getY(), p3[0]->getY()} };
-    float Pz[4][4] = { {p0[0]->getZ(), p0[0]->getZ(), p0[0]->getZ(), p0[0]->getZ()},
-                       {p1[0]->getZ(), p1[0]->getZ(), p1[0]->getZ(), p1[0]->getZ()},
-                       {p2[0]->getZ(), p2[0]->getZ(), p2[0]->getZ(), p2[0]->getZ()},
-                       {p3[0]->getZ(), p3[0]->getZ(), p3[0]->getZ(), p3[0]->getZ()} };
+    float Px[4][4] = { {p0[0].getX(), p0[1].getX(), p0[2].getX(), p0[3].getX()},
+                       {p1[0].getX(), p1[1].getX(), p1[2].getX(), p1[3].getX()},
+                       {p2[0].getX(), p2[1].getX(), p2[2].getX(), p2[3].getX()},
+                       {p3[0].getX(), p3[1].getX(), p3[2].getX(), p3[3].getX()} };
+    float Py[4][4] = { {p0[0].getY(), p0[1].getY(), p0[2].getY(), p0[3].getY()},
+                       {p1[0].getY(), p1[1].getY(), p1[2].getY(), p1[3].getY()},
+                       {p2[0].getY(), p2[1].getY(), p2[2].getY(), p2[3].getY()},
+                       {p3[0].getY(), p3[1].getY(), p3[2].getY(), p3[3].getY()} };
+    float Pz[4][4] = { {p0[0].getZ(), p0[1].getZ(), p0[2].getZ(), p0[3].getZ()},
+                       {p1[0].getZ(), p1[1].getZ(), p1[2].getZ(), p1[3].getZ()},
+                       {p2[0].getZ(), p2[1].getZ(), p2[2].getZ(), p2[3].getZ()},
+                       {p3[0].getZ(), p3[1].getZ(), p3[2].getZ(), p3[3].getZ()} };
     float U[4] = {(float) pow(u, 3), (float) pow(u, 2), u, 1};
     float V[4] = {(float) pow(v, 3), (float) pow(v, 2), v, 1};
-    float T[4] = {(float) pow(tess, 3), (float) pow(tess, 2), tess, 1};
+//    float T[4] = {(float) pow(passo, 3), (float) pow(passo, 2), passo, 1};
     float M[4][4] = { {-1, 3, -3, 1},
                       {3, -6, 3, 0},
                       {-3, 3, 0, 0},
@@ -291,29 +295,30 @@ void Patch::generateBezier() {
     int narco;
     int p;
 
-    Point p0[4][4];
-    Point p1[4][4];
-    Point p2[4][4];
-    Point p3[4][4];
+    Point p0[4];
+    Point p1[4];
+    Point p2[4];
+    Point p3[4];
 
     for (npatch = 0; npatch < num_patches; npatch++) {
 
         //Coloca os pontos de controlo no p0, p1, p2 e p3.
         for (narco = 0; narco < 4; narco++) {
             for (p = 0; p < 4 && narco == 0; p++) {
-                p0[narco][p] = control_points[indices[npatch * 16 + narco * 4 + p]];
+                printf("%d\n", p);
+                p0[p] = control_points[indices[npatch * 16 + narco * 4 + p]];
             }
 
             for (p = 0; p < 4 && narco == 1; p++) {
-                p1[narco][p] = control_points[indices[npatch * 16 + narco * 4 + p]];
+                p1[p] = control_points[indices[npatch * 16 + narco * 4 + p]];
             }
 
             for (p = 0; p < 4 && narco == 2; p++) {
-                p2[narco][p] = control_points[indices[npatch * 16 + narco * 4 + p]];
+                p2[p] = control_points[indices[npatch * 16 + narco * 4 + p]];
             }
 
             for (p = 0; p < 4 && narco == 3; p++) {
-                p3[narco][p] = control_points[indices[npatch * 16 + narco * 4 + p]];
+                p3[p] = control_points[indices[npatch * 16 + narco * 4 + p]];
             }
         }
 

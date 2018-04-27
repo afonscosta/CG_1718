@@ -3,7 +3,7 @@
 #include "Patch.h"
 
 
-int writeFile (vector <Point> points, std::string file_name)
+int writeFile (vector<Point> points, std::string file_name)
 {
     ofstream myfile;
     myfile.open(file_name);

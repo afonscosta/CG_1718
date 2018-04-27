@@ -19,7 +19,7 @@
 			</translate>
 			<rotate time="10" axisX="0" axisY="1" axisZ="0" />
 			<models>
-				<model file="../files/sphere.3d"/>
+				<model file="../files/teapot.3d"/>
 			</models>
 		</group>
 
