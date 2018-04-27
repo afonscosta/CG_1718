@@ -61,14 +61,14 @@ void Patch::parse_patch(char* file_name) {
 
         }
 
-        printf("NUM PATCHES -> %d\nNUM CTRL PTS -> %d\n", num_patches, num_ctrl_pt);
+        //printf("NUM PATCHES -> %d\nNUM CTRL PTS -> %d\n", num_patches, num_ctrl_pt);
 
-        for (int i = 0; i < num_patches * 16; i++)
+        /*for (int i = 0; i < num_patches * 16; i++)
             printf("indices %d -> %d \n",i,indices[i]);
 
         for (int i = 0; i < num_ctrl_pt; i++)
             printf("control point nº%d -> %f %f %f\n",i, control_points[i].getX(), control_points[i].getY(), control_points[i].getZ());
-
+*/
         fs.close();
     }
 }
