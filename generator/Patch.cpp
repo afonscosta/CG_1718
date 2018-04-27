@@ -1,5 +1,6 @@
 
 #include "Patch.h"
+using std::vector;
 
 int Patch::getNum_patches() const {
     return num_patches;
@@ -93,14 +94,51 @@ void Patch::parse_patch(char* file_name) {
 
         }
 
-        printf("NUM PATCHES -> %d\nNUM CTRL PTS -> %d\n", num_patches, num_ctrl_pt);
-
-        for (int i = 0; i < num_patches; i++)
-            printf("indices %d -> %f %f %f \n",i,indices[i].getX(), indices[i].getY(), indices[i].getZ());
-
-        for (int i = 0; i < num_ctrl_pt; i++)
-            printf("control point nº%d -> %f %f %f\n",i, control_points[i].getX(), control_points[i].getY(), control_points[i].getZ());
+//        printf("NUM PATCHES -> %d\nNUM CTRL PTS -> %d\n", num_patches, num_ctrl_pt);
+//
+//        for (int i = 0; i < num_patches; i++)
+//            printf("indices %d -> %f %f %f \n",i,indices[i].getX(), indices[i].getY(), indices[i].getZ());
+//
+//        for (int i = 0; i < num_ctrl_pt; i++)
+//            printf("control point nº%d -> %f %f %f\n",i, control_points[i].getX(), control_points[i].getY(), control_points[i].getZ());
 
         fs.close();
+    }
+}
+
+vector<Point> Patch::generateBezier() {
+
+    int npatch;
+    int narco;
+    int p;
+
+    vector<Point> p0;
+    vector<Point> p1;
+    vector<Point> p2;
+    vector<Point> p3;
+
+    for (npatch = 0; npatch < num_patches; npatch++) {
+
+        //Coloca os pontos de controlo no p0, p1, p2 e p3.
+        for (narco = 0; narco < 4; narco++) {
+            for (p = 0; p < 4 && narco == 0; p++) {
+                p0.push_back(control_points[indices[npatch * 16 + narco * 4 + p]]);
+            }
+
+            for (p = 0; p < 4 && narco == 1; p++) {
+                p1.push_back(control_points[indices[npatch * 16 + narco * 4 + p]]);
+            }
+
+            for (p = 0; p < 4 && narco == 2; p++) {
+                p2.push_back(control_points[indices[npatch * 16 + narco * 4 + p]]);
+            }
+
+            for (p = 0; p < 4 && narco == 3; p++) {
+                p3.push_back(control_points[indices[npatch * 16 + narco * 4 + p]]);
+            }
+        }
+
+        //Um patch pronto para o algoritmo de Casteljau.
+
     }
 }

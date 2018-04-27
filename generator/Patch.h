@@ -1,19 +1,21 @@
-//
-// Created by Marco Silva on 27/04/2018.
-//
-
 #ifndef GENERATOR_PATCH_H
 #define GENERATOR_PATCH_H
 
 
 #include "Point.h"
 #include "generator.h"
+using std::vector;
 
 class Patch {
-public:
+    int num_patches;
+    int num_ctrl_pt;
+    vector<Point> indices;
+    vector<Point> control_points;
 
+private:
     void split(const std::string& s, char delim,vector<std::string>& v);
 
+public:
     void parse_patch(char* file_name);
 
     int getNum_patches() const;
@@ -32,12 +34,7 @@ public:
 
     void setControl_points(const vector<Point> &control_points);
 
-private:
-
-    int num_patches;
-    int num_ctrl_pt;
-    vector<Point>indices;
-    vector<Point>control_points;
+    vector<Point> generateBezier();
 
 };
 
