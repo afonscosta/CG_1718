@@ -1,6 +1,3 @@
-//
-// Created by Marco Silva on 09/04/2018.
-//
 
 #include "generator.h"
 
@@ -401,6 +398,14 @@ vector <Point> torus_generate_points(vector <Point> points, float radius, float 
 
         }
     }
+
+    return points;
+}
+
+vector <Point> bezier_generate_points(vector <Point> points, char* file_name) {
+
+    Point p;
+
 
     return points;
 }

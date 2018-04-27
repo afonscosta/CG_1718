@@ -1,5 +1,6 @@
 
 #include "generator.h"
+#include "Patch.h"
 
 using std::ofstream;
 using std::vector;
@@ -26,6 +27,13 @@ int main(int argc, char **argv) {
         }
         else if (strcmp(argv[1], "orbit") == 0) {
             points = orbit_generate_points(points, strtof(argv[2],NULL) );
+            writeFile(points, argv[3]);
+        }
+        else{
+            Patch patch;
+            patch.parse_patch(argv[1]);
+            //tesselation level é o argv[2]
+            //points = bezier_generate_points(points, argv[1]);
             writeFile(points, argv[3]);
         }
     }

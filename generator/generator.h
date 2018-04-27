@@ -1,6 +1,3 @@
-//
-// Created by Marco Silva on 09/04/2018.
-//
 
 #ifndef GENERATOR_GENERATOR_H
 #define GENERATOR_GENERATOR_H
@@ -12,8 +9,10 @@
 #include <vector>
 #include <math.h>
 #include <stdio.h>
+#include <string.h>
+#include <algorithm>
 
-#import "point.h"
+#import "Point.h"
 
 using std::vector;
 
@@ -24,6 +23,7 @@ vector <Point> sphere_generate_points(vector <Point> points,float radius, int sl
 vector <Point> orbit_generate_points(vector <Point> points, float radius);
 vector <Point> belt_generate_points(vector <Point> points, float radius_in, float radius_out);
 vector <Point> torus_generate_points(vector <Point> points, float radius, float radius_torus, float stacks, int slices);
+vector <Point> bezier_generate_points(vector <Point> points, char* name_file);
 
 
 

@@ -1,6 +1,3 @@
-//
-// Created by Marco Silva on 09/04/2018.
-//
 
 #ifndef ENGINE_POINT_H
 #define ENGINE_POINT_H
