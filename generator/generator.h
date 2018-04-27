@@ -11,8 +11,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <algorithm>
-
-#import "Point.h"
+#include "Point.h"
 
 using std::vector;
 
