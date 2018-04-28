@@ -31,7 +31,17 @@ public:
 
     void multMatrixVector(float *m, float *v, float *res);
 
-    void calcBezierPoints(int tess, Point p0[], Point p1[], Point p2[], Point p3[]);
+    void calcBezierPoints(Point *p0, Point *p1, Point *p2, Point *p3);
+
+    void calcBezierPoint(float *P, float *M, float *U, float *V, vector<float> *curvePoints);
+
+    void calcPointsSurface(float *M, float *P, vector<float> *curvePoints);
+
+    void multVectorMatrix(float *v, float *m, float *res);
+
+    void multVectorPoints(float *v, float *points, float *res);
+
+    void multPointsVector(float *points, float *v, float *res);
 };
 
 

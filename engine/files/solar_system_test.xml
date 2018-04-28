@@ -7,17 +7,17 @@
 			</models>
 		</group> -->
 		<group>
-			<translate time="60">
-				<point X="29.8775" Y="0" Z="0"/>
-				<point X="21.1266" Y="0" Z="21.1266"/>
-				<point X="0" Y="0" Z="29.8775"/>
-				<point X="-21.1266" Y="0" Z="21.1266"/>
-				<point X="-29.8775" Y="0" Z="0"/>
-				<point X="-21.1266" Y="0" Z="-21.1266"/>
-				<point X="0" Y="0" Z="-29.8775"/>
-				<point X="21.1266" Y="0" Z="-21.1266"/>
-			</translate>
-			<rotate time="10" axisX="0" axisY="1" axisZ="0" />
+			<!--<translate time="60">-->
+				<!--<point X="29.8775" Y="0" Z="0"/>-->
+				<!--<point X="21.1266" Y="0" Z="21.1266"/>-->
+				<!--<point X="0" Y="0" Z="29.8775"/>-->
+				<!--<point X="-21.1266" Y="0" Z="21.1266"/>-->
+				<!--<point X="-29.8775" Y="0" Z="0"/>-->
+				<!--<point X="-21.1266" Y="0" Z="-21.1266"/>-->
+				<!--<point X="0" Y="0" Z="-29.8775"/>-->
+				<!--<point X="21.1266" Y="0" Z="-21.1266"/>-->
+			<!--</translate>-->
+			<!--<rotate time="10" axisX="0" axisY="1" axisZ="0" />-->
 			<models>
 				<model file="../files/teapot.3d"/>
 			</models>
