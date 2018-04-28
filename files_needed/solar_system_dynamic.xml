@@ -8,13 +8,6 @@
 	</group>
 	<group>
 		<!-- MERCURIO -->
-		<group>
-			<scale X="34.9025385" Y="34.9025385" Z="34.9025385"/>
-			<models>
-				<model file="orbit.3d"/>
-			</models>
-		</group>
-		<group>
 			<translate time="3.61269" >
 				<point X="34.9025385" Y="0" Z="0"/>
 				<point X="24.679821" Y="0" Z="24.679821"/>
@@ -31,12 +24,6 @@
 			</models>
 		</group>
 		<!-- VENUS -->
-		<group>
-			<scale X="39.15998387" Y="39.15998387" Z="39.15998387"/>
-			<models>
-				<model file="orbit.3d"/>
-			</models>
-		</group>
 		<group>
 			<translate time= "9.22797">
 				<point X="39.16066113" Y="0" Z="0"/>
@@ -55,12 +42,6 @@
 		</group>
 		<!-- TERRA -->
 		<group>
-			<scale X="42.66465321" Y="42.66465321" Z="42.66465321"/>
-			<models>
-				<model file="orbit.3d"/>
-			</models>
-		</group>
-		<group>
 			<translate time= "15">
 				<point X="42.66465321" Y="0" Z="0"/>
 				<point X="30.168465" Y="0" Z="30.168465"/>
@@ -75,13 +56,6 @@
 			<models>
 				<model file="sphere.3d"/>
 			</models>
-
-			<group>
-				<scale X="3" Y="3" Z="3"/>
-				<models>
-					<model file="orbit.3d"/>
-				</models>
-			</group>
 
 			<group>
 				<translate time= "1.122063432">
@@ -102,13 +76,6 @@
 
 		</group>
 		<!-- MARTE -->
-		<group>
-			<scale X="49.29685207" Y="49.29685207" Z="49.29685207"/>
-			<models>
-				<model file="orbit.3d"/>
-			</models>
-		</group>
-		<group>
 			<translate time= "28.2123">
 				<point X="49.29685207" Y="0" Z="0"/>
 				<point X="34.858138" Y="0" Z="34.858138"/>
@@ -125,13 +92,6 @@
 			</models>
 		</group>
 		<!-- JUPITER -->
-		<group>
-			<scale X="95.91209462" Y="95.91209462" Z="95.91209462"/>
-			<models>
-				<model file="orbit.3d"/>
-			</models>
-		</group>
-		<group>
 			<translate time="177.93">
 				<point X="95.91209462" Y="0" Z="0"/>
 				<point X="67.820091" Y="0" Z="67.820091"/>
@@ -148,13 +108,6 @@
 			</models>
 		</group>
 		<!-- SATURNO -->
-		<group>
-			<scale X="151.3596273" Y="151.3596273" Z="151.3596273"/>
-			<models>
-				<model file="orbit.3d"/>
-			</models>
-		</group>
-		<group>
 			<translate time="441.8565">
 				<point X="151.3596273" Y="0" Z="0"/>
 				<point X="107.027422" Y="0" Z="107.027422"/>
@@ -172,13 +125,6 @@
 			</models>
 		</group>
 		<!-- URANO -->
-		<group>
-			<scale X="273.3940626" Y="273.3940626" Z="273.3940626"/>
-			<models>
-				<model file="orbit.3d"/>
-			</models>
-		</group>
-		<group>
 			<translate time="1260.3075">
 				<point X="273.3940626" Y="0" Z="0"/>
 				<point X="193.318799" Y="0" Z="193.318799"/>
@@ -195,13 +141,6 @@
 			</models>
 		</group>
 		<!-- NEPTUNO -->
-		<group>
-			<scale X="410.960512" Y="410.960512" Z="410.960512"/>
-			<models>
-				<model file="orbit.3d"/>
-			</models>
-		</group>
-		<group>
 			<translate time="2472">
 				<point X="410.960512" Y="0" Z="0"/>
 				<point X="290.592957" Y="0" Z="290.592957"/>
@@ -218,13 +157,6 @@
 			</models>
 		</group>
 		<!-- PLUTAO -->
-		<group>
-			<scale X="530" Y="530" Z="530"/>
-			<models>
-				<model file="orbit.3d"/>
-			</models>
-		</group>
-		<group>
 			<translate time="3720">
 				<point X="530" Y="0" Z="0"/>
 				<point X="374.766586" Y="0" Z="374.766586"/>
