@@ -84,7 +84,16 @@
 			</group>
 
 			<group>
-				<translate X="3" Y="0" Z="0"/>
+				<translate time= "1.122063432">
+					<point X="3" Y="0" Z="0"/>
+					<point X="2.121320" Y="0" Z="2.121320"/>
+					<point X="0" Y="0" Z="3"/>
+					<point X="-2.121320" Y="0" Z="2.121320"/>
+					<point X="-3" Y="0" Z="0"/>
+					<point X="-2.121320" Y="0" Z="-2.121320"/>
+					<point X="0" Y="0" Z="-3"/>
+					<point X="2.121320" Y="0" Z="-2.121320"/>
+				</translate>
 				<scale X="0.1" Y="0.1" Z="0.1"/>
 				<models>
 					<model file="sphere.3d"/>
@@ -100,7 +109,16 @@
 			</models>
 		</group>
 		<group>
-			<translate X="49.29685207" Y="0" Z="0"/>
+			<translate time= "28.2123">
+				<point X="49.29685207" Y="0" Z="0"/>
+				<point X="34.858138" Y="0" Z="34.858138"/>
+				<point X="0" Y="0" Z="49.29685207"/>
+				<point X="-34.858138" Y="0" Z="34.858138"/>
+				<point X="-49.29685207" Y="0" Z="0"/>
+				<point X="-34.858138" Y="0" Z="-34.858138"/>
+				<point X="0" Y="0" Z="-49.29685207"/>
+				<point X="34.858138" Y="0" Z="-34.858138"/>
+			</translate>
 			<scale X="0.2665" Y="0.2665" Z="0.2665"/>
 			<models>
 				<model file="sphere.3d"/>
@@ -114,7 +132,16 @@
 			</models>
 		</group>
 		<group>
-			<translate X="95.91209462" Y="0" Z="0"/>
+			<translate time="177.93">
+				<point X="95.91209462" Y="0" Z="0"/>
+				<point X="67.820091" Y="0" Z="67.820091"/>
+				<point X="0" Y="0" Z="95.91209462"/>
+				<point X="-67.820091" Y="0" Z="67.820091"/>
+				<point X="-95.91209462" Y="0" Z="0"/>
+				<point X="-67.820091" Y="0" Z="-67.820091"/>
+				<point X="0" Y="0" Z="-95.91209462"/>
+				<point X="67.820091" Y="0" Z="-67.820091"/>
+			</translate>
 			<scale X="5.6045" Y="5.6045" Z="5.6045"/>
 			<models>
 				<model file="sphere.3d"/>
@@ -128,7 +155,16 @@
 			</models>
 		</group>
 		<group>
-			<translate X="151.3596273" Y="0" Z="0"/>
+			<translate time="441.8565">
+				<point X="151.3596273" Y="0" Z="0"/>
+				<point X="107.027422" Y="0" Z="107.027422"/>
+				<point X="0" Y="0" Z="151.3596273"/>
+				<point X="-107.027422" Y="0" Z="107.027422"/>
+				<point X="-151.3596273" Y="0" Z="0"/>
+				<point X="-107.027422" Y="0" Z="-107.027422"/>
+				<point X="0" Y="0" Z="-151.3596273"/>
+				<point X="107.027422" Y="0" Z="-107.027422"/>
+			</translate>
 			<scale X="4.7245" Y="4.7245" Z="4.7245"/>
 			<models>
 				<model file="sphere.3d"/>
@@ -143,7 +179,16 @@
 			</models>
 		</group>
 		<group>
-			<translate X="273.3940626" Y="0" Z="0"/>
+			<translate time="1260.3075">
+				<point X="273.3940626" Y="0" Z="0"/>
+				<point X="193.318799" Y="0" Z="193.318799"/>
+				<point X="0" Y="0" Z="273.3940626"/>
+				<point X="-193.318799" Y="0" Z="193.318799"/>
+				<point X="-273.3940626" Y="0" Z="0"/>
+				<point X="-193.318799" Y="0" Z="-193.318799"/>
+				<point X="0" Y="0" Z="-273.3940626"/>
+				<point X="193.318799" Y="0" Z="-193.318799"/>
+			</translate>
 			<scale X="2" Y="2" Z="2"/>
 			<models>
 				<model file="sphere.3d"/>
@@ -157,7 +202,16 @@
 			</models>
 		</group>
 		<group>
-			<translate X="410.960512" Y="0" Z="0"/>
+			<translate time="2472">
+				<point X="410.960512" Y="0" Z="0"/>
+				<point X="290.592957" Y="0" Z="290.592957"/>
+				<point X="0" Y="0" Z="410.960512"/>
+				<point X="-290.592957" Y="0" Z="290.592957"/>
+				<point X="-410.960512" Y="0" Z="0"/>
+				<point X="-290.5929572" Y="0" Z="-290.592957"/>
+				<point X="0" Y="0" Z="-410.960512"/>
+				<point X="290.592957" Y="0" Z="-290.592957"/>
+			</translate>
 			<scale X="1.94" Y="1.94" Z="1.94"/>
 			<models>
 				<model file="sphere.3d"/>
@@ -171,7 +225,16 @@
 			</models>
 		</group>
 		<group>
-			<translate X="530" Y="0" Z="0"/>
+			<translate time="3720">
+				<point X="530" Y="0" Z="0"/>
+				<point X="374.766586" Y="0" Z="374.766586"/>
+				<point X="0" Y="0" Z="530"/>
+				<point X="-374.766586" Y="0" Z="374.766586"/>
+				<point X="-530" Y="0" Z="0"/>
+				<point X="-374.766586" Y="0" Z="-374.766586"/>
+				<point X="0" Y="0" Z="-530"/>
+				<point X="374.766586" Y="0" Z="-374.766586"/>
+			</translate>
 			<scale X="0.09" Y="0.09" Z="0.09"/>
 			<models>
 				<model file="sphere.3d"/>
