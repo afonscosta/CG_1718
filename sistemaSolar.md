@@ -1,7 +1,7 @@
 # Sistema Solar
 (raio da Terra, rT = 6371.0 km)
-(rT = ??? unidades do OpenGL)
-(1 ano (juliano) = ??? tempo em execução)
+(rT = 0.5 unidades do OpenGL)
+(1 ano (juliano) = 15 segundos em tempo em execução)
 
 1. Sol (https://en.wikipedia.org/wiki/Sun)
   1. Esfera de dimensões superiores às dos restantes por uma margem relativamente alta. (raio = 109 * rT)
