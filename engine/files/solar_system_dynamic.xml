@@ -153,8 +153,14 @@
 			<scale X="4.7245" Y="4.7245" Z="4.7245"/>
 			<models>
 				<model file="../files/sphere.3d"/>
-				<model file="belt.3d"/>
 			</models>
+			<group>
+				<rotate angle="60" axisX="1" axisY="0" axisZ="0"/>
+				<scale X="1" Y="1" Z="0.2"/>
+				<models>
+					<model file="../files/torus.3d" />
+				</models>
+			</group>
 		</group>
 		<!-- URANO -->
         <group>
