@@ -5,10 +5,6 @@ void Patch::setTesselation(int tess) {
     this->tess = tess;
 }
 
-void Patch::setCurve_points(vector<Point> curve_points) {
-    Patch::curve_points = curve_points;
-}
-
 vector<Point> Patch::getCurve_points() const {
     return curve_points;
 }
@@ -18,7 +14,7 @@ void Patch::split(const std::string& s, char delim,vector<std::string>& v) {
     auto pos = s.find(delim);
     while (pos != std::string::npos) {
         v.push_back(s.substr(i, pos-i));
-        i = ++pos;
+        i = static_cast<int>(++pos);
         pos = s.find(delim, pos);
 
         if (pos == std::string::npos)
@@ -27,7 +23,7 @@ void Patch::split(const std::string& s, char delim,vector<std::string>& v) {
 }
 
 void Patch::parse_patch(char* file_name) {
-    float buffer_points[3];
+
     Point p;
 
     std::string buffer;
@@ -66,20 +62,10 @@ void Patch::parse_patch(char* file_name) {
 
             vector<std::string> aux;
             split(buffer,' ', aux);
-            p.setPoint(strtof(aux[0].c_str(),0), strtof(aux[1].c_str(),0), strtof(aux[2].c_str(),0));
-            //printf("%f %f %f\n", strtof(aux[0].c_str(),0), strtof(aux[1].c_str(),0), strtof(aux[2].c_str(),0));
+            p.setPoint(strtof(aux[0].c_str(), nullptr), strtof(aux[1].c_str(), nullptr), strtof(aux[2].c_str(), nullptr));
 
             control_points.push_back(p);
-
         }
-
-//        printf("NUM PATCHES -> %d\nNUM CTRL PTS -> %d\n", num_patches, num_ctrl_pt);
-//
-//        for (int i = 0; i < num_patches; i++)
-//            printf("indices %d -> %d\n",i,indices[i]);
-//
-//        for (int i = 0; i < num_ctrl_pt; i++)
-//            printf("control point nº%d -> %f %f %f\n",i, control_points[i].getX(), control_points[i].getY(), control_points[i].getZ());
 
         fs.close();
     }
@@ -95,18 +81,6 @@ void Patch::multMatrixVector(float *m, float *v, float *res) {
     }
 
 }
-
-void Patch::multVectorMatrix(float *v, float *m, float *res) {
-
-    for (int j = 0; j < 4; ++j) {
-        res[j] = 0;
-        for (int k = 0; k < 4; ++k) {
-            res[j] += v[k] * m[k * 4 + j];
-        }
-    }
-
-}
-
 
 float Patch::calcBezierPoint(float *P, float *M, float U[4], float V[4]) {
     float res0 = 0;
@@ -207,28 +181,12 @@ void Patch::calcBezierPoints(Point p0[], Point p1[], Point p2[], Point p3[]) {
                        {p2[0].getZ(), p2[1].getZ(), p2[2].getZ(), p2[3].getZ()},
                        {p3[0].getZ(), p3[1].getZ(), p3[2].getZ(), p3[3].getZ()} };
 
-    float M[4][4] = { {-1.0f, 3.0f, -3.0f, 1.0f},
-                      {3.0f, -6.0f, 3.0f, 0.0f},
-                      {-3.0f, 3.0f, 0.0f, 0.0f},
-                      {1.0f, 0.0f, 0.0f, 0.0f} };
-
-//    vector<float> curvePointsX;
-//    vector<float> curvePointsY;
-//    vector<float> curvePointsZ;
+    float M[4][4] = { {-1.0f,  3.0f, -3.0f, 1.0f},
+                      { 3.0f, -6.0f,  3.0f, 0.0f},
+                      {-3.0f,  3.0f,  0.0f, 0.0f},
+                      { 1.0f,  0.0f,  0.0f, 0.0f} };
 
     calcPointsSurface((float *) M, (float *) Px, (float *) Py, (float *) Pz);
-
-//    calcPointsSurface((float *) M, (float *) Py, &curvePointsY);
-//
-//    calcPointsSurface((float *) M, (float *) Pz, &curvePointsZ);
-
-//    Point p;
-//    int i;
-//
-//    for (i = 0; i < curvePointsX.size(); i++) {
-//        p.setPoint(curvePointsX[i], curvePointsY[i], curvePointsZ[i]);
-//        curve_points.push_back(p);
-//    }
 }
 
 void Patch::generateBezier() {

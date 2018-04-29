@@ -19,8 +19,6 @@ private:
     void split(const std::string& s, char delim,vector<std::string>& v);
 
 public:
-    void setCurve_points(vector<Point> curve_points);
-
     vector<Point> getCurve_points() const;
 
     void parse_patch(char* file_name);
@@ -35,13 +33,7 @@ public:
 
     float calcBezierPoint(float *P, float *M, float U[4], float V[4]);
 
-    void calcPointsSurface(float *M, float *P, float *curvePoints, float *pDouble);
-
-    void multVectorMatrix(float *v, float *m, float *res);
-
-    void multVectorPoints(float *v, float *points, float *res);
-
-    void multPointsVector(float *points, float *v, float *res);
+    void calcPointsSurface(float *M, float *Px, float *Py, float *Pz);
 };
 
 
