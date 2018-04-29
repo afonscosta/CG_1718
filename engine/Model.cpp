@@ -1,7 +1,10 @@
 
 #include "Model.h"
+#include <stdio.h>
 
-void Model::setPrimitive(vector<float> points, int nvertices) {
+void Model::setPrimitive(vector<float> points, int nv) {
+
+    nvertices = nv;
 
     glGenBuffers(1, &buffers[0]);
     glBindBuffer(GL_ARRAY_BUFFER, buffers[0]);

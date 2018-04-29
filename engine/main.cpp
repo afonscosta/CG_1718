@@ -72,33 +72,51 @@ Translate parseTranslate(pugi::xml_node_iterator translate) {
     vector<Point> pts;
     float x = 0, y = 0, z = 0;
     float time = 0;
+    int translation = 0;
 
     for (pugi::xml_attribute_iterator ait = translate->attributes_begin(); ait != translate->attributes_end(); ++ait) {
-        if (strcmp(ait->name(), "time") == 0)
+        if (strcmp(ait->name(), "time") == 0) {
+            translation = 1;
             time = strtof(ait->value(), nullptr);
+            for (pugi::xml_node_iterator nit = translate->begin(); nit != translate->end(); ++nit) {
+                for (pugi::xml_attribute_iterator ait2 = nit->attributes_begin();
+                     ait2 != nit->attributes_end(); ++ait2) {
+                    if (strcmp(ait2->name(), "X") == 0)
+                        x = strtof(ait2->value(), nullptr);
+                    else if (strcmp(ait2->name(), "Y") == 0)
+                        y = strtof(ait2->value(), nullptr);
+                    else if (strcmp(ait2->name(), "Z") == 0)
+                        z = strtof(ait2->value(), nullptr);
+
+                }
+                p.setPoint(x, y, z);
+                pts.push_back(p);
+            }
+        }
+        else if (strcmp(ait->name(), "X") == 0) {
+            x = strtof(ait->value(), nullptr);
+        }
+        else if (strcmp(ait->name(), "Y") == 0) {
+            y = strtof(ait->value(), nullptr);
+        }
+        else if (strcmp(ait->name(), "Z") == 0) {
+            z = strtof(ait->value(), nullptr);
+        }
+
     }
 
-    for (pugi::xml_node_iterator nit = translate->begin() ; nit != translate->end() ; ++nit)
-    {
-        for (pugi::xml_attribute_iterator ait2 = nit->attributes_begin(); ait2 != nit->attributes_end(); ++ait2) {
-            if (strcmp(ait2->name(), "X") == 0)
-                x = strtof(ait2->value(), nullptr);
-            else if (strcmp(ait2->name(), "Y") == 0)
-                y = strtof(ait2->value(), nullptr);
-            else if (strcmp(ait2->name(), "Z") == 0)
-                z = strtof(ait2->value(), nullptr);
-
-        }
-        p.setPoint(x,y,z);
+    if (translation == 0) {
+        p.setPoint(x, y, z);
         pts.push_back(p);
     }
+
 
     Translate tr;
     tr.setTranslate(time, pts);
     return tr;
 }
 
-Point parseRotate(pugi::xml_node_iterator rotate, float *timeDest) {
+Point parseRotate(pugi::xml_node_iterator rotate, float *paramDest, int *tipo) {
 
     Point p;
     float axisX = 0, axisY = 0, axisZ = 0;
@@ -106,7 +124,12 @@ Point parseRotate(pugi::xml_node_iterator rotate, float *timeDest) {
     for (pugi::xml_attribute_iterator ait = rotate->attributes_begin(); ait != rotate->attributes_end(); ++ait)
     {
         if (strcmp(ait->name(), "time") == 0) {
-            *timeDest = strtof(ait->value(), nullptr);
+            *tipo = 1;
+            *paramDest = strtof(ait->value(), nullptr);
+        }
+        else if (strcmp(ait->name(), "angle") == 0) {
+            *tipo = 0;
+            *paramDest = strtof(ait->value(), nullptr);
         }
         else if (strcmp(ait->name(), "axisX") == 0) {
             axisX = strtof(ait->value(), nullptr);
@@ -150,7 +173,7 @@ void loadModel(const pugi::char_t *string, Model* model) {
     GLuint buffers[1];
     std::vector<float> points;
 
-    int vertexCount;
+    int vertexCount = 0;
 
     std::string buffer;
     float buffer_points[9];
@@ -240,9 +263,10 @@ Group* parseGroup(pugi::xml_node_iterator groupSrc) {
             (*groupDest).addOrder('t');
         }
         else if (strcmp(it->name(), "rotate") == 0) {
-            float angle = 0;
-            Point p = parseRotate(it, &angle);
-            (*groupDest).setRotate(angle, p);
+            float param = 0;
+            int tipo = 0;
+            Point p = parseRotate(it, &param, &tipo);
+            (*groupDest).setRotate(param, p, tipo);
             (*groupDest).addOrder('r');
         }
         else if (strcmp(it->name(), "scale") == 0) {

@@ -33,9 +33,9 @@ public:
 
     void calcBezierPoints(Point *p0, Point *p1, Point *p2, Point *p3);
 
-    void calcBezierPoint(float *P, float *M, float *U, float *V, vector<float> *curvePoints);
+    float calcBezierPoint(float *P, float *M, float U[4], float V[4]);
 
-    void calcPointsSurface(float *M, float *P, vector<float> *curvePoints);
+    void calcPointsSurface(float *M, float *P, float *curvePoints, float *pDouble);
 
     void multVectorMatrix(float *v, float *m, float *res);
 

@@ -108,35 +108,24 @@ void Patch::multVectorMatrix(float *v, float *m, float *res) {
 }
 
 
-void Patch::calcBezierPoint(float *P, float *M, float *U, float *V, vector<float> *curvePoints) {
+float Patch::calcBezierPoint(float *P, float *M, float U[4], float V[4]) {
     float res0 = 0;
-    float res[4] = {0, 0, 0, 0};
     float res1[4] = {0, 0, 0, 0};
     float res2[4] = {0, 0, 0, 0};
-
-    float A[4] = {0,0,0,1}, B[4] = {0,0,0,1}, C[4]= {0,0,0,1},
-            D[4][4] = {{0,0,0,1},{0,0,0,1},{0,0,0,1},{0,0,0,1}};
+    float res3[4] = {0, 0, 0, 0};
 
 
-//    multMatrixVector(M,V,A);
-//    multPointsVector(P,A,D);
-//
-//    multVectorMatrix(U,M,C);
-//    multVectorPoints(C,D,B);
-    multVectorMatrix(U, M, res); //U * M
-    multVectorMatrix(res, P, res1); //U * M * P
-    multVectorMatrix(res1, M, res2); //U * M * P * Mt
-    res0 = res2[0] * V[0] + res2[1] * V[1] + res2[2] * V[2] + res2[3] * V[3];
+    multMatrixVector(M, U, res1); //U * M
+    multMatrixVector(P, res1, res2); //U * M * P
+    multMatrixVector(M, res2, res3); //U * M * P * Mt
+    res0 = res3[0] * V[0] + res3[1] * V[1] + res3[2] * V[2] + res3[3] * V[3]; //U * M * P * Mt * V
 
-//    multMatrixVector(M, U, res); //U * M
-//    multMatrixVector(P, res, res1); //U * M * P
-//    multMatrixVector(M, res1, res2); //U * M * P * Mt
-//    res0 = res2[0] * V[0] + res2[1] * V[1] + res2[2] * V[2] + res2[3] * V[3];
-
-    (*curvePoints).push_back(res0);
+    return res0;
 }
 
-void Patch::calcPointsSurface(float* M, float *P, vector<float> *curvePoints) {
+void Patch::calcPointsSurface(float *M, float *Px, float *Py, float *Pz) {
+
+    Point p0, p1, p2, p3;
 
     float U[4];
     float V[4];
@@ -154,14 +143,6 @@ void Patch::calcPointsSurface(float* M, float *P, vector<float> *curvePoints) {
 
             pup = (u+1) * passo;
             pvp = (v+1) * passo;
-
-//            printf("tess = %d\n", tess);
-//            printf("u = %d\n", u);
-//            printf("v = %d\n", v);
-//            printf("pu = %f\n", pu);
-//            printf("pv = %f\n", pv);
-//            printf("pup = %f\n", pup);
-//            printf("pvp = %f\n", pvp);
 
             U[0] = pow(pu, 3.0f);
             U[1] = pow(pu, 2.0f);
@@ -184,22 +165,25 @@ void Patch::calcPointsSurface(float* M, float *P, vector<float> *curvePoints) {
             Vp[3] = 1;
 
             //v, u
-            calcBezierPoint(P, M, U, V, curvePoints);
+            p0.setPoint(calcBezierPoint(Px, M, U, V), calcBezierPoint(Py, M, U, V), calcBezierPoint(Pz, M, U, V));
 
             //v + passo, u
-            calcBezierPoint(P, M, U, Vp, curvePoints);
-
-            //v+passo, u+passo
-            calcBezierPoint(P, M, Up, Vp, curvePoints);
-
-            //v, u
-            calcBezierPoint(P, M, U, V, curvePoints);
-
-            //v+passo, u+passo
-            calcBezierPoint(P, M, Up, Vp, curvePoints);
+            p1.setPoint(calcBezierPoint(Px, M, U, Vp), calcBezierPoint(Py, M, U, Vp), calcBezierPoint(Pz, M, U, Vp));
 
             //v, u+passo
-            calcBezierPoint(P, M, Up, V, curvePoints);
+            p2.setPoint(calcBezierPoint(Px, M, Up, V), calcBezierPoint(Py, M, Up, V), calcBezierPoint(Pz, M, Up, V));
+
+            //v+passo, u+passo
+            p3.setPoint(calcBezierPoint(Px, M, Up, Vp), calcBezierPoint(Py, M, Up, Vp), calcBezierPoint(Pz, M, Up, Vp));
+
+            curve_points.push_back(p0);
+            curve_points.push_back(p2);
+            curve_points.push_back(p3);
+
+            curve_points.push_back(p0);
+            curve_points.push_back(p3);
+            curve_points.push_back(p1);
+
         }
     }
 
@@ -228,22 +212,23 @@ void Patch::calcBezierPoints(Point p0[], Point p1[], Point p2[], Point p3[]) {
                       {-3.0f, 3.0f, 0.0f, 0.0f},
                       {1.0f, 0.0f, 0.0f, 0.0f} };
 
-    vector<float> curvePointsX;
-    vector<float> curvePointsY;
-    vector<float> curvePointsZ;
+//    vector<float> curvePointsX;
+//    vector<float> curvePointsY;
+//    vector<float> curvePointsZ;
 
-    calcPointsSurface((float *) M, (float *) Px, &curvePointsX);
+    calcPointsSurface((float *) M, (float *) Px, (float *) Py, (float *) Pz);
 
-    calcPointsSurface((float *) M, (float *) Py, &curvePointsY);
+//    calcPointsSurface((float *) M, (float *) Py, &curvePointsY);
+//
+//    calcPointsSurface((float *) M, (float *) Pz, &curvePointsZ);
 
-    calcPointsSurface((float *) M, (float *) Pz, &curvePointsZ);
-
-    Point p;
-
-    for (int i = 0; i < curvePointsX.size(); i++) {
-        p.setPoint(curvePointsX[i], curvePointsY[i], curvePointsZ[i]);
-        curve_points.push_back(p);
-    }
+//    Point p;
+//    int i;
+//
+//    for (i = 0; i < curvePointsX.size(); i++) {
+//        p.setPoint(curvePointsX[i], curvePointsY[i], curvePointsZ[i]);
+//        curve_points.push_back(p);
+//    }
 }
 
 void Patch::generateBezier() {
