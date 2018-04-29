@@ -12,7 +12,8 @@ using std::vector;
 class Group {
     vector<char> order;
     Translate translate;
-    float time;
+    int tipoRotate;
+    float paramRotate;
     Point rotate;
     Point scale;
     vector<Model> models;
@@ -25,11 +26,12 @@ private:
 public:
     void addOrder(char);
     void setTranslate (Translate t); //Null = 0, 0, 0
-    void setRotate (float, Point); //Null = 0, 0, 0, 0
+    void setRotate(float t, Point p, int tipo);
     void setScale (Point); //Null = 0, 0, 0
     void setModels (vector<Model>); //Null = vector vazio
     void addGroup (Group*); //Null = vector vazio
     void drawGroup();
+
 };
 
 
