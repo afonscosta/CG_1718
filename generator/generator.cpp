@@ -323,54 +323,6 @@ vector <Point> sphere_generate_points(vector <Point> points,float radius, int sl
     return points;
 }
 
-vector <Point> orbit_generate_points(vector <Point> points, float radius){
-
-    Point p;
-
-    int sides = 300;
-    float increment = (2*M_PI) / sides;
-
-    for (int i = 0; i  < sides; i += 2){
-
-        p.setPoint(radius * sin(increment * i), 0, radius * cos(increment * i));
-        points.push_back(p);
-        p.setPoint(radius * sin(increment * (i + 1)), 0, radius * cos(increment * (i + 1)));
-        points.push_back(p);
-        p.setPoint(radius * sin(increment * (i + 2)), 0, radius * cos(increment * (i + 2)));
-        points.push_back(p);
-
-    }
-
-    return points;
-}
-
-vector <Point> belt_generate_points(vector <Point> points, float radius_in, float radius_out){
-
-    Point p;
-
-    int sides = 300;
-    float increment = (2*M_PI) / sides;
-
-    for (int i = 0; i  < sides; i++){
-
-        p.setPoint(radius_in * sin(increment * i), 0, radius_in * cos(increment * i));
-        points.push_back(p);
-        p.setPoint(radius_out * sin(increment * i), 0, radius_out * cos(increment * i));
-        points.push_back(p);
-        p.setPoint(radius_out * sin(increment * (i + 1)), 0, radius_out * cos(increment * (i + 1)));
-        points.push_back(p);
-
-        p.setPoint(radius_in * sin(increment * i), 0, radius_in * cos(increment * i));
-        points.push_back(p);
-        p.setPoint(radius_out * sin(increment * (i + 1)), 0, radius_out * cos(increment * (i + 1)));
-        points.push_back(p);
-        p.setPoint(radius_in * sin(increment * (i + 1)), 0, radius_in * cos(increment * (i + 1)));
-        points.push_back(p);
-
-    }
-
-    return points;
-}
 
 vector <Point> torus_generate_points(vector <Point> points, float radius, float radius_torus, float stacks, int slices) {
 
@@ -398,14 +350,6 @@ vector <Point> torus_generate_points(vector <Point> points, float radius, float 
 
         }
     }
-
-    return points;
-}
-
-vector <Point> bezier_generate_points(vector <Point> points, char* file_name) {
-
-    Point p;
-
 
     return points;
 }
