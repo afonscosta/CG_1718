@@ -1,24 +1,24 @@
-//
-// Created by afonscosta on 08-04-2018.
-//
-
 #ifdef __APPLE__
 #include <GLUT/glut.h>
 #else
+#include <GL/glew.h>
 #include <GL/glut.h>
 #endif
+#include <math.h>
 #include "Group.h"
+
 
 void Group::addOrder(char c) {
     order.push_back(c);
 }
 
-void Group::setTranslate(Point p) {
-    translate.setPoint(p.getX(), p.getY(), p.getZ());
+void Group::setTranslate(Translate t) {
+    this->translate = t;
 }
 
-void Group::setRotate(float a, Point p) {
-    angle = a;
+void Group::setRotate(float t, Point p, int tipo) {
+    tipoRotate = tipo;
+    paramRotate = t;
     rotate.setPoint(p.getX(), p.getY(), p.getZ());
 }
 
@@ -35,11 +35,17 @@ void Group::addGroup(Group* g) {
 }
 
 void Group::doTranslate() {
-    glTranslatef(translate.getX(), translate.getY(), translate.getZ());
+    translate.doTranslate();
 }
 
 void Group::doRotate() {
-    glRotatef(angle, rotate.getX(), rotate.getY(), rotate.getZ());
+    if (tipoRotate == 0)
+        glRotatef(paramRotate , rotate.getX(), rotate.getY(), rotate.getZ());
+    else if (tipoRotate == 1) {
+        float t = (glutGet(GLUT_ELAPSED_TIME) % (int) (paramRotate * 1000));
+        float gt = 360 * (t / (paramRotate * 1000));
+        glRotatef(gt, rotate.getX(), rotate.getY(), rotate.getZ());
+    }
 }
 
 void Group::doScale() {

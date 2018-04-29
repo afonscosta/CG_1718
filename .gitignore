@@ -13,3 +13,4 @@ generator/cmake-build-debug/
 engine/.vs
 engine/GL
 engine/IL
+engine/CMakeLists.txt
