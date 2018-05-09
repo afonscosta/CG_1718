@@ -453,6 +453,8 @@ void changeMode() {
 
 void renderScene() {
 
+    float pos[4] = {0.5, 0.5, 0.5, 0.0};
+
     // clear buffers
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -461,6 +463,12 @@ void renderScene() {
     gluLookAt(camX, camY, camZ,
               0.0,0.0,0.0,
               0.0f,1.0f,0.0f);
+
+    glLightfv(GL_LIGHT0, GL_POSITION, pos);
+
+    float white[4] = { 1,1,1,1 };
+    glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, white);
+
 
     //Muda o modo de desenho das figuras
     changeMode();
@@ -647,10 +655,10 @@ void initGL() {
     glEnableClientState(GL_NORMAL_ARRAY);
     glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
-//    glClearColor(0, 0, 0, 0);
+    glClearColor(0, 0, 0, 0);
 
-//    glEnable(GL_LIGHTING);
-//    glEnable(GL_LIGHT0);
+    glEnable(GL_LIGHTING);
+    glEnable(GL_LIGHT0);
 
     glEnable(GL_TEXTURE_2D);
 //    preparaCilindro(2,1,lados);
