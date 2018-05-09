@@ -1,7 +1,7 @@
 # Sistema Solar
 (raio da Terra, rT = 6371.0 km)
-(rT = ??? unidades do OpenGL)
-(1 ano (juliano) = ??? tempo em execução)
+(rT = 0.5 unidades do OpenGL)
+(1 ano (juliano) = 15 segundos em tempo em execução)
 
 1. Sol (https://en.wikipedia.org/wiki/Sun)
   1. Esfera de dimensões superiores às dos restantes por uma margem relativamente alta. (raio = 109 * rT)
@@ -115,6 +115,15 @@
   3. Tempo de translação = 248.00 anos
   4. Luas: 5 (https://en.wikipedia.org/wiki/Moons_of_Pluto)
 
-12. Cometas
+12. Cometa de Halley (https://en.wikipedia.org/wiki/Halley's_Comet)
+  1. Esfera (raio = 0.00086328676 * rT)
+  2. Ponto mais próximo do Sol = 13744.45799806 rT
+  3. Ponto mais afastado do Sol = 822838.0127782 rT
+  4. O centro da sua órbita não é o Sol, por isso ponho os semieixos também:
+    1. Semieixo maior (ponto mais afastado do centro da órbita) = 418291.2353882 rT
+    2. Semieixo menor (ponto mais próximo do centro da órbita) = 106980.1999203 rT
+    3. Centro da órbita: algo tipo cerca de 400000 rT de distância do Sol (entre 390802.319392 rT e 404546.77739 rT ou algo desse género)
+  5. Tempo de translação = 75.32 anos (no sentido dos ponteiros do relógio)
+  6. Representação visual da órbita: https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Halley%27s_Comet_animation.gif/330px-Halley%27s_Comet_animation.gif
 
 13. Cinto de Kuiper
