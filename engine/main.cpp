@@ -5,6 +5,9 @@
 #include <fstream>
 #include <stdlib.h>
 #include "Group.h"
+#include <stdio.h>
+#include <string>
+#include <math.h>
 
 #ifdef __APPLE__
 #include <GLUT/glut.h>
@@ -12,6 +15,9 @@
 #include <GL/glew.h>
 #include <GL/glut.h>
 #endif
+
+#include <IL/il.h>
+
 
 using std::vector;
 
@@ -44,6 +50,8 @@ int startX, startY, tracking = 0;
 
 Group scene;
 
+GLuint texIDCylinder, texIDFloor;
+
 
 
 
@@ -64,6 +72,40 @@ void split(const std::string& s, char delim,vector<std::string>& v) {
         if (pos == std::string::npos)
             v.push_back(s.substr(i, s.length()));
     }
+}
+
+int loadTexture(std::string s) {
+
+    unsigned int t,tw,th;
+    unsigned char *texData;
+    unsigned int texID;
+
+    ilInit();
+    ilEnable(IL_ORIGIN_SET);
+    ilOriginFunc(IL_ORIGIN_LOWER_LEFT);
+    ilGenImages(1,&t);
+    ilBindImage(t);
+    ilLoadImage((ILstring)s.c_str());
+    tw = ilGetInteger(IL_IMAGE_WIDTH);
+    th = ilGetInteger(IL_IMAGE_HEIGHT);
+    ilConvertImage(IL_RGBA, IL_UNSIGNED_BYTE);
+    texData = ilGetData();
+
+    glGenTextures(1,&texID);
+
+    glBindTexture(GL_TEXTURE_2D,texID);
+    glTexParameteri(GL_TEXTURE_2D,	GL_TEXTURE_WRAP_S,		GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D,	GL_TEXTURE_WRAP_T,		GL_REPEAT);
+
+    glTexParameteri(GL_TEXTURE_2D,	GL_TEXTURE_MAG_FILTER,   	GL_LINEAR_MIPMAP_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D,	GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, tw, th, 0, GL_RGBA, GL_UNSIGNED_BYTE, texData);
+    glGenerateMipmap(GL_TEXTURE_2D);
+
+    glBindTexture(GL_TEXTURE_2D, 0);
+
+    return texID;
 }
 
 Translate parseTranslate(pugi::xml_node_iterator translate) {
@@ -171,48 +213,73 @@ Point parseScale(pugi::xml_node_iterator scale) {
 void loadModel(const pugi::char_t *string, Model* model) {
 
     GLuint buffers[1];
-    std::vector<float> points;
+    std::vector<float> v;
+    std::vector<float> t;
+
 
     int vertexCount = 0;
+    int line = 0;
 
     std::string buffer;
     float buffer_points[9];
+    float buffer_texture[6];
     int i = 0;
     std::string delimiter = " ";
 
     std::fstream fs;
 
     fs.open(string, std::fstream::in);
+    vector<std::string> aux;
 
     if (fs.is_open()) {
 
         while (getline(fs, buffer)) {
 
-            vector<std::string> aux;
             split(buffer, ' ', aux);
-            buffer_points[i * 3 + 0] = strtof(aux[0].c_str(),0);
-            buffer_points[i * 3 + 1] = strtof(aux[1].c_str(),0);
-            buffer_points[i * 3 + 2] = strtof(aux[2].c_str(),0);
+            buffer_points[i * 3 + 0] = strtof(aux[0].c_str(), 0);
+            buffer_points[i * 3 + 1] = strtof(aux[1].c_str(), 0);
+            buffer_points[i * 3 + 2] = strtof(aux[2].c_str(), 0);
+
+            if (getline(fs, buffer)) {
+                split(buffer, ' ', aux);
+                buffer_texture[i * 2 + 0] = strtof(aux[0].c_str(), 0);
+                buffer_texture[i * 2 + 1] = strtof(aux[1].c_str(), 0);
+            }
 
             i++;
 
             if (i == 3) {
 
-                points.push_back(buffer_points[0]);
-                points.push_back(buffer_points[1]);
-                points.push_back(buffer_points[2]);
+                // Vertice 1
+                v.push_back(buffer_points[0]);
+                v.push_back(buffer_points[1]);
+                v.push_back(buffer_points[2]);
+
+                // Textura 1
+                t.push_back(buffer_texture[0]);
+                t.push_back(buffer_texture[1]);
 
                 vertexCount++;
 
-                points.push_back(buffer_points[3]);
-                points.push_back(buffer_points[4]);
-                points.push_back(buffer_points[5]);
+                // Vertice 2
+                v.push_back(buffer_points[3]);
+                v.push_back(buffer_points[4]);
+                v.push_back(buffer_points[5]);
+
+                // Textura 2
+                t.push_back(buffer_texture[2]);
+                t.push_back(buffer_texture[3]);
 
                 vertexCount++;
 
-                points.push_back(buffer_points[6]);
-                points.push_back(buffer_points[7]);
-                points.push_back(buffer_points[8]);
+                // Vertice 3
+                v.push_back(buffer_points[6]);
+                v.push_back(buffer_points[7]);
+                v.push_back(buffer_points[8]);
+
+                // Textura 3
+                t.push_back(buffer_texture[4]);
+                t.push_back(buffer_texture[5]);
 
                 vertexCount++;
 
@@ -226,7 +293,7 @@ void loadModel(const pugi::char_t *string, Model* model) {
     }
 
     //acho que não precisamos do set primitive, apenas temos é de passar o vertexB para a nossa estrutura de dados
-    (*model).setPrimitive(points, vertexCount);
+    (*model).setPrimitive(v, t, vertexCount);
 
 }
 
@@ -236,7 +303,10 @@ Model parseModel(pugi::xml_node_iterator model) {
 
     for (pugi::xml_attribute_iterator ait = model->attributes_begin(); ait != model->attributes_end(); ++ait)
     {
-        loadModel(ait->value(), &modelDest);
+        if (strcmp(ait->name(), "file"))
+            loadModel(ait->value(), &modelDest);
+        if (strcmp(ait->name(), "texture"))
+            modelDest.setTexIDPrimitive(loadTexture(ait->value()));
     }
     return modelDest;
 }
@@ -531,6 +601,28 @@ void processMouseMotion(int xx, int yy) {
     glutPostRedisplay();
 }
 
+void initGL() {
+
+// alguns settings para OpenGL
+    glEnable(GL_DEPTH_TEST);
+    glEnable(GL_CULL_FACE);
+
+    glEnableClientState(GL_VERTEX_ARRAY);
+    glEnableClientState(GL_NORMAL_ARRAY);
+    glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+
+    glClearColor(0, 0, 0, 0);
+
+    glEnable(GL_LIGHTING);
+    glEnable(GL_LIGHT0);
+
+    glEnable(GL_TEXTURE_2D);
+//    preparaCilindro(2,1,lados);
+}
+
+
+
+
 int main(int argc, char **argv) {
 
     if (!doc.load_file(argv[1])) return -1;
@@ -562,8 +654,11 @@ int main(int argc, char **argv) {
     glewInit();
 #endif
 
+    initGL();
+
 //  Parse do ficheiro XML
     parseXML();
+
 
 // enter GLUT's main cycle
     glutMainLoop();

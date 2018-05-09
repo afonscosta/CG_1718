@@ -16,11 +16,17 @@ using std::vector;
 
 class Model {
 
-    GLuint buffers[1];
+    GLuint vertices;
+    GLuint texCoord;
+    GLuint normals;
+    GLuint texIDPrimitive;
+
+private:
     int nvertices;
 
 public:
-    void setPrimitive(vector<float> points, int nvertices);
+    void setTexIDPrimitive(GLuint texIDPrimitive);
+    void setPrimitive(vector<float> v, vector<float> t, int nvertices);
     void drawPrimitive();
 };
 

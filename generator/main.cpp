@@ -8,8 +8,9 @@ int writeFile (vector<Point> points, std::string file_name)
     ofstream myfile;
     myfile.open(file_name);
     if (myfile.is_open()) {
-        for (int i = 0; i < points.size(); i++) {
-            myfile << points[i].getX() << " " << points[i].getY() << " " << points[i].getZ() << "\n";
+        for (int i = 0; i < points.size() - 1; i += 2) {
+            myfile << points[i].getX() << " " << points[i].getY() << " " << points[i].getZ() << "\n";   // Vértices
+            myfile << points[i+1].getX() << " " << points[i+1].getY() << "\n";                              // Textura
         }
         myfile.close();
     }
