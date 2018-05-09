@@ -214,6 +214,7 @@ void loadModel(const pugi::char_t *string, Model* model) {
 
     GLuint buffers[1];
     std::vector<float> v;
+    std::vector<float> n;
     std::vector<float> t;
 
 
@@ -222,18 +223,22 @@ void loadModel(const pugi::char_t *string, Model* model) {
 
     std::string buffer;
     float buffer_points[9];
-    float buffer_texture[6];
+    float buffer_normals[9];
+    float buffer_textures[6];
     int i = 0;
     std::string delimiter = " ";
 
     std::fstream fs;
 
-    fs.open(string, std::fstream::in);
     vector<std::string> aux;
+
+    fs.open(string, std::fstream::in);
 
     if (fs.is_open()) {
 
         while (getline(fs, buffer)) {
+
+            aux.clear();
 
             split(buffer, ' ', aux);
             buffer_points[i * 3 + 0] = strtof(aux[0].c_str(), 0);
@@ -241,9 +246,24 @@ void loadModel(const pugi::char_t *string, Model* model) {
             buffer_points[i * 3 + 2] = strtof(aux[2].c_str(), 0);
 
             if (getline(fs, buffer)) {
+
+                aux.clear();
+
                 split(buffer, ' ', aux);
-                buffer_texture[i * 2 + 0] = strtof(aux[0].c_str(), 0);
-                buffer_texture[i * 2 + 1] = strtof(aux[1].c_str(), 0);
+                buffer_normals[i * 3 + 0] = strtof(aux[0].c_str(), 0);
+                buffer_normals[i * 3 + 1] = strtof(aux[1].c_str(), 0);
+                buffer_normals[i * 3 + 2] = strtof(aux[2].c_str(), 0);
+
+            }
+
+            if (getline(fs, buffer)) {
+
+                aux.clear();
+
+                split(buffer, ' ', aux);
+                buffer_textures[i * 2 + 0] = strtof(aux[0].c_str(), 0);
+                buffer_textures[i * 2 + 1] = strtof(aux[1].c_str(), 0);
+
             }
 
             i++;
@@ -255,9 +275,14 @@ void loadModel(const pugi::char_t *string, Model* model) {
                 v.push_back(buffer_points[1]);
                 v.push_back(buffer_points[2]);
 
+                // Normal 1
+                n.push_back(buffer_normals[0]);
+                n.push_back(buffer_normals[1]);
+                n.push_back(buffer_normals[2]);
+
                 // Textura 1
-                t.push_back(buffer_texture[0]);
-                t.push_back(buffer_texture[1]);
+                t.push_back(buffer_textures[0]);
+                t.push_back(buffer_textures[1]);
 
                 vertexCount++;
 
@@ -266,9 +291,14 @@ void loadModel(const pugi::char_t *string, Model* model) {
                 v.push_back(buffer_points[4]);
                 v.push_back(buffer_points[5]);
 
+                // Normal 2
+                n.push_back(buffer_normals[3]);
+                n.push_back(buffer_normals[4]);
+                n.push_back(buffer_normals[5]);
+
                 // Textura 2
-                t.push_back(buffer_texture[2]);
-                t.push_back(buffer_texture[3]);
+                t.push_back(buffer_textures[2]);
+                t.push_back(buffer_textures[3]);
 
                 vertexCount++;
 
@@ -277,9 +307,14 @@ void loadModel(const pugi::char_t *string, Model* model) {
                 v.push_back(buffer_points[7]);
                 v.push_back(buffer_points[8]);
 
+                // Normal 3
+                n.push_back(buffer_normals[6]);
+                n.push_back(buffer_normals[7]);
+                n.push_back(buffer_normals[8]);
+
                 // Textura 3
-                t.push_back(buffer_texture[4]);
-                t.push_back(buffer_texture[5]);
+                t.push_back(buffer_textures[4]);
+                t.push_back(buffer_textures[5]);
 
                 vertexCount++;
 
@@ -293,7 +328,7 @@ void loadModel(const pugi::char_t *string, Model* model) {
     }
 
     //acho que não precisamos do set primitive, apenas temos é de passar o vertexB para a nossa estrutura de dados
-    (*model).setPrimitive(v, t, vertexCount);
+    (*model).setPrimitive(v, n, t, vertexCount);
 
 }
 
@@ -303,9 +338,10 @@ Model parseModel(pugi::xml_node_iterator model) {
 
     for (pugi::xml_attribute_iterator ait = model->attributes_begin(); ait != model->attributes_end(); ++ait)
     {
-        if (strcmp(ait->name(), "file"))
+        if (strcmp(ait->name(), "file") == 0)
             loadModel(ait->value(), &modelDest);
-        if (strcmp(ait->name(), "texture"))
+
+        if (strcmp(ait->name(), "texture") == 0)
             modelDest.setTexIDPrimitive(loadTexture(ait->value()));
     }
     return modelDest;
@@ -611,10 +647,10 @@ void initGL() {
     glEnableClientState(GL_NORMAL_ARRAY);
     glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
-    glClearColor(0, 0, 0, 0);
+//    glClearColor(0, 0, 0, 0);
 
-    glEnable(GL_LIGHTING);
-    glEnable(GL_LIGHT0);
+//    glEnable(GL_LIGHTING);
+//    glEnable(GL_LIGHT0);
 
     glEnable(GL_TEXTURE_2D);
 //    preparaCilindro(2,1,lados);

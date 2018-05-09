@@ -299,41 +299,58 @@ vector <Point> sphere_generate_points(vector <Point> points,float radius, int sl
     //x = radius * cos(BETA) * sin(ALFA)
     //y = radius * cos(BETA)
 
+    //horizontal -> slices -> alpha -> a
+
     for (int i = 0; i < stacks; i++){
 
         for (int a = 0; a < slices; a++){
 
             //triangulo 1
+            // Vertice
             p.setPoint(radius * cos(BETA) * sin(ALFA + increment1), radius * sin(BETA), radius * cos(BETA) * cos(ALFA + increment1));
             points.push_back(p);
-            p.setPoint((i+1) * increment1T, a * increment2T, 0);
+            // Normal
+            p.setPoint(cos(i) * sin(a + increment1), sin(i), cos(i) * cos(a + increment1));
+            points.push_back(p);
+            // Texture
+            p.setPoint((a+1) * increment1T, i * increment2T, 0);
             points.push_back(p);
 
             p.setPoint(radius * cos(BETA + increment2) * sin(ALFA), radius * sin(BETA + increment2), radius * cos(BETA + increment2) * cos(ALFA));
             points.push_back(p);
-            p.setPoint(i * increment1T, (a+1) * increment2T, 0);
+            p.setPoint(cos(i + increment2) * sin(a), sin(i + increment2), cos(i + increment2) * cos(a));
+            points.push_back(p);
+            p.setPoint(a * increment1T, (i+1) * increment2T, 0);
             points.push_back(p);
 
             p.setPoint(radius * cos(BETA) * sin(ALFA), radius * sin(BETA), radius * cos(BETA) * cos(ALFA));
             points.push_back(p);
-            p.setPoint(i * increment1T, a * increment2T, 0);
+            p.setPoint(cos(i) * sin(a), sin(i), cos(i) * cos(a));
+            points.push_back(p);
+            p.setPoint(a * increment1T, i * increment2T, 0);
             points.push_back(p);
 
 
             //triangulo 2
             p.setPoint(radius * cos(BETA + increment2) * sin(ALFA), radius * sin(BETA + increment2), radius * cos(BETA + increment2) * cos(ALFA));
             points.push_back(p);
-            p.setPoint(i * increment1T, (a+1) * increment2T, 0);
+            p.setPoint(cos(i + increment2) * sin(a), sin(i + increment2), cos(i + increment2) * cos(a));
+            points.push_back(p);
+            p.setPoint(a * increment1T, (i+1) * increment2T, 0);
             points.push_back(p);
 
             p.setPoint(radius * cos(BETA) * sin(ALFA + increment1), radius * sin(BETA), radius * cos(BETA) * cos(ALFA + increment1));
             points.push_back(p);
-            p.setPoint((i+1) * increment1T, a * increment2T, 0);
+            p.setPoint(cos(i) * sin(a + increment1), sin(i), cos(i) * cos(a + increment1));
+            points.push_back(p);
+            p.setPoint((a+1) * increment1T, i * increment2T, 0);
             points.push_back(p);
 
             p.setPoint(radius * cos(BETA + increment2) * sin(ALFA + increment1), radius * sin(BETA + increment2), radius * cos(BETA + increment2) * cos(ALFA + increment1));
             points.push_back(p);
-            p.setPoint((i+1) * increment1T, (a+1) * increment2T, 0);
+            p.setPoint(cos(i + increment2) * sin(a + increment1), sin(i + increment2), cos(i + increment2) * cos(a + increment1));
+            points.push_back(p);
+            p.setPoint((a+1) * increment1T, (i+1) * increment2T, 0);
             points.push_back(p);
 
             ALFA += increment1;

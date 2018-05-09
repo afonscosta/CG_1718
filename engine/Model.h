@@ -17,8 +17,8 @@ using std::vector;
 class Model {
 
     GLuint vertices;
-    GLuint texCoord;
     GLuint normals;
+    GLuint texCoord;
     GLuint texIDPrimitive;
 
 private:
@@ -26,7 +26,7 @@ private:
 
 public:
     void setTexIDPrimitive(GLuint texIDPrimitive);
-    void setPrimitive(vector<float> v, vector<float> t, int nvertices);
+    void setPrimitive(vector<float> v, vector<float> n, vector<float> t, int nvertices);
     void drawPrimitive();
 };
 
