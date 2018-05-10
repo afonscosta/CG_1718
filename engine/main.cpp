@@ -5,6 +5,7 @@
 #include <fstream>
 #include <stdlib.h>
 #include "Group.h"
+#include "Light.h"
 #include <stdio.h>
 #include <string>
 #include <math.h>
@@ -49,12 +50,14 @@ float camX = 5, camY=5, camZ = 5;
 int startX, startY, tracking = 0;
 
 Group scene;
+vector<Light> lights;
 
 GLuint texIDCylinder, texIDFloor;
 
 
+void parseLights(pugi::xml_node_iterator iterator);
 
-
+void parseLight(pugi::xml_node_iterator iterator);
 
 /*
  * ============================================================================
@@ -390,6 +393,42 @@ Group* parseGroup(pugi::xml_node_iterator groupSrc) {
     return groupDest;
 }
 
+void parseLight(pugi::xml_node_iterator light) {
+
+    float x, y, z;
+    Point p;
+    Light l;
+
+    for (pugi::xml_attribute_iterator ait = light->attributes_begin(); ait != light->attributes_end(); ++ait)
+    {
+        if (strcmp(ait->name(), "type") == 0)
+            l.setType((char *) ait->value());
+
+        else if (strcmp(ait->name(), "posX") == 0)
+            x = strtof(ait->value(), nullptr);
+
+        else if (strcmp(ait->name(), "posY") == 0)
+            y = strtof(ait->value(), nullptr);
+
+        else if (strcmp(ait->name(), "posZ") == 0)
+            z = strtof(ait->value(), nullptr);
+    }
+
+    p.setPoint(x, y, z);
+
+    l.setPos(p);
+
+    lights.push_back(l);
+}
+
+void parseLights(pugi::xml_node_iterator lightSrc) {
+
+    for (pugi::xml_node_iterator it = lightSrc->begin(); it != lightSrc->end(); ++it) {
+        if (strcmp(it->name(), "light") == 0) {
+            parseLight(it);
+        }
+    }
+}
 
 void parseXML() {
 
@@ -401,11 +440,13 @@ void parseXML() {
         if (strcmp(it->name(), "group") == 0) {
             (*groupDest).addGroup(parseGroup(it));
         }
+        else if (strcmp(it->name(), "lights") == 0) {
+            parseLights(it);
+        }
     }
 
     scene = *groupDest;
 }
-
 
 
 
@@ -453,7 +494,8 @@ void changeMode() {
 
 void renderScene() {
 
-    float pos[4] = {1.0, 1.0, 1.0, 0.0};
+    float pos[4] = {10.0, 0.0, 0.0, 0.0};
+    float posl[4] = {-10.0, 0.0, 0.0, 0.0};
 
     // clear buffers
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -464,7 +506,15 @@ void renderScene() {
               0.0,0.0,0.0,
               0.0f,1.0f,0.0f);
 
-    glLightfv(GL_LIGHT0, GL_POSITION, pos);
+    printf("IS: %d\n", glIsEnabled(GL_LIGHT1));
+
+//    glLightfv(GL_LIGHT0, GL_POSITION, pos);
+//    glLightfv(GL_LIGHT0, GL_POSITION, pos);
+//    glLightfv(GL_LIGHT0, GL_POSITION, posl);
+    // Turn on lights
+    for (int i = 0; i < lights.size(); i++) {
+        lights.at(i).turnOnLight(i);
+    }
 
     float white[4] = { 1,1,1,1 };
     glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, white);
@@ -474,22 +524,22 @@ void renderScene() {
     changeMode();
 
     //Eixos
-    //glBegin(GL_LINES);
-    //glColor3f(1,0,0);
-    //glVertex3f(0.0f, 0.0f, 0.0f);
-    //glVertex3f(10.0f, 0.0f, 0.0f);
+    glBegin(GL_LINES);
+    glColor3f(1,0,0);
+    glVertex3f(0.0f, 0.0f, 0.0f);
+    glVertex3f(100.0f, 0.0f, 0.0f);
 
-    //glColor3f(0,1,0);
-    //glVertex3f(0.0f, 0.0f, 0.0f);
-    //glVertex3f(0.0f, 10.0f, 0.0f);
+    glColor3f(0,1,0);
+    glVertex3f(0.0f, 0.0f, 0.0f);
+    glVertex3f(0.0f, 100.0f, 0.0f);
 
-    //glColor3f(0,0,1);
-    //glVertex3f(0.0f, 0.0f, 0.0f);
-    //glVertex3f(0.0f, 0.0f, 10.0f);
-    //glEnd();
+    glColor3f(0,0,1);
+    glVertex3f(0.0f, 0.0f, 0.0f);
+    glVertex3f(0.0f, 0.0f, 100.0f);
+    glEnd();
 
     //Coloca a cor como branca para as primitivas
-    //glColor3f(1,1,1);
+    glColor3f(1,1,1);
 
     // movimento no plano XZ
     glTranslatef(X_TRANSLATE ,Y_TRANSLATE ,Z_TRANSLATE);
@@ -659,6 +709,13 @@ void initGL() {
 
     glEnable(GL_LIGHTING);
     glEnable(GL_LIGHT0);
+    glEnable(GL_LIGHT1);
+    glEnable(GL_LIGHT2);
+    glEnable(GL_LIGHT3);
+    glEnable(GL_LIGHT4);
+    glEnable(GL_LIGHT5);
+    glEnable(GL_LIGHT6);
+    glEnable(GL_LIGHT7);
 
     glEnable(GL_TEXTURE_2D);
 //    preparaCilindro(2,1,lados);
@@ -709,3 +766,4 @@ int main(int argc, char **argv) {
 
     return 1;
 }
+
