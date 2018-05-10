@@ -30,6 +30,9 @@ void Light::turnOnLight(int numLight) {
     if (strcmp(type, "DIRECTIONAL") == 0) {
         posL[3] = 0.0f;
     }
+    else if (strcmp(type, "SPOT") == 0) {
+        posL[3] = 1.0f;
+    }
 
 
     switch(numLight) {

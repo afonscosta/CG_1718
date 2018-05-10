@@ -1,7 +1,7 @@
 #ifndef GENERATOR_PATCH_H
 #define GENERATOR_PATCH_H
 
-
+#include <string>
 #include "Point.h"
 #include "generator.h"
 #include <math.h>

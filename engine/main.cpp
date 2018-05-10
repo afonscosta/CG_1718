@@ -34,7 +34,6 @@ int X_TRANSLATE = 0;
 int Y_TRANSLATE = 0;
 int Z_TRANSLATE = 0;
 
-int axle = 0;
 int mode = GL_LINE;
 int mode_aux = 0;
 
@@ -49,15 +48,16 @@ int alpha = 0, beta = 45, r = 50;
 float camX = 5, camY=5, camZ = 5;
 int startX, startY, tracking = 0;
 
+
+
+float px = 0.0f, py = 0.0f, pz = 10.0f, dx= 0.0f, dy = 0.0f, dz = -1.0f, ux = 0.0f, uy = 1.0f, uz = 0.0f;
+double alfa = M_PI;
+double beta1 = M_PI;
+
 Group scene;
 vector<Light> lights;
 
-GLuint texIDCylinder, texIDFloor;
 
-
-void parseLights(pugi::xml_node_iterator iterator);
-
-void parseLight(pugi::xml_node_iterator iterator);
 
 /*
  * ============================================================================
@@ -330,7 +330,6 @@ void loadModel(const pugi::char_t *string, Model* model) {
         fs.close();
     }
 
-    //acho que não precisamos do set primitive, apenas temos é de passar o vertexB para a nossa estrutura de dados
     (*model).setPrimitive(v, n, t, vertexCount);
 
 }
@@ -450,6 +449,7 @@ void parseXML() {
 
 
 
+
 /*
  * ============================================================================
  * CÓDIGO =====================================================================
@@ -494,27 +494,37 @@ void changeMode() {
 
 void renderScene() {
 
-    float pos[4] = {10.0, 0.0, 0.0, 0.0};
-    float posl[4] = {-10.0, 0.0, 0.0, 0.0};
-
     // clear buffers
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+//    GLfloat amb[4] = {0.1, 0.1, 0.1, 1};
+//    GLfloat diff[4] = {1.0, 1.0, 1.0, 0.0};
+//    GLfloat posL[4] = { 0.5, 0, 0, 1};
+//
+//    glLightfv(GL_LIGHT1, GL_AMBIENT, amb);
+//    glLightfv(GL_LIGHT1, GL_DIFFUSE, diff);
+//    glLightfv(GL_LIGHT1, GL_POSITION, posL);
+
+
     // set the camera
     glLoadIdentity();
-    gluLookAt(camX, camY, camZ,
-              0.0,0.0,0.0,
-              0.0f,1.0f,0.0f);
 
-    printf("IS: %d\n", glIsEnabled(GL_LIGHT1));
+    dx = sin(alfa);
+    dy = sin(beta1);
+    dz = cos(alfa);
 
-//    glLightfv(GL_LIGHT0, GL_POSITION, pos);
-//    glLightfv(GL_LIGHT0, GL_POSITION, pos);
-//    glLightfv(GL_LIGHT0, GL_POSITION, posl);
+    gluLookAt(px, py, pz,
+              px + dx, py + dy, pz + dz,
+              ux, uy, uz);
+
+    float red[4] = {0.1f, 0.1f, 0.9f, 1.0f};
+    glMaterialf(GL_FRONT,GL_SHININESS,128.0);
+    glMaterialfv(GL_FRONT, GL_EMISSION, red);
+
     // Turn on lights
-    for (int i = 0; i < lights.size(); i++) {
-        lights.at(i).turnOnLight(i);
-    }
+//    for (int i = 0; i < lights.size(); i++) {
+//        lights.at(i).turnOnLight(i);
+//    }
 
     float white[4] = { 1,1,1,1 };
     glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, white);
@@ -527,18 +537,18 @@ void renderScene() {
     glBegin(GL_LINES);
     glColor3f(1,0,0);
     glVertex3f(0.0f, 0.0f, 0.0f);
-    glVertex3f(100.0f, 0.0f, 0.0f);
+    glVertex3f(200.0f, 0.0f, 0.0f);
 
     glColor3f(0,1,0);
     glVertex3f(0.0f, 0.0f, 0.0f);
-    glVertex3f(0.0f, 100.0f, 0.0f);
+    glVertex3f(0.0f, 200.0f, 0.0f);
 
     glColor3f(0,0,1);
     glVertex3f(0.0f, 0.0f, 0.0f);
-    glVertex3f(0.0f, 0.0f, 100.0f);
+    glVertex3f(0.0f, 0.0f, 200.0f);
     glEnd();
 
-    //Coloca a cor como branca para as primitivas
+    // Coloca a cor como branca para as primitivas
     glColor3f(1,1,1);
 
     // movimento no plano XZ
@@ -559,25 +569,15 @@ void renderScene() {
     glutSwapBuffers();
 }
 
+void moveforward(){
+
+    px = px + 0.5 * dx;
+    py = py + 0.5 * dy;
+    pz = pz + 0.5 * dz;
+}
+
 // write function to process keyboard events
 void keyboard(unsigned char key, int x, int y){
-
-    if (key == 'a')
-        X_TRANSLATE -= 1;
-
-    if (key == 'd')
-        X_TRANSLATE += 1;
-
-    if (key == 'w')
-        Z_TRANSLATE -= 1;
-
-    if (key == 's')
-        Z_TRANSLATE += 1;
-
-    if (key == ' ') {
-        axle++;
-        axle = axle % 3;
-    }
 
     if (key == 'm') {
         mode_aux++;
@@ -594,33 +594,28 @@ void keyboard(unsigned char key, int x, int y){
             scale = 0.1;
     }
 
+    if (key == ' ')
+        moveforward();
 
     glutPostRedisplay();
 }
 
-void rotate (int key, int x, int y) {
+void movement (int key, int x, int y) {
 
-    if (key == GLUT_KEY_LEFT && axle == 0)
-        X_ANGLE += 10;
-
-    if (key == GLUT_KEY_RIGHT && axle == 0)
-        X_ANGLE -= 10;
-
-
-
-    if (key == GLUT_KEY_LEFT && axle == 1)
-        Y_ANGLE += 10;
-
-    if (key == GLUT_KEY_RIGHT && axle == 1)
-        Y_ANGLE -= 10;
-
-
-
-    if (key == GLUT_KEY_LEFT && axle == 2)
-        Z_ANGLE += 10;
-
-    if (key == GLUT_KEY_RIGHT && axle == 2)
-        Z_ANGLE -= 10;
+    switch (key) {
+        case GLUT_KEY_LEFT :
+            alfa += 0.01f;
+            break;
+        case GLUT_KEY_RIGHT :
+            alfa -= 0.01f;
+            break;
+        case GLUT_KEY_UP :
+            beta1 -= 0.01f;
+            break;
+        case GLUT_KEY_DOWN :
+            beta1 += 0.01f;
+            break;
+    }
 
     glutPostRedisplay();
 }
@@ -718,7 +713,7 @@ void initGL() {
     glEnable(GL_LIGHT7);
 
     glEnable(GL_TEXTURE_2D);
-//    preparaCilindro(2,1,lados);
+
 }
 
 
@@ -742,7 +737,7 @@ int main(int argc, char **argv) {
 
 // Callback registration for keyboard processing
     glutKeyboardFunc(keyboard);
-    glutSpecialFunc(rotate);
+    glutSpecialFunc(movement);
     glutMouseFunc(processMouseButtons);
     glutMotionFunc(processMouseMotion);
 
@@ -766,4 +761,3 @@ int main(int argc, char **argv) {
 
     return 1;
 }
-
