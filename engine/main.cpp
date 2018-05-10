@@ -33,8 +33,7 @@ int X_TRANSLATE = 0;
 int Y_TRANSLATE = 0;
 int Z_TRANSLATE = 0;
 
-int axle = 0;
-int mode = GL_LINE;
+int mode = GL_FILL;
 int mode_aux = 0;
 
 float scale = 1;
@@ -45,8 +44,16 @@ int Z_ANGLE = 0;
 
 //Mouse movements
 int alpha = 0, beta = 45, r = 50;
-float camX = 5, camY=5, camZ = 5;
 int startX, startY, tracking = 0;
+
+
+
+float px = 0.0f, py = 0.0f, pz = 10.0f, dx= 0.0f, dy = 0.0f, dz = -1.0f, ux = 0.0f, uy = 1.0f, uz = 0.0f;
+double alfa = M_PI;
+double beta1 = M_PI;
+
+
+
 
 Group scene;
 
@@ -460,9 +467,16 @@ void renderScene() {
 
     // set the camera
     glLoadIdentity();
-    gluLookAt(camX, camY, camZ,
+    /*gluLookAt(camX, camY, camZ,
               0.0,0.0,0.0,
-              0.0f,1.0f,0.0f);
+              0.0f,1.0f,0.0f);*/
+    dx = sin(alfa);
+    dy = sin(beta1);
+    dz = cos(alfa);
+
+    gluLookAt(px, py, pz,
+              px + dx, py + dy, pz + dz,
+              ux, uy, uz);
 
     glLightfv(GL_LIGHT0, GL_POSITION, pos);
 
@@ -509,25 +523,15 @@ void renderScene() {
     glutSwapBuffers();
 }
 
+void moveforward(){
+
+    px = px + 0.5 * dx;
+    py = py + 0.5 * dy;
+    pz = pz + 0.5 * dz;
+}
+
 // write function to process keyboard events
 void keyboard(unsigned char key, int x, int y){
-
-    if (key == 'a')
-        X_TRANSLATE -= 1;
-
-    if (key == 'd')
-        X_TRANSLATE += 1;
-
-    if (key == 'w')
-        Z_TRANSLATE -= 1;
-
-    if (key == 's')
-        Z_TRANSLATE += 1;
-
-    if (key == ' ') {
-        axle++;
-        axle = axle % 3;
-    }
 
     if (key == 'm') {
         mode_aux++;
@@ -544,33 +548,28 @@ void keyboard(unsigned char key, int x, int y){
             scale = 0.1;
     }
 
+    if (key == ' ')
+        moveforward();
 
     glutPostRedisplay();
 }
 
-void rotate (int key, int x, int y) {
+void movement (int key, int x, int y) {
 
-    if (key == GLUT_KEY_LEFT && axle == 0)
-        X_ANGLE += 10;
-
-    if (key == GLUT_KEY_RIGHT && axle == 0)
-        X_ANGLE -= 10;
-
-
-
-    if (key == GLUT_KEY_LEFT && axle == 1)
-        Y_ANGLE += 10;
-
-    if (key == GLUT_KEY_RIGHT && axle == 1)
-        Y_ANGLE -= 10;
-
-
-
-    if (key == GLUT_KEY_LEFT && axle == 2)
-        Z_ANGLE += 10;
-
-    if (key == GLUT_KEY_RIGHT && axle == 2)
-        Z_ANGLE -= 10;
+    switch (key) {
+        case GLUT_KEY_LEFT :
+            alfa += 0.01f;
+            break;
+        case GLUT_KEY_RIGHT :
+            alfa -= 0.01f;
+            break;
+        case GLUT_KEY_UP :
+            beta1 -= 0.01f;
+            break;
+        case GLUT_KEY_DOWN :
+            beta1 += 0.01f;
+            break;
+    }
 
     glutPostRedisplay();
 }
@@ -607,7 +606,18 @@ void processMouseButtons(int button, int state, int xx, int yy) {
 
 void processMouseMotion(int xx, int yy) {
 
-    int deltaX, deltaY;
+    // this will only be true when the left button is down
+    if (xOrigin >= 0) {
+
+        // update deltaAngle
+        deltaAngle = (x - xOrigin) * 0.001f;
+
+        // update camera's direction
+        lx = sin(angle + deltaAngle);
+        lz = -cos(angle + deltaAngle);
+    }
+
+    /*int deltaX, deltaY;
     int alphaAux, betaAux;
     int rAux;
 
@@ -640,7 +650,7 @@ void processMouseMotion(int xx, int yy) {
     }
     camX = rAux * sin(alphaAux * 3.14 / 180.0) * cos(betaAux * 3.14 / 180.0);
     camZ = rAux * cos(alphaAux * 3.14 / 180.0) * cos(betaAux * 3.14 / 180.0);
-    camY = rAux * 							     sin(betaAux * 3.14 / 180.0);
+    camY = rAux * 							     sin(betaAux * 3.14 / 180.0);*/
 
     glutPostRedisplay();
 }
@@ -661,7 +671,7 @@ void initGL() {
     glEnable(GL_LIGHT0);
 
     glEnable(GL_TEXTURE_2D);
-//    preparaCilindro(2,1,lados);
+
 }
 
 
@@ -685,7 +695,7 @@ int main(int argc, char **argv) {
 
 // Callback registration for keyboard processing
     glutKeyboardFunc(keyboard);
-    glutSpecialFunc(rotate);
+    glutSpecialFunc(movement);
     glutMouseFunc(processMouseButtons);
     glutMotionFunc(processMouseMotion);
 
