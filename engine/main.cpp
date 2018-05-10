@@ -453,7 +453,7 @@ void changeMode() {
 
 void renderScene() {
 
-    float pos[4] = {0.5, 0.5, 0.5, 0.0};
+    float pos[4] = {1.0, 1.0, 1.0, 0.0};
 
     // clear buffers
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
