@@ -33,7 +33,7 @@ int X_TRANSLATE = 0;
 int Y_TRANSLATE = 0;
 int Z_TRANSLATE = 0;
 
-int mode = GL_FILL;
+int mode = GL_LINE;
 int mode_aux = 0;
 
 float scale = 1;
@@ -44,6 +44,7 @@ int Z_ANGLE = 0;
 
 //Mouse movements
 int alpha = 0, beta = 45, r = 50;
+float camX = 5, camY=5, camZ = 5;
 int startX, startY, tracking = 0;
 
 
@@ -52,12 +53,7 @@ float px = 0.0f, py = 0.0f, pz = 10.0f, dx= 0.0f, dy = 0.0f, dz = -1.0f, ux = 0.
 double alfa = M_PI;
 double beta1 = M_PI;
 
-
-
-
 Group scene;
-
-GLuint texIDCylinder, texIDFloor;
 
 
 
@@ -334,7 +330,6 @@ void loadModel(const pugi::char_t *string, Model* model) {
         fs.close();
     }
 
-    //acho que não precisamos do set primitive, apenas temos é de passar o vertexB para a nossa estrutura de dados
     (*model).setPrimitive(v, n, t, vertexCount);
 
 }
@@ -467,9 +462,7 @@ void renderScene() {
 
     // set the camera
     glLoadIdentity();
-    /*gluLookAt(camX, camY, camZ,
-              0.0,0.0,0.0,
-              0.0f,1.0f,0.0f);*/
+    
     dx = sin(alfa);
     dy = sin(beta1);
     dz = cos(alfa);
@@ -606,18 +599,7 @@ void processMouseButtons(int button, int state, int xx, int yy) {
 
 void processMouseMotion(int xx, int yy) {
 
-    // this will only be true when the left button is down
-    if (xOrigin >= 0) {
-
-        // update deltaAngle
-        deltaAngle = (x - xOrigin) * 0.001f;
-
-        // update camera's direction
-        lx = sin(angle + deltaAngle);
-        lz = -cos(angle + deltaAngle);
-    }
-
-    /*int deltaX, deltaY;
+    int deltaX, deltaY;
     int alphaAux, betaAux;
     int rAux;
 
@@ -650,7 +632,7 @@ void processMouseMotion(int xx, int yy) {
     }
     camX = rAux * sin(alphaAux * 3.14 / 180.0) * cos(betaAux * 3.14 / 180.0);
     camZ = rAux * cos(alphaAux * 3.14 / 180.0) * cos(betaAux * 3.14 / 180.0);
-    camY = rAux * 							     sin(betaAux * 3.14 / 180.0);*/
+    camY = rAux * 							     sin(betaAux * 3.14 / 180.0);
 
     glutPostRedisplay();
 }

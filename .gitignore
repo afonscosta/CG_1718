@@ -14,4 +14,3 @@ engine/.vs
 engine/GL
 engine/IL
 engine/CMakeLists.txt
-generator/.vs
