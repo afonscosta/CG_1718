@@ -3,8 +3,6 @@
 #include <math.h>
 #include <stdio.h>
 
-#define POINT_COUNT 5
-
 void Translate::multMatrixVector(float *m, float *v, float *res) {
 
     for (int j = 0; j < 4; ++j) {
@@ -133,7 +131,6 @@ void Translate::setTranslate(float time, vector<Point> points) {
 }
 
 
-
 float Y[3] = {0, 1, 0};
 
 void Translate::doTranslate(){
@@ -169,5 +166,4 @@ void Translate::doTranslate(){
     else {
         glTranslatef(points[0].getX(), points[0].getY(), points[0].getZ());
     }
-
 }
