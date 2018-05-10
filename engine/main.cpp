@@ -5,6 +5,9 @@
 #include <fstream>
 #include <stdlib.h>
 #include "Group.h"
+#include <stdio.h>
+#include <string>
+#include <math.h>
 
 #ifdef __APPLE__
 #include <GLUT/glut.h>
@@ -12,6 +15,9 @@
 #include <GL/glew.h>
 #include <GL/glut.h>
 #endif
+
+#include <IL/il.h>
+
 
 using std::vector;
 
@@ -44,6 +50,8 @@ int startX, startY, tracking = 0;
 
 Group scene;
 
+GLuint texIDCylinder, texIDFloor;
+
 
 
 
@@ -66,39 +74,91 @@ void split(const std::string& s, char delim,vector<std::string>& v) {
     }
 }
 
+int loadTexture(std::string s) {
+
+    unsigned int t,tw,th;
+    unsigned char *texData;
+    unsigned int texID;
+
+    ilInit();
+    ilEnable(IL_ORIGIN_SET);
+    ilOriginFunc(IL_ORIGIN_LOWER_LEFT);
+    ilGenImages(1,&t);
+    ilBindImage(t);
+    ilLoadImage((ILstring)s.c_str());
+    tw = ilGetInteger(IL_IMAGE_WIDTH);
+    th = ilGetInteger(IL_IMAGE_HEIGHT);
+    ilConvertImage(IL_RGBA, IL_UNSIGNED_BYTE);
+    texData = ilGetData();
+
+    glGenTextures(1,&texID);
+
+    glBindTexture(GL_TEXTURE_2D,texID);
+    glTexParameteri(GL_TEXTURE_2D,	GL_TEXTURE_WRAP_S,		GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D,	GL_TEXTURE_WRAP_T,		GL_REPEAT);
+
+    glTexParameteri(GL_TEXTURE_2D,	GL_TEXTURE_MAG_FILTER,   	GL_LINEAR_MIPMAP_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D,	GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, tw, th, 0, GL_RGBA, GL_UNSIGNED_BYTE, texData);
+    glGenerateMipmap(GL_TEXTURE_2D);
+
+    glBindTexture(GL_TEXTURE_2D, 0);
+
+    return texID;
+}
+
 Translate parseTranslate(pugi::xml_node_iterator translate) {
 
     Point p;
     vector<Point> pts;
     float x = 0, y = 0, z = 0;
     float time = 0;
+    int translation = 0;
 
     for (pugi::xml_attribute_iterator ait = translate->attributes_begin(); ait != translate->attributes_end(); ++ait) {
-        if (strcmp(ait->name(), "time") == 0)
+        if (strcmp(ait->name(), "time") == 0) {
+            translation = 1;
             time = strtof(ait->value(), nullptr);
+            for (pugi::xml_node_iterator nit = translate->begin(); nit != translate->end(); ++nit) {
+                for (pugi::xml_attribute_iterator ait2 = nit->attributes_begin();
+                     ait2 != nit->attributes_end(); ++ait2) {
+                    if (strcmp(ait2->name(), "X") == 0)
+                        x = strtof(ait2->value(), nullptr);
+                    else if (strcmp(ait2->name(), "Y") == 0)
+                        y = strtof(ait2->value(), nullptr);
+                    else if (strcmp(ait2->name(), "Z") == 0)
+                        z = strtof(ait2->value(), nullptr);
+
+                }
+                p.setPoint(x, y, z);
+                pts.push_back(p);
+            }
+        }
+        else if (strcmp(ait->name(), "X") == 0) {
+            x = strtof(ait->value(), nullptr);
+        }
+        else if (strcmp(ait->name(), "Y") == 0) {
+            y = strtof(ait->value(), nullptr);
+        }
+        else if (strcmp(ait->name(), "Z") == 0) {
+            z = strtof(ait->value(), nullptr);
+        }
+
     }
 
-    for (pugi::xml_node_iterator nit = translate->begin() ; nit != translate->end() ; ++nit)
-    {
-        for (pugi::xml_attribute_iterator ait2 = nit->attributes_begin(); ait2 != nit->attributes_end(); ++ait2) {
-            if (strcmp(ait2->name(), "X") == 0)
-                x = strtof(ait2->value(), nullptr);
-            else if (strcmp(ait2->name(), "Y") == 0)
-                y = strtof(ait2->value(), nullptr);
-            else if (strcmp(ait2->name(), "Z") == 0)
-                z = strtof(ait2->value(), nullptr);
-
-        }
-        p.setPoint(x,y,z);
+    if (translation == 0) {
+        p.setPoint(x, y, z);
         pts.push_back(p);
     }
+
 
     Translate tr;
     tr.setTranslate(time, pts);
     return tr;
 }
 
-Point parseRotate(pugi::xml_node_iterator rotate, float *timeDest) {
+Point parseRotate(pugi::xml_node_iterator rotate, float *paramDest, int *tipo) {
 
     Point p;
     float axisX = 0, axisY = 0, axisZ = 0;
@@ -106,7 +166,12 @@ Point parseRotate(pugi::xml_node_iterator rotate, float *timeDest) {
     for (pugi::xml_attribute_iterator ait = rotate->attributes_begin(); ait != rotate->attributes_end(); ++ait)
     {
         if (strcmp(ait->name(), "time") == 0) {
-            *timeDest = strtof(ait->value(), nullptr);
+            *tipo = 1;
+            *paramDest = strtof(ait->value(), nullptr);
+        }
+        else if (strcmp(ait->name(), "angle") == 0) {
+            *tipo = 0;
+            *paramDest = strtof(ait->value(), nullptr);
         }
         else if (strcmp(ait->name(), "axisX") == 0) {
             axisX = strtof(ait->value(), nullptr);
@@ -148,16 +213,24 @@ Point parseScale(pugi::xml_node_iterator scale) {
 void loadModel(const pugi::char_t *string, Model* model) {
 
     GLuint buffers[1];
-    std::vector<float> points;
+    std::vector<float> v;
+    std::vector<float> n;
+    std::vector<float> t;
 
-    int vertexCount;
+
+    int vertexCount = 0;
+    int line = 0;
 
     std::string buffer;
     float buffer_points[9];
+    float buffer_normals[9];
+    float buffer_textures[6];
     int i = 0;
     std::string delimiter = " ";
 
     std::fstream fs;
+
+    vector<std::string> aux;
 
     fs.open(string, std::fstream::in);
 
@@ -165,31 +238,83 @@ void loadModel(const pugi::char_t *string, Model* model) {
 
         while (getline(fs, buffer)) {
 
-            vector<std::string> aux;
+            aux.clear();
+
             split(buffer, ' ', aux);
-            buffer_points[i * 3 + 0] = strtof(aux[0].c_str(),0);
-            buffer_points[i * 3 + 1] = strtof(aux[1].c_str(),0);
-            buffer_points[i * 3 + 2] = strtof(aux[2].c_str(),0);
+            buffer_points[i * 3 + 0] = strtof(aux[0].c_str(), 0);
+            buffer_points[i * 3 + 1] = strtof(aux[1].c_str(), 0);
+            buffer_points[i * 3 + 2] = strtof(aux[2].c_str(), 0);
+
+            if (getline(fs, buffer)) {
+
+                aux.clear();
+
+                split(buffer, ' ', aux);
+                buffer_normals[i * 3 + 0] = strtof(aux[0].c_str(), 0);
+                buffer_normals[i * 3 + 1] = strtof(aux[1].c_str(), 0);
+                buffer_normals[i * 3 + 2] = strtof(aux[2].c_str(), 0);
+
+            }
+
+            if (getline(fs, buffer)) {
+
+                aux.clear();
+
+                split(buffer, ' ', aux);
+                buffer_textures[i * 2 + 0] = strtof(aux[0].c_str(), 0);
+                buffer_textures[i * 2 + 1] = strtof(aux[1].c_str(), 0);
+
+            }
 
             i++;
 
             if (i == 3) {
 
-                points.push_back(buffer_points[0]);
-                points.push_back(buffer_points[1]);
-                points.push_back(buffer_points[2]);
+                // Vertice 1
+                v.push_back(buffer_points[0]);
+                v.push_back(buffer_points[1]);
+                v.push_back(buffer_points[2]);
+
+                // Normal 1
+                n.push_back(buffer_normals[0]);
+                n.push_back(buffer_normals[1]);
+                n.push_back(buffer_normals[2]);
+
+                // Textura 1
+                t.push_back(buffer_textures[0]);
+                t.push_back(buffer_textures[1]);
 
                 vertexCount++;
 
-                points.push_back(buffer_points[3]);
-                points.push_back(buffer_points[4]);
-                points.push_back(buffer_points[5]);
+                // Vertice 2
+                v.push_back(buffer_points[3]);
+                v.push_back(buffer_points[4]);
+                v.push_back(buffer_points[5]);
+
+                // Normal 2
+                n.push_back(buffer_normals[3]);
+                n.push_back(buffer_normals[4]);
+                n.push_back(buffer_normals[5]);
+
+                // Textura 2
+                t.push_back(buffer_textures[2]);
+                t.push_back(buffer_textures[3]);
 
                 vertexCount++;
 
-                points.push_back(buffer_points[6]);
-                points.push_back(buffer_points[7]);
-                points.push_back(buffer_points[8]);
+                // Vertice 3
+                v.push_back(buffer_points[6]);
+                v.push_back(buffer_points[7]);
+                v.push_back(buffer_points[8]);
+
+                // Normal 3
+                n.push_back(buffer_normals[6]);
+                n.push_back(buffer_normals[7]);
+                n.push_back(buffer_normals[8]);
+
+                // Textura 3
+                t.push_back(buffer_textures[4]);
+                t.push_back(buffer_textures[5]);
 
                 vertexCount++;
 
@@ -203,7 +328,7 @@ void loadModel(const pugi::char_t *string, Model* model) {
     }
 
     //acho que não precisamos do set primitive, apenas temos é de passar o vertexB para a nossa estrutura de dados
-    (*model).setPrimitive(points, vertexCount);
+    (*model).setPrimitive(v, n, t, vertexCount);
 
 }
 
@@ -213,7 +338,11 @@ Model parseModel(pugi::xml_node_iterator model) {
 
     for (pugi::xml_attribute_iterator ait = model->attributes_begin(); ait != model->attributes_end(); ++ait)
     {
-        loadModel(ait->value(), &modelDest);
+        if (strcmp(ait->name(), "file") == 0)
+            loadModel(ait->value(), &modelDest);
+
+        if (strcmp(ait->name(), "texture") == 0)
+            modelDest.setTexIDPrimitive(loadTexture(ait->value()));
     }
     return modelDest;
 }
@@ -240,9 +369,10 @@ Group* parseGroup(pugi::xml_node_iterator groupSrc) {
             (*groupDest).addOrder('t');
         }
         else if (strcmp(it->name(), "rotate") == 0) {
-            float angle = 0;
-            Point p = parseRotate(it, &angle);
-            (*groupDest).setRotate(angle, p);
+            float param = 0;
+            int tipo = 0;
+            Point p = parseRotate(it, &param, &tipo);
+            (*groupDest).setRotate(param, p, tipo);
             (*groupDest).addOrder('r');
         }
         else if (strcmp(it->name(), "scale") == 0) {
@@ -323,6 +453,8 @@ void changeMode() {
 
 void renderScene() {
 
+    float pos[4] = {0.5, 0.5, 0.5, 0.0};
+
     // clear buffers
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -331,6 +463,12 @@ void renderScene() {
     gluLookAt(camX, camY, camZ,
               0.0,0.0,0.0,
               0.0f,1.0f,0.0f);
+
+    glLightfv(GL_LIGHT0, GL_POSITION, pos);
+
+    float white[4] = { 1,1,1,1 };
+    glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, white);
+
 
     //Muda o modo de desenho das figuras
     changeMode();
@@ -507,6 +645,28 @@ void processMouseMotion(int xx, int yy) {
     glutPostRedisplay();
 }
 
+void initGL() {
+
+// alguns settings para OpenGL
+    glEnable(GL_DEPTH_TEST);
+    glEnable(GL_CULL_FACE);
+
+    glEnableClientState(GL_VERTEX_ARRAY);
+    glEnableClientState(GL_NORMAL_ARRAY);
+    glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+
+    glClearColor(0, 0, 0, 0);
+
+    glEnable(GL_LIGHTING);
+    glEnable(GL_LIGHT0);
+
+    glEnable(GL_TEXTURE_2D);
+//    preparaCilindro(2,1,lados);
+}
+
+
+
+
 int main(int argc, char **argv) {
 
     if (!doc.load_file(argv[1])) return -1;
@@ -538,8 +698,11 @@ int main(int argc, char **argv) {
     glewInit();
 #endif
 
+    initGL();
+
 //  Parse do ficheiro XML
     parseXML();
+
 
 // enter GLUT's main cycle
     glutMainLoop();

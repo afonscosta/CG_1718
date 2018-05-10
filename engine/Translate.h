@@ -27,8 +27,11 @@ public:
     void getCatmullRomPoint(float t, float *p0, float *p1, float *p2, float *p3, float *pos, float *deriv);
     void renderCatmullRomCurve();
     void multMatrixVector(float *m, float *v, float *res);
+    void cross(float*, float*, float*);
 
+    void normalize(float *a);
 
+    void buildRotMatrix(float *x, float *y, float *z, float *m);
 };
 
 

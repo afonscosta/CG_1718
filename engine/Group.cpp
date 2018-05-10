@@ -16,8 +16,9 @@ void Group::setTranslate(Translate t) {
     this->translate = t;
 }
 
-void Group::setRotate(float t, Point p) {
-    time = t;
+void Group::setRotate(float t, Point p, int tipo) {
+    tipoRotate = tipo;
+    paramRotate = t;
     rotate.setPoint(p.getX(), p.getY(), p.getZ());
 }
 
@@ -38,9 +39,13 @@ void Group::doTranslate() {
 }
 
 void Group::doRotate() {
-    float t = (glutGet(GLUT_ELAPSED_TIME) % (int) (time * 1000));
-    float gt = 360 * (t / (time * 1000));
-    glRotatef(gt , rotate.getX(), rotate.getY(), rotate.getZ());
+    if (tipoRotate == 0)
+        glRotatef(paramRotate , rotate.getX(), rotate.getY(), rotate.getZ());
+    else if (tipoRotate == 1) {
+        float t = (glutGet(GLUT_ELAPSED_TIME) % (int) (paramRotate * 1000));
+        float gt = 360 * (t / (paramRotate * 1000));
+        glRotatef(gt, rotate.getX(), rotate.getY(), rotate.getZ());
+    }
 }
 
 void Group::doScale() {

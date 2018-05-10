@@ -10,5 +10,8 @@ engine/.idea/
 generator/.idea/
 engine/cmake-build-debug/
 generator/cmake-build-debug/
+engine/.vs
+engine/GL
+engine/IL
 engine/CMakeLists.txt
 generator/.vs
