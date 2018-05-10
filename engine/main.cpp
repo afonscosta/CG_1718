@@ -33,8 +33,8 @@ int X_TRANSLATE = 0;
 int Y_TRANSLATE = 0;
 int Z_TRANSLATE = 0;
 
-int mode = GL_LINE;
-int mode_aux = 0;
+int mode = GL_FILL;
+int mode_aux = 1;
 
 float scale = 1;
 
@@ -462,7 +462,6 @@ void renderScene() {
 
     // set the camera
     glLoadIdentity();
-    
     dx = sin(alfa);
     dy = sin(beta1);
     dz = cos(alfa);
@@ -523,6 +522,13 @@ void moveforward(){
     pz = pz + 0.5 * dz;
 }
 
+void movebackwards(){
+
+    px = px - 0.5 * dx;
+    py = py - 0.5 * dy;
+    pz = pz - 0.5 * dz;
+}
+
 // write function to process keyboard events
 void keyboard(unsigned char key, int x, int y){
 
@@ -543,6 +549,9 @@ void keyboard(unsigned char key, int x, int y){
 
     if (key == ' ')
         moveforward();
+
+    if (key == 'b')
+        movebackwards();
 
     glutPostRedisplay();
 }
