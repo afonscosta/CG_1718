@@ -1,0 +1,9 @@
+<scene>
+	<!-- SOL -->
+	<group>
+		<rotate time="50" axisX="0" axisY="1" axisZ="0" />
+		<models>
+			<model file="../files/sphere.3d" texture="../files/sunmap.jpg" />
+		</models>
+	</group>
+</scene>
