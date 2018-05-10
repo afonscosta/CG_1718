@@ -458,12 +458,12 @@ vector <Point> cone_generate_points(vector <Point> points, float radius, float h
     for (int j = 0; j < stacks; j++){
 
         for (int i = 0; i < slices; i++) {
-
+                                                        //PODE SER QUE TENHA ERROS ADFPIFJAPIFJªFPIAJEFOAPIFHEFÎPHFHJEF
             //Vertice
             p.setPoint(radius_now * sin(increment * i), height_now, radius_now * cos(increment * i) );
             points.push_back(p);
             //Normal
-            p.setPoint(cos(j * increment) * sin(i * increment), sin(j * increment), cos(j * increment) * cos(i * increment));
+            p.setPoint(cos(i * increment) * sin(j * increment), sin(i * increment), cos(i * increment) * cos(j * increment));
             points.push_back(p);
             //Texture
             p.setPoint(i * increment_Tx, j * increment_Ty, 0);
@@ -471,36 +471,36 @@ vector <Point> cone_generate_points(vector <Point> points, float radius, float h
 
             p.setPoint(radius_now * sin(increment * (i + 1)), height_now, radius_now * cos(increment * (i + 1)) );
             points.push_back(p);
-            p.setPoint(cos(j * increment) * sin((i + 1) * increment), sin(j * increment), cos(j * increment) * cos((i + 1) * increment));
+            p.setPoint(cos(i * increment) * sin((j + 1) * increment), sin(i * increment), cos(i * increment) * cos((j + 1) * increment));
             points.push_back(p);
-            p.setPoint((i+1) * increment_Tx, j * increment_Ty, 0);
+            p.setPoint((i + 1) * increment_Tx, j * increment_Ty, 0);
             points.push_back(p);
 
             p.setPoint(radius_next * sin(increment * i), height_next, radius_next * cos(increment * i ));
             points.push_back(p);
-            p.setPoint(cos((j + 1) * increment) * sin(i * increment), sin((j + 1) * increment), cos((j + 1) * increment) * cos(i * increment));
+            p.setPoint(cos((i + 1) * increment) * sin(j * increment), sin((i + 1) * increment), cos((i + 1) * increment) * cos(j * increment));
             points.push_back(p);
-            p.setPoint(i * increment_Tx, (j+1) * increment_Ty, 0);
+            p.setPoint(i * increment_Tx, (j + 1) * increment_Ty, 0);
             points.push_back(p);
 
 
             p.setPoint(radius_next * sin(increment * i), height_next, radius_next * cos(increment * i ));
             points.push_back(p);
-            p.setPoint(cos((j + 1) * increment) * sin(i * increment), sin((j + 1) * increment), cos((j + 1) * increment) * cos(i * increment));
+            p.setPoint(cos((i + 1) * increment) * sin(j * increment), sin((i + 1) * increment), cos((i + 1) * increment) * cos(j * increment));
             points.push_back(p);
             p.setPoint(i * increment_Tx, (j + 1) * increment_Ty, 0);
             points.push_back(p);
 
             p.setPoint(radius_now * sin(increment * (i + 1)), height_now, radius_now * cos(increment * (i + 1)) );
             points.push_back(p);
-            p.setPoint(cos(j * increment) * sin((i + 1) * increment), sin(j * increment), cos(j * increment) * cos((i + 1) * increment));
+            p.setPoint(cos(i * increment) * sin((j + 1) * increment), sin(i * increment), cos(i * increment) * cos((j + 1) * increment));
             points.push_back(p);
             p.setPoint((i + 1) * increment_Tx, j * increment_Ty, 0);
             points.push_back(p);
 
             p.setPoint(radius_next * sin(increment * (i + 1)) ,height_next ,radius_next * cos(increment * (i + 1)) );
             points.push_back(p);
-            p.setPoint(cos((j + 1) * increment) * sin((i + 1) * increment), sin((j + 1) * increment), cos((j + 1) * increment) * cos((i + 1) * increment));
+            p.setPoint(cos((i + 1) * increment) * sin((j + 1) * increment), sin((i + 1) * increment), cos((i + 1) * increment) * cos((j + 1) * increment));
             points.push_back(p);
             p.setPoint((i + 1) * increment_Tx, (j + 1) * increment_Ty, 0);
             points.push_back(p);
