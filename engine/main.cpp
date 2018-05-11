@@ -455,7 +455,7 @@ void changeMode() {
 
 void renderScene() {
 
-    float pos[4] = {1.0, 1.0, 1.0, 0.0};
+    float pos[4] = {1.0, 100.0, 1.0, 0.0};
 
     // clear buffers
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -466,9 +466,12 @@ void renderScene() {
     dy = sin(beta1);
     dz = cos(alfa);
 
-    gluLookAt(px, py, pz,
+    /*gluLookAt(px, py, pz,
               px + dx, py + dy, pz + dz,
-              ux, uy, uz);
+              ux, uy, uz);*/
+    gluLookAt(camX, camY, camZ,
+              0.0,0.0,0.0,
+              0.0f,1.0f,0.0f);
 
     glLightfv(GL_LIGHT0, GL_POSITION, pos);
 
@@ -658,8 +661,8 @@ void initGL() {
 
     glClearColor(0, 0, 0, 0);
 
-    glEnable(GL_LIGHTING);
-    glEnable(GL_LIGHT0);
+    //glEnable(GL_LIGHTING);
+    //glEnable(GL_LIGHT0);
 
     glEnable(GL_TEXTURE_2D);
 
@@ -689,11 +692,11 @@ int main(int argc, char **argv) {
     glutSpecialFunc(movement);
     glutMouseFunc(processMouseButtons);
     glutMotionFunc(processMouseMotion);
-
 //  OpenGL settings
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_CULL_FACE);
     glEnableClientState(GL_VERTEX_ARRAY);
+    //glDisable(GL_CULL_FACE);
 
 #ifndef __APPLE__
     glewInit();
