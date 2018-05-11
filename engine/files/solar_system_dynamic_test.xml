@@ -1,9 +1,14 @@
 <scene>
+	<lights>
+		<light type="DIRECTIONAL" posX="10" posY="0" posZ="0" />
+		<light type="DIRECTIONAL" posX="0" posY="10" posZ="0" />
+		<light type="DIRECTIONAL" posX="0" posY="0" posZ="10" />
+	</lights>
 	<!-- SOL -->
 	<group>
 		<rotate time="50" axisX="0" axisY="1" axisZ="0" />
 		<models>
-			<model file="../files/sphere.3d" texture="../files/sunmap.jpg" />
+			<model file="../files/sphere.3d" texture="../files/8k_sun.jpg" />
 		</models>
 	</group>
 </scene>
