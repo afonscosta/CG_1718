@@ -380,6 +380,7 @@ vector <Point> torus_generate_points(vector <Point> points, float radius, float 
     float normal_z = -1;
 
     int flag = 0;
+    int iaux = 0;
 
     for (int i = 0; i < stacks; i++){
         for(int j = 0; j < slices; j++) {
@@ -406,7 +407,7 @@ vector <Point> torus_generate_points(vector <Point> points, float radius, float 
             // Texture
             if (!flag)
                 p.setPoint((i * 2) * increment2T, 1, 0);
-            else p.setPoint((1 - (i * 2)) * increment2T, 1, 0);
+            else p.setPoint((1 - (iaux * 2)) * increment2T, 1, 0);
             points.push_back(p);
 
             //Vertice
@@ -428,7 +429,7 @@ vector <Point> torus_generate_points(vector <Point> points, float radius, float 
             // Texture
             if (!flag)
                 p.setPoint(((i + 1) * 2) * increment2T, 0, 0);
-            else p.setPoint((1 - ((i + 1) * 2)) * increment2T, 0, 0);
+            else p.setPoint((1 - ((iaux - 1) * 2)) * increment2T, 0, 0);
             points.push_back(p);
 
             //Vertice
@@ -450,7 +451,7 @@ vector <Point> torus_generate_points(vector <Point> points, float radius, float 
             // Texture
             if (!flag)
                 p.setPoint(((i + 1) * 2) * increment2T, 1, 0);
-            else p.setPoint(1 - (((i + 1) * 2) * increment2T), 1, 0);
+            else p.setPoint(1 - (((iaux - 1) * 2) * increment2T), 1, 0);
             points.push_back(p);
 
 
@@ -479,7 +480,7 @@ vector <Point> torus_generate_points(vector <Point> points, float radius, float 
             // Texture
             if (!flag)
                 p.setPoint((i * 2) * increment2T, 1, 0);
-            else p.setPoint((1 - (i * 2)) * increment2T, 1, 0);
+            else p.setPoint((1 - (iaux * 2)) * increment2T, 1, 0);
             points.push_back(p);
 
             //Vertice
@@ -501,7 +502,7 @@ vector <Point> torus_generate_points(vector <Point> points, float radius, float 
             // Texture
             if (!flag)
                 p.setPoint((i * 2) * increment2T,0, 0);
-            else p.setPoint(1 - ((i * 2) * increment2T),0 , 0);
+            else p.setPoint(1 - ((iaux * 2) * increment2T),0 , 0);
             points.push_back(p);
 
 
@@ -524,10 +525,11 @@ vector <Point> torus_generate_points(vector <Point> points, float radius, float 
             // Texture
             if (!flag)
                 p.setPoint(((i + 1) * 2) * increment2T, 0, 0);
-            else p.setPoint((1 - ((i + 1) * 2)) * increment2T, 0, 0);
+            else p.setPoint((1 - ((iaux - 1) * 2)) * increment2T, 0, 0);
             points.push_back(p);
 
         }
+        iaux++;
 
     }
 
