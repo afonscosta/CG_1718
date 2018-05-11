@@ -4,6 +4,27 @@
 using std::ofstream;
 using std::vector;
 
+Point cross(Point a, Point b) {
+
+    double x, y, z;
+
+    x = a.getY() * b.getZ() - a.getZ() * b.getY();
+    y = a.getZ() * b.getX() - a.getX() * b.getZ();
+    z = a.getX() * b.getY() - a.getY() * b.getX();
+
+    Point p;
+    p.setPoint(x, y, z);
+
+    return p;
+}
+
+Point normalize(Point a) {
+
+    double l = sqrt(pow(a.getX(), 2) + pow(a.getY(), 2) + pow(a.getZ(), 2));
+    a.setPoint(a.getX()/l, a.getY()/l, a.getZ()/l);
+
+    return a;
+}
 
 vector<Point> plane_generate_points(vector <Point> points, float a) {
     Point p;
@@ -458,50 +479,68 @@ vector <Point> cone_generate_points(vector <Point> points, float radius, float h
     for (int j = 0; j < stacks; j++){
 
         for (int i = 0; i < slices; i++) {
-                                                        //PODE SER QUE TENHA ERROS ADFPIFJAPIFJªFPIAJEFOAPIFHEFÎPHFHJEF
+                                                        //NORMAIS TÊM ERROS
+
+            Point p_aux[6];
+            Point v1, v2, normal;
+
             //Vertice
-            p.setPoint(radius_now * sin(increment * i), height_now, radius_now * cos(increment * i) );
-            points.push_back(p);
-            //Normal
-            p.setPoint(cos(i * increment) * sin(j * increment), sin(i * increment), cos(i * increment) * cos(j * increment));
-            points.push_back(p);
-            //Texture
+            p_aux[0].setPoint(radius_now * sin(increment * i), height_now, radius_now * cos(increment * i) );
+            p_aux[1].setPoint(radius_now * sin(increment * (i + 1)), height_now, radius_now * cos(increment * (i + 1)) );
+            p_aux[2].setPoint(radius_next * sin(increment * i), height_next, radius_next * cos(increment * i ));
+
+            //Calcular normal
+            v1.setPoint(p_aux[1].getX() - p_aux[0].getX(), p_aux[1].getY() - p_aux[0].getY(), p_aux[1].getZ() - p_aux[0].getZ());
+            v2.setPoint(p_aux[2].getX() - p_aux[0].getX(), p_aux[2].getY() - p_aux[0].getY(), p_aux[2].getZ() - p_aux[0].getZ());
+            normal = normalize( cross(v1, v2) );
+
+
+            //Push vertice 1, push normal, push textura
+            points.push_back(p_aux[0]);
+            points.push_back(normal);
             p.setPoint(i * increment_Tx, j * increment_Ty, 0);
             points.push_back(p);
 
-            p.setPoint(radius_now * sin(increment * (i + 1)), height_now, radius_now * cos(increment * (i + 1)) );
-            points.push_back(p);
-            p.setPoint(cos(i * increment) * sin((j + 1) * increment), sin(i * increment), cos(i * increment) * cos((j + 1) * increment));
-            points.push_back(p);
+//            Push vertice 2, push normal, push textura
+            points.push_back(p_aux[1]);
+            points.push_back(normal);
             p.setPoint((i + 1) * increment_Tx, j * increment_Ty, 0);
             points.push_back(p);
 
-            p.setPoint(radius_next * sin(increment * i), height_next, radius_next * cos(increment * i ));
-            points.push_back(p);
-            p.setPoint(cos((i + 1) * increment) * sin(j * increment), sin((i + 1) * increment), cos((i + 1) * increment) * cos(j * increment));
-            points.push_back(p);
+//            Push vertice 3, push normal, push textura
+            points.push_back(p_aux[2]);
+            points.push_back(normal);
             p.setPoint(i * increment_Tx, (j + 1) * increment_Ty, 0);
             points.push_back(p);
 
 
+
+            /*p_aux[3].setPoint(radius_next * sin(increment * i), height_next, radius_next * cos(increment * i ));
+            p_aux[4].setPoint(radius_now * sin(increment * (i + 1)), height_now, radius_now * cos(increment * (i + 1)) );
+            p_aux[5].setPoint(radius_next * sin(increment * (i + 1)) ,height_next ,radius_next * cos(increment * (i + 1)) );
+
+            v1.setPoint(p_aux[1].getX() - p_aux[0].getX(), p_aux[1].getY() - p_aux[0].getY(), p_aux[1].getZ() - p_aux[0].getZ());
+            v2.setPoint(p_aux[2].getX() - p_aux[0].getX(), p_aux[2].getY() - p_aux[0].getY(), p_aux[2].getZ() - p_aux[0].getZ());
+            normal = normalize( cross(v1, v2) );*/
+
             p.setPoint(radius_next * sin(increment * i), height_next, radius_next * cos(increment * i ));
             points.push_back(p);
-            p.setPoint(cos((i + 1) * increment) * sin(j * increment), sin((i + 1) * increment), cos((i + 1) * increment) * cos(j * increment));
-            points.push_back(p);
+            //points.push_back(p_aux[3]);
+            points.push_back(normal);
             p.setPoint(i * increment_Tx, (j + 1) * increment_Ty, 0);
             points.push_back(p);
 
             p.setPoint(radius_now * sin(increment * (i + 1)), height_now, radius_now * cos(increment * (i + 1)) );
             points.push_back(p);
-            p.setPoint(cos(i * increment) * sin((j + 1) * increment), sin(i * increment), cos(i * increment) * cos((j + 1) * increment));
-            points.push_back(p);
+            //points.push_back(p_aux[4]);
+            points.push_back(normal);
             p.setPoint((i + 1) * increment_Tx, j * increment_Ty, 0);
             points.push_back(p);
 
             p.setPoint(radius_next * sin(increment * (i + 1)) ,height_next ,radius_next * cos(increment * (i + 1)) );
             points.push_back(p);
-            p.setPoint(cos((i + 1) * increment) * sin((j + 1) * increment), sin((i + 1) * increment), cos((i + 1) * increment) * cos((j + 1) * increment));
-            points.push_back(p);
+            //points.push_back(p_aux[5]);
+            points.push_back(normal);
             p.setPoint((i + 1) * increment_Tx, (j + 1) * increment_Ty, 0);
             points.push_back(p);
         }
