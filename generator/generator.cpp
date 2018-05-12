@@ -349,7 +349,7 @@ vector <Point> sphere_generate_points(vector <Point> points,float radius, int sl
             points.push_back(p);
             p.setPoint((a+1) * increment1T, (i+1) * increment2T, 0);
             points.push_back(p);
-            
+
         }
     }
     return points;
@@ -391,6 +391,7 @@ vector <Point> torus_generate_points(vector <Point> points, float radius, float 
             points.push_back(p);
 
             //Textura
+            printf("%f %f\n", 2 * i * incrementT, 1 - (2 * texture_aux * incrementT));
             if (i < stacks / 2)
                 p.setPoint(2 * i * incrementT, 1, 0);
             else p.setPoint(1 - (2 * texture_aux * incrementT), 1, 0);
@@ -506,7 +507,8 @@ vector <Point> torus_generate_points(vector <Point> points, float radius, float 
             else p.setPoint(1 - (2 * (texture_aux + 1) * incrementT), 1, 0);
             points.push_back(p);
         }
-        texture_aux++;
+        if (i > stacks / 2)
+            texture_aux++;
     }
 
     return points;
