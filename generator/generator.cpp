@@ -391,7 +391,6 @@ vector <Point> torus_generate_points(vector <Point> points, float radius, float 
             points.push_back(p);
 
             //Textura
-            printf("%f %f\n", 2 * i * incrementT, 1 - (2 * texture_aux * incrementT));
             if (i < stacks / 2)
                 p.setPoint(2 * i * incrementT, 1, 0);
             else p.setPoint(1 - (2 * texture_aux * incrementT), 1, 0);
