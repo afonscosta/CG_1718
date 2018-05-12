@@ -292,9 +292,6 @@ vector <Point> sphere_generate_points(vector <Point> points,float radius, int sl
     double increment1T = 1.0f / slices;
     double increment2T = 1.0f / stacks;
 
-    //double BETA = (-M_PI) / 2;
-    //double ALFA = 0;
-
     //z = radius * cos(BETA) * cos(ALFA)
     //x = radius * cos(BETA) * sin(ALFA)
     //y = radius * cos(BETA)
@@ -352,10 +349,8 @@ vector <Point> sphere_generate_points(vector <Point> points,float radius, int sl
             points.push_back(p);
             p.setPoint((a+1) * increment1T, (i+1) * increment2T, 0);
             points.push_back(p);
-
-            //ALFA += increment1;
+            
         }
-        //BETA += increment2;
     }
     return points;
 }
