@@ -466,12 +466,12 @@ void renderScene() {
     dy = sin(beta1);
     dz = cos(alfa);
 
-    /*gluLookAt(px, py, pz,
+    gluLookAt(px, py, pz,
               px + dx, py + dy, pz + dz,
-              ux, uy, uz);*/
-    gluLookAt(camX, camY, camZ,
+              ux, uy, uz);
+    /*gluLookAt(camX, camY, camZ,
               0.0,0.0,0.0,
-              0.0f,1.0f,0.0f);
+              0.0f,1.0f,0.0f);*/
 
     glLightfv(GL_LIGHT0, GL_POSITION, pos);
 
@@ -563,16 +563,16 @@ void movement (int key, int x, int y) {
 
     switch (key) {
         case GLUT_KEY_LEFT :
-            alfa += 0.01f;
+            alfa += 0.08f;
             break;
         case GLUT_KEY_RIGHT :
-            alfa -= 0.01f;
+            alfa -= 0.08f;
             break;
         case GLUT_KEY_UP :
-            beta1 -= 0.01f;
+            beta1 -= 0.08f;
             break;
         case GLUT_KEY_DOWN :
-            beta1 += 0.01f;
+            beta1 += 0.08f;
             break;
     }
 
