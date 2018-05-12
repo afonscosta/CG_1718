@@ -368,91 +368,66 @@ vector <Point> torus_generate_points(vector <Point> points, float radius, float 
     double increment = (2 * M_PI) / slices;
     double increment1 = (2 * M_PI) / stacks;
 
-    double increment1T = 1.0f / slices;
-    double increment2T = 1.0f / stacks;
+    double incrementT = 1.0f / stacks;
 
     float torus_center_x = -1;
-    float torus_center_y = -1;
     float torus_center_z = -1;
 
     float normal_x = -1;
     float normal_y = -1;
     float normal_z = -1;
 
-    int flag = 0;
-    int iaux = 0;
-
     for (int i = 0; i < stacks; i++){
-        for(int j = 0; j < slices; j++) {
-
-            if (i > stacks / 2)
-                flag = 1;
-
+        for (int j = 0; j < slices; j++){
             //Vertice
-            p.setPoint((radius + (radius_torus * cos(j * increment))) * cos(i * increment1), (radius + (radius_torus * cos(j * increment))) * sin(i * increment1), radius_torus * sin(j * increment));
+            p.setPoint((radius + (radius_torus * cos(i * increment1))) * cos(j * increment), (radius + (radius_torus * cos(i * increment1))) * sin(j * increment), radius_torus * sin(i * increment1));
             points.push_back(p);
 
-            // Normal
-            torus_center_x = radius * cos(j * increment);
-            torus_center_y = 0;
-            torus_center_z = radius * sin(j * increment);
+            //Normal
+            torus_center_x = radius * sin(j * increment);
+            torus_center_z = radius * cos(j * increment);
 
-            normal_x = ((radius + (radius_torus * cos(j * increment))) * cos(i * increment1)) - torus_center_x;
-            normal_y = (radius + (radius_torus * cos(j * increment))) * sin(i * increment1);
-            normal_z = (radius_torus * sin(j * increment)) - torus_center_z;
-
+            normal_x = (radius + (radius_torus * cos(i * increment1))) * cos(j * increment) - torus_center_x;
+            normal_y = (radius + (radius_torus * cos(i * increment1))) * sin(j * increment);
+            normal_z = radius_torus * sin(i * increment1) - torus_center_z;
             p.setPoint(normal_x, normal_y, normal_z);
             points.push_back(p);
 
-            // Texture
-            if (!flag)
-                p.setPoint((i * 2) * increment2T, 1, 0);
-            else p.setPoint((1 - (iaux * 2)) * increment2T, 1, 0);
-            points.push_back(p);
+            //Textura
+
 
             //Vertice
-            p.setPoint((radius + (radius_torus * cos((j + 1) * increment))) * cos((i + 1) * increment1), (radius + (radius_torus * cos((j + 1) * increment))) * sin((i + 1) * increment1), radius_torus * sin((j + 1) * increment));
+            p.setPoint((radius + (radius_torus * cos(i * increment1))) * cos((j + 1) * increment), (radius + (radius_torus * cos(i * increment1))) * sin((j + 1) * increment), radius_torus * sin(i * increment1));
             points.push_back(p);
 
-            // Normal
-            torus_center_x = radius * cos((j + 1) * increment);
-            torus_center_y = 0;
-            torus_center_z = radius * sin((j + 1) * increment);
+            //Normal
+            torus_center_x = radius * sin((j + 1) * increment);
+            torus_center_z = radius * cos((j + 1) * increment);
 
-            normal_x = ((radius + (radius_torus * cos((j + 1) * increment))) * cos((i + 1) * increment1)) - torus_center_x;
-            normal_y = (radius + (radius_torus * cos((j + 1) * increment))) * sin((i + 1) * increment1);
-            normal_z = (radius_torus * sin((j + 1) * increment)) - torus_center_z;
-
+            normal_x = (radius + (radius_torus * cos(i * increment1))) * cos((j + 1) * increment) - torus_center_x;
+            normal_y = (radius + (radius_torus * cos(i * increment1))) * sin((j + 1) * increment);
+            normal_z = radius_torus * sin(i * increment1) - torus_center_z;
             p.setPoint(normal_x, normal_y, normal_z);
             points.push_back(p);
 
-            // Texture
-            if (!flag)
-                p.setPoint(((i + 1) * 2) * increment2T, 0, 0);
-            else p.setPoint((1 - ((iaux - 1) * 2)) * increment2T, 0, 0);
-            points.push_back(p);
+            //Textura
+
 
             //Vertice
-            p.setPoint((radius + (radius_torus * cos(j * increment))) * cos((i + 1) * increment1), (radius + (radius_torus * cos(j * increment))) * sin((i + 1) * increment1), radius_torus * sin(j * increment));
+            p.setPoint((radius + (radius_torus * cos((i + 1) * increment1))) * cos(j * increment), (radius + (radius_torus * cos((i + 1) * increment1))) * sin(j * increment), radius_torus * sin((i + 1) * increment1));
             points.push_back(p);
 
-            // Normal
-            torus_center_x = radius * cos(j * increment);
-            torus_center_y = 0;
-            torus_center_z = radius * sin(j * increment);
+            //Normal
+            torus_center_x = radius * sin(j * increment);
+            torus_center_z = radius * cos(j * increment);
 
-            normal_x = ((radius + (radius_torus * cos(j * increment))) * cos((i + 1) * increment1)) - torus_center_x;
-            normal_y = (radius + (radius_torus * cos(j * increment))) * sin((i + 1) * increment1);
-            normal_z = (radius_torus * sin(j * increment)) - torus_center_z;
-
+            normal_x = (radius + (radius_torus * cos((i + 1) * increment1))) * cos(j * increment) - torus_center_x;
+            normal_y = (radius + (radius_torus * cos((i + 1) * increment1))) * sin(j * increment);
+            normal_z = radius_torus * sin((i + 1) * increment1) - torus_center_z;
             p.setPoint(normal_x, normal_y, normal_z);
             points.push_back(p);
 
-            // Texture
-            if (!flag)
-                p.setPoint(((i + 1) * 2) * increment2T, 1, 0);
-            else p.setPoint(1 - (((iaux - 1) * 2) * increment2T), 1, 0);
-            points.push_back(p);
+            //Textura
 
 
 
@@ -462,75 +437,57 @@ vector <Point> torus_generate_points(vector <Point> points, float radius, float 
 
 
             //Vertice
-            p.setPoint((radius + (radius_torus * cos(j * increment))) * cos(i * increment1), (radius + (radius_torus * cos(j * increment))) * sin(i * increment1), radius_torus * sin(j * increment));
+            p.setPoint((radius + (radius_torus * cos(i * increment1))) * cos((j + 1) * increment), (radius + (radius_torus * cos(i * increment1))) * sin((j + 1) * increment), radius_torus * sin(i * increment1));
             points.push_back(p);
 
-            // Normal
-            torus_center_x = radius * cos(j * increment);
-            torus_center_y = 0;
-            torus_center_z = radius * sin(j * increment);
+            //Normal
+            torus_center_x = radius * sin((j + 1) * increment);
+            torus_center_z = radius * cos((j + 1) * increment);
 
-            normal_x = ((radius + (radius_torus * cos(j * increment))) * cos(i * increment1)) - torus_center_x;
-            normal_y = (radius + (radius_torus * cos(j * increment))) * sin(i * increment1);
-            normal_z = (radius_torus * sin(j * increment)) - torus_center_z;
-
+            normal_x = (radius + (radius_torus * cos(i * increment1))) * cos((j + 1) * increment) - torus_center_x;
+            normal_y = (radius + (radius_torus * cos(i * increment1))) * sin((j + 1) * increment);
+            normal_z = radius_torus * sin(i * increment1) - torus_center_z;
             p.setPoint(normal_x, normal_y, normal_z);
             points.push_back(p);
 
-            // Texture
-            if (!flag)
-                p.setPoint((i * 2) * increment2T, 1, 0);
-            else p.setPoint((1 - (iaux * 2)) * increment2T, 1, 0);
-            points.push_back(p);
-
-            //Vertice
-            p.setPoint((radius + (radius_torus * cos((j + 1) * increment))) * cos(i * increment1), (radius + (radius_torus * cos((j + 1) * increment))) * sin(i * increment1), radius_torus * sin((j + 1) * increment));
-            points.push_back(p);
-
-            // Normal
-            torus_center_x = radius * cos((j + 1) * increment);
-            torus_center_y = 0;
-            torus_center_z = radius * sin((j + 1) * increment);
-
-            normal_x = ((radius + (radius_torus * cos((j + 1) * increment))) * cos(i * increment1)) - torus_center_x;
-            normal_y = (radius + (radius_torus * cos((j + 1) * increment))) * sin(i * increment1);
-            normal_z = (radius_torus * sin((j + 1) * increment)) - torus_center_z;
-
-            p.setPoint(normal_x, normal_y, normal_z);
-            points.push_back(p);
-
-            // Texture
-            if (!flag)
-                p.setPoint((i * 2) * increment2T,0, 0);
-            else p.setPoint(1 - ((iaux * 2) * increment2T),0 , 0);
-            points.push_back(p);
+            //Textura
 
 
             //Vertice
-            p.setPoint((radius + (radius_torus * cos((j + 1) * increment))) * cos((i + 1) * increment1), (radius + (radius_torus * cos((j + 1) * increment))) * sin((i + 1) * increment1), radius_torus * sin((j + 1) * increment));
+            p.setPoint((radius + (radius_torus * cos((i + 1) * increment1))) * cos((j + 1) * increment), (radius + (radius_torus * cos((i + 1) * increment1))) * sin((j + 1) * increment), radius_torus * sin((i + 1) * increment1));
             points.push_back(p);
 
-            // Normal
-            torus_center_x = radius * cos((j + 1) * increment);
-            torus_center_y = 0;
-            torus_center_z = radius * sin((j + 1) * increment);
+            //Normal
+            torus_center_x = radius * sin((j + 1) * increment);
+            torus_center_z = radius * cos((j + 1) * increment);
 
-            normal_x = ((radius + (radius_torus * cos((j + 1) * increment))) * cos((i + 1) * increment1)) - torus_center_x;
-            normal_y = (radius + (radius_torus * cos((j + 1) * increment))) * sin((i + 1) * increment1);
-            normal_z = (radius_torus * sin((j + 1) * increment)) - torus_center_z;
-
+            normal_x = (radius + (radius_torus * cos((i + 1) * increment1))) * cos((j + 1) * increment) - torus_center_x;
+            normal_y = (radius + (radius_torus * cos((i + 1) * increment1))) * sin((j + 1) * increment);
+            normal_z = radius_torus * sin((i + 1) * increment1) - torus_center_z;
             p.setPoint(normal_x, normal_y, normal_z);
             points.push_back(p);
 
-            // Texture
-            if (!flag)
-                p.setPoint(((i + 1) * 2) * increment2T, 0, 0);
-            else p.setPoint((1 - ((iaux - 1) * 2)) * increment2T, 0, 0);
+            //Textura
+
+
+            //Vertice
+            p.setPoint((radius + (radius_torus * cos((i + 1) * increment1))) * cos(j * increment), (radius + (radius_torus * cos((i + 1) * increment1))) * sin(j * increment), radius_torus * sin((i + 1) * increment1));
             points.push_back(p);
+
+            //Normal
+            torus_center_x = radius * sin(j * increment);
+            torus_center_z = radius * cos(j * increment);
+
+            normal_x = (radius + (radius_torus * cos((i + 1) * increment1))) * cos(j * increment) - torus_center_x;
+            normal_y = (radius + (radius_torus * cos((i + 1) * increment1))) * sin(j * increment);
+            normal_z = radius_torus * sin((i + 1) * increment1) - torus_center_z;
+            p.setPoint(normal_x, normal_y, normal_z);
+            points.push_back(p);
+
+            //Textura
+
 
         }
-        iaux++;
-
     }
 
     return points;
