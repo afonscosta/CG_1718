@@ -325,7 +325,7 @@ vector <Point> sphere_generate_points(vector <Point> points,float radius, int sl
 
             p.setPoint(radius * cos(i * increment2- M_PI / 2) * sin(a * increment1), radius * sin(i * increment2- M_PI / 2), radius * cos(i * increment2- M_PI / 2) * cos(a * increment1));
             points.push_back(p);
-            p.setPoint(cos(i * increment2) * sin(a * increment1), sin(i * increment2), cos(i * increment2) * cos(a * increment1));
+            p.setPoint(cos(i * increment2- M_PI / 2) * sin(a * increment1), sin(i * increment2- M_PI / 2), cos(i * increment2- M_PI / 2) * cos(a * increment1));
             points.push_back(p);
             p.setPoint(a * increment1T, i * increment2T, 0);
             points.push_back(p);
