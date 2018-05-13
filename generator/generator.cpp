@@ -481,7 +481,7 @@ vector <Point> cone_generate_points(vector <Point> points, float radius, float h
         for (int i = 0; i < slices; i++) {
                                                       
 
-            Point p_aux[6];
+            Point p_aux[3];
             Point v1, v2, normal;
 
             //Vertice
@@ -515,31 +515,20 @@ vector <Point> cone_generate_points(vector <Point> points, float radius, float h
 
 
 
-            /*p_aux[3].setPoint(radius_next * sin(increment * i), height_next, radius_next * cos(increment * i ));
-            p_aux[4].setPoint(radius_now * sin(increment * (i + 1)), height_now, radius_now * cos(increment * (i + 1)) );
-            p_aux[5].setPoint(radius_next * sin(increment * (i + 1)) ,height_next ,radius_next * cos(increment * (i + 1)) );
-
-            v1.setPoint(p_aux[1].getX() - p_aux[0].getX(), p_aux[1].getY() - p_aux[0].getY(), p_aux[1].getZ() - p_aux[0].getZ());
-            v2.setPoint(p_aux[2].getX() - p_aux[0].getX(), p_aux[2].getY() - p_aux[0].getY(), p_aux[2].getZ() - p_aux[0].getZ());
-            normal = normalize( cross(v1, v2) );*/
-
             p.setPoint(radius_next * sin(increment * i), height_next, radius_next * cos(increment * i ));
             points.push_back(p);
-            //points.push_back(p_aux[3]);
             points.push_back(normal);
             p.setPoint(i * increment_Tx, (j + 1) * increment_Ty, 0);
             points.push_back(p);
 
             p.setPoint(radius_now * sin(increment * (i + 1)), height_now, radius_now * cos(increment * (i + 1)) );
             points.push_back(p);
-            //points.push_back(p_aux[4]);
             points.push_back(normal);
             p.setPoint((i + 1) * increment_Tx, j * increment_Ty, 0);
             points.push_back(p);
 
             p.setPoint(radius_next * sin(increment * (i + 1)) ,height_next ,radius_next * cos(increment * (i + 1)) );
             points.push_back(p);
-            //points.push_back(p_aux[5]);
             points.push_back(normal);
             p.setPoint((i + 1) * increment_Tx, (j + 1) * increment_Ty, 0);
             points.push_back(p);
