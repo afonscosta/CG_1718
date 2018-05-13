@@ -20,7 +20,7 @@ public:
 
     void setPos(const Point &pos);
 
-    void turnOnLight(int numLight);
+    int turnOnLight(int numLight);
 };
 
 

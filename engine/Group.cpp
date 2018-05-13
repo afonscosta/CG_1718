@@ -5,6 +5,7 @@
 #include <GL/glut.h>
 #endif
 #include <math.h>
+#include <cstring>
 #include "Group.h"
 
 
@@ -27,11 +28,15 @@ void Group::setScale(Point p) {
 }
 
 void Group::setModels(vector<Model> ms) {
-    models = ms; //Assim fica-se com acesso exterior aos models
+    models = ms;
+}
+
+void Group::setLights(const vector<Light> &lights) {
+    Group::lights = lights;
 }
 
 void Group::addGroup(Group* g) {
-    groups.push_back(g); //Assim fica-se com acesso exterior aos grupos
+    groups.push_back(g);
 }
 
 void Group::doTranslate() {
@@ -69,10 +74,37 @@ void Group::drawGroup() {
         else if (it == 's')
             doScale();
     }
+
+    int hasPointLight = 0;
+
+    for (int i = 0; i < lights.size(); i++) {
+        hasPointLight += lights.at(i).turnOnLight(i);
+    }
+
+//    if (order.size() == 0) {
+//        float yellow[4] = {255.0 / 255.0, 204.0 / 255.0, 102.0 / 255.0, 1.0f};
+//        glMaterialfv(GL_FRONT, GL_EMISSION, yellow);
+//    }
+//    else {
+//        float black[4] = {0.2, 0.2, 0.2, 1.0f};
+//        glMaterialfv(GL_FRONT, GL_EMISSION, black);
+//    }
+
+
     drawModels();
+
+//    glPopAttrib();
+//    if (hasPointLight) {
+//
+//        glPopAttrib();
+//        float black[4] = {0.2, 0.2, 0.2, 1.0f};
+//        glMaterialfv(GL_FRONT, GL_EMISSION, black);
+//    }
+
     for (auto &it : groups) {
         it->drawGroup();
     }
 
     glPopMatrix();
 }
+

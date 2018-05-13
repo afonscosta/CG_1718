@@ -6,6 +6,7 @@
 #include "Point.h"
 #include "Model.h"
 #include "Translate.h"
+#include "Light.h"
 #include <vector>
 using std::vector;
 
@@ -18,11 +19,16 @@ class Group {
     Point scale;
     vector<Model> models;
     vector<Group *> groups;
+    vector<Light> lights;
+public:
+    void setLights(const vector<Light> &lights);
+
 private:
     void doTranslate();
     void doRotate();
     void doScale();
     void drawModels();
+
 public:
     void addOrder(char);
     void setTranslate (Translate t); //Null = 0, 0, 0

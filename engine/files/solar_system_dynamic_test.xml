@@ -1,14 +1,95 @@
 <scene>
-	<lights>
-		<!--<light type="DIRECTIONAL" posX="200" posY="0" posZ="0" />-->
-		<!--<light type="SPOT" posX="0" posY="0" posZ="1.5" />-->
-		<!--<light type="POINT" posX="0" posY="0" posZ="1.5" />-->
-	</lights>
 	<!-- SOL -->
 	<group>
 		<!--<rotate time="50" axisX="0" axisY="1" axisZ="0" />-->
+        <lights>
+            <light type="POINT" posX="0" posY="0" posZ="0" />
+        </lights>
 		<models>
-			<model file="../files/sphere.3d" texture="../files/8k_sun.jpg" />
+			<model file="../files/sphere.3d" texture="../files/8k_sun.jpg" emission="white" />
+		</models>
+	</group>
+
+
+
+	<group>
+		<translate X="6" />
+		<models>
+			<model file="../files/sphere.3d" texture="../files/earthmap1k.jpg" />
+		</models>
+	</group>
+    <group>
+        <translate X="14" />
+        <lights>
+            <light type="POINT" posX="0" posY="0" posZ="0" />
+        </lights>
+        <models>
+            <model file="../files/sphere.3d" texture="../files/earthmap1k.jpg" emission="white" />
+        </models>
+    </group>
+	<group>
+		<translate X="-6" />
+		<models>
+			<model file="../files/sphere.3d" texture="../files/earthmap1k.jpg" />
+		</models>
+	</group>
+	<group>
+		<translate X="-14" />
+		<models>
+			<model file="../files/sphere.3d" texture="../files/earthmap1k.jpg" />
+		</models>
+	</group>
+
+
+	<group>
+		<translate Y="6" />
+		<models>
+			<model file="../files/sphere.3d" texture="../files/earthmap1k.jpg" />
+		</models>
+	</group>
+	<group>
+		<translate Y="14" />
+		<models>
+			<model file="../files/sphere.3d" texture="../files/earthmap1k.jpg" />
+		</models>
+	</group>
+	<group>
+		<translate Y="-6" />
+		<models>
+			<model file="../files/sphere.3d" texture="../files/earthmap1k.jpg" />
+		</models>
+	</group>
+	<group>
+		<translate Y="-14" />
+		<models>
+			<model file="../files/sphere.3d" texture="../files/earthmap1k.jpg" />
+		</models>
+	</group>
+
+
+
+	<group>
+		<translate Z="6" />
+		<models>
+			<model file="../files/sphere.3d" texture="../files/earthmap1k.jpg" />
+		</models>
+	</group>
+	<group>
+		<translate Z="14" />
+		<models>
+			<model file="../files/sphere.3d" texture="../files/earthmap1k.jpg" />
+		</models>
+	</group>
+	<group>
+		<translate Z="-6" />
+		<models>
+			<model file="../files/sphere.3d" texture="../files/earthmap1k.jpg" />
+		</models>
+	</group>
+	<group>
+		<translate Z="-14" />
+		<models>
+			<model file="../files/sphere.3d" texture="../files/earthmap1k.jpg" />
 		</models>
 	</group>
 </scene>

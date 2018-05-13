@@ -34,8 +34,8 @@ int X_TRANSLATE = 0;
 int Y_TRANSLATE = 0;
 int Z_TRANSLATE = 0;
 
-int mode = GL_LINE;
-int mode_aux = 0;
+int mode = GL_FILL;
+int mode_aux = 1;
 
 float scale = 1;
 
@@ -345,6 +345,9 @@ Model parseModel(pugi::xml_node_iterator model) {
 
         if (strcmp(ait->name(), "texture") == 0)
             modelDest.setTexIDPrimitive(loadTexture(ait->value()));
+
+        if (strcmp(ait->name(), "emission") == 0)
+            modelDest.setEmission((char *) ait->value());
     }
     return modelDest;
 }
@@ -359,6 +362,46 @@ vector<Model> parseModels(pugi::xml_node_iterator models) {
     }
 
     return modelsDest;
+}
+
+Light parseLight(pugi::xml_node_iterator light) {
+
+    float x, y, z;
+    Point p;
+    Light l;
+
+    for (pugi::xml_attribute_iterator ait = light->attributes_begin(); ait != light->attributes_end(); ++ait)
+    {
+        if (strcmp(ait->name(), "type") == 0)
+            l.setType((char *) ait->value());
+
+        else if (strcmp(ait->name(), "posX") == 0)
+            x = strtof(ait->value(), nullptr);
+
+        else if (strcmp(ait->name(), "posY") == 0)
+            y = strtof(ait->value(), nullptr);
+
+        else if (strcmp(ait->name(), "posZ") == 0)
+            z = strtof(ait->value(), nullptr);
+    }
+
+    p.setPoint(x, y, z);
+
+    l.setPos(p);
+
+    return l;
+}
+
+vector<Light> parseLights(pugi::xml_node_iterator lightSrc) {
+
+    vector<Light> lights;
+
+    for (pugi::xml_node_iterator it = lightSrc->begin(); it != lightSrc->end(); ++it) {
+        if (strcmp(it->name(), "light") == 0) {
+            lights.push_back(parseLight(it));
+        }
+    }
+    return lights;
 }
 
 Group* parseGroup(pugi::xml_node_iterator groupSrc) {
@@ -387,47 +430,14 @@ Group* parseGroup(pugi::xml_node_iterator groupSrc) {
         else if (strcmp(it->name(), "group") == 0) {
             (*groupDest).addGroup(parseGroup(it));
         }
+        else if (strcmp(it->name(), "lights") == 0) {
+            (*groupDest).setLights(parseLights(it));
+        }
     }
 
     return groupDest;
 }
 
-void parseLight(pugi::xml_node_iterator light) {
-
-    float x, y, z;
-    Point p;
-    Light l;
-
-    for (pugi::xml_attribute_iterator ait = light->attributes_begin(); ait != light->attributes_end(); ++ait)
-    {
-        if (strcmp(ait->name(), "type") == 0)
-            l.setType((char *) ait->value());
-
-        else if (strcmp(ait->name(), "posX") == 0)
-            x = strtof(ait->value(), nullptr);
-
-        else if (strcmp(ait->name(), "posY") == 0)
-            y = strtof(ait->value(), nullptr);
-
-        else if (strcmp(ait->name(), "posZ") == 0)
-            z = strtof(ait->value(), nullptr);
-    }
-
-    p.setPoint(x, y, z);
-
-    l.setPos(p);
-
-    lights.push_back(l);
-}
-
-void parseLights(pugi::xml_node_iterator lightSrc) {
-
-    for (pugi::xml_node_iterator it = lightSrc->begin(); it != lightSrc->end(); ++it) {
-        if (strcmp(it->name(), "light") == 0) {
-            parseLight(it);
-        }
-    }
-}
 
 void parseXML() {
 
@@ -440,7 +450,7 @@ void parseXML() {
             (*groupDest).addGroup(parseGroup(it));
         }
         else if (strcmp(it->name(), "lights") == 0) {
-            parseLights(it);
+            lights = parseLights(it);
         }
     }
 
@@ -497,14 +507,6 @@ void renderScene() {
     // clear buffers
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-//    GLfloat amb[4] = {0.1, 0.1, 0.1, 1};
-//    GLfloat diff[4] = {1.0, 1.0, 1.0, 0.0};
-//    GLfloat posL[4] = { 0.5, 0, 0, 1};
-//
-//    glLightfv(GL_LIGHT1, GL_AMBIENT, amb);
-//    glLightfv(GL_LIGHT1, GL_DIFFUSE, diff);
-//    glLightfv(GL_LIGHT1, GL_POSITION, posL);
-
 
     // set the camera
     glLoadIdentity();
@@ -517,21 +519,67 @@ void renderScene() {
               px + dx, py + dy, pz + dz,
               ux, uy, uz);
 
-    float red[4] = {0.1f, 0.1f, 0.9f, 1.0f};
-    glMaterialf(GL_FRONT,GL_SHININESS,128.0);
-    glMaterialfv(GL_FRONT, GL_EMISSION, red);
+//    float black[4] = {0.2, 0.2, 0.2, 1.0f};
+//    float yellow[4] = {255.0 / 255.0, 204.0 / 255.0, 102.0 / 255.0, 1.0f};
+//    GLfloat amb[4] = {0.1, 0.1, 0.1, 1.0};
+//    GLfloat diff[4] = {10.0, 10.0, 10.0, 1.0};
+//
+//
+//    glPushAttrib(GL_LIGHTING_BIT);
+//
+//    glMaterialfv(GL_FRONT, GL_DIFFUSE, yellow);
+//    glMaterialf(GL_FRONT,GL_SHININESS,50.0);
+//
+//    glLightfv(GL_LIGHT0, GL_POSITION, posL);
+//    glLightfv(GL_LIGHT0, GL_AMBIENT, amb);
+//    glLightfv(GL_LIGHT0, GL_DIFFUSE, diff);
+//
+//    glEnable(GL_LIGHT0);
+//
+//    glEnable(GL_LIGHTING);
+//
+//    glMaterialfv(GL_FRONT, GL_EMISSION, yellow);
+//
+//    scene.groups.front()->drawGroup();
+//
+//    glPopAttrib();
+//
+//
+//
+//
+//    glPushAttrib(GL_LIGHTING_BIT);
+//
+//    glMaterialfv(GL_FRONT, GL_DIFFUSE, yellow);
+//    glMaterialf(GL_FRONT,GL_SHININESS,50.0);
+//
+//    // light position- in renderScene function
+//    glLightfv(GL_LIGHT1, GL_POSITION, posL);
+//    glLightfv(GL_LIGHT1, GL_AMBIENT, amb);
+//    glLightfv(GL_LIGHT1, GL_DIFFUSE, diff);
+//
+//    glEnable(GL_LIGHT1);
+//
+//    glEnable(GL_LIGHTING);
+//
+//    glMaterialfv(GL_FRONT, GL_EMISSION, black);
+//
+//    scene.groups.back()->drawGroup();
+//
+//    glPopAttrib();
+
+
+//    glPushMatrix();
+//    glPushAttrib(GL_LIGHTING_BIT);
+//    glMaterialfv(GL_FRONT, GL_EMISSION, blue);
+//    glPopAttrib();
+//    glPopMatrix();
 
     // Turn on lights
+//    int hasPointLight = 0;
 //    for (int i = 0; i < lights.size(); i++) {
-//        lights.at(i).turnOnLight(i);
+//        hasPointLight += lights.at(i).turnOnLight(i);
 //    }
 
-    float white[4] = { 1,1,1,1 };
-    glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, white);
-
-
-    //Muda o modo de desenho das figuras
-    changeMode();
 
     //Eixos
     glBegin(GL_LINES);
@@ -551,6 +599,11 @@ void renderScene() {
     // Coloca a cor como branca para as primitivas
     glColor3f(1,1,1);
 
+
+    //Muda o modo de desenho das figuras
+    changeMode();
+
+
     // movimento no plano XZ
     glTranslatef(X_TRANSLATE ,Y_TRANSLATE ,Z_TRANSLATE);
 
@@ -565,15 +618,31 @@ void renderScene() {
     //Desenha a cena
     scene.drawGroup();
 
+//    if (hasPointLight) {
+//
+//        float black[4] = {0.2, 0.2, 0.2, 1.0f};
+//        glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, black);
+//    }
+//    glPopAttrib();
+//    glPopAttrib();
+
+
     // End of frame
     glutSwapBuffers();
 }
 
 void moveforward(){
 
-    px = px + 0.5 * dx;
-    py = py + 0.5 * dy;
-    pz = pz + 0.5 * dz;
+    px = px + 2 * dx;
+    py = py + 2 * dy;
+    pz = pz + 2 * dz;
+}
+
+void movebackwards(){
+
+    px = px - 2 * dx;
+    py = py - 2 * dy;
+    pz = pz - 2 * dz;
 }
 
 // write function to process keyboard events
@@ -597,6 +666,9 @@ void keyboard(unsigned char key, int x, int y){
     if (key == ' ')
         moveforward();
 
+    if (key == 'b')
+        movebackwards();
+
     glutPostRedisplay();
 }
 
@@ -604,16 +676,16 @@ void movement (int key, int x, int y) {
 
     switch (key) {
         case GLUT_KEY_LEFT :
-            alfa += 0.01f;
+            alfa += 0.1f;
             break;
         case GLUT_KEY_RIGHT :
-            alfa -= 0.01f;
+            alfa -= 0.1f;
             break;
         case GLUT_KEY_UP :
-            beta1 -= 0.01f;
+            beta1 -= 0.1f;
             break;
         case GLUT_KEY_DOWN :
-            beta1 += 0.01f;
+            beta1 += 0.1f;
             break;
     }
 
@@ -705,12 +777,12 @@ void initGL() {
     glEnable(GL_LIGHTING);
     glEnable(GL_LIGHT0);
     glEnable(GL_LIGHT1);
-    glEnable(GL_LIGHT2);
-    glEnable(GL_LIGHT3);
-    glEnable(GL_LIGHT4);
-    glEnable(GL_LIGHT5);
-    glEnable(GL_LIGHT6);
-    glEnable(GL_LIGHT7);
+//    glEnable(GL_LIGHT2);
+//    glEnable(GL_LIGHT3);
+//    glEnable(GL_LIGHT4);
+//    glEnable(GL_LIGHT5);
+//    glEnable(GL_LIGHT6);
+//    glEnable(GL_LIGHT7);
 
     glEnable(GL_TEXTURE_2D);
 
