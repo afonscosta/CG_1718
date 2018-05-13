@@ -479,7 +479,7 @@ vector <Point> cone_generate_points(vector <Point> points, float radius, float h
     for (int j = 0; j < stacks; j++){
 
         for (int i = 0; i < slices; i++) {
-                                                        //NORMAIS TÊM ERROS
+                                                      
 
             Point p_aux[6];
             Point v1, v2, normal;
