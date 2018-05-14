@@ -56,7 +56,7 @@
 			<rotate time="10" axisX="0" axisY="1" axisZ="0"/>
 			<scale X="0.1915" Y="0.1915" Z="0.1915"/>
 			<models>
-				<model file="../files/sphere.3d" texture="../files/8k_mercury.jpg"/>
+				<model file="../files/sphere.3d" texture="../files/2k_mercury.jpg"/>
 			</models>
 		</group>
 		<!-- VENUS -->
@@ -74,7 +74,7 @@
 			<rotate time="15" axisX="0" axisY="-1" axisZ="0"/>
 			<scale X="0.47495" Y="0.47495" Z="0.47495"/>
 			<models>
-				<model file="../files/sphere.3d" texture="../files/8k_venus_surface.jpg"/>
+				<model file="../files/sphere.3d" texture="../files/2k_venus_surface.jpg"/>
 			</models>
 		</group>
 		<!-- TERRA -->
@@ -92,7 +92,7 @@
             <rotate time="22" axisX="0" axisY="1" axisZ="0"/>
 			<scale X="0.5" Y="0.5" Z="0.5"/>
 			<models>
-				<model file="../files/sphere.3d" texture="../files/8k_earth_daymap.jpg" />
+				<model file="../files/sphere.3d" texture="../files/2k_earth_daymap.jpg" />
 			</models>
 
 			<group>
@@ -109,7 +109,7 @@
                 <rotate time="616" axisX="0" axisY="1" axisZ="0"/>
 				<scale X="0.1" Y="0.1" Z="0.1"/>
 				<models>
-					<model file="../files/sphere.3d" texture="../files/8k_moon.jpg"/>
+					<model file="../files/sphere.3d" texture="../files/2k_moon.jpg"/>
 				</models>
 			</group>
 
@@ -129,7 +129,7 @@
 			<rotate time="28" axisX="0" axisY="1" axisZ="0"/>
 			<scale X="0.2665" Y="0.2665" Z="0.2665"/>
 			<models>
-				<model file="../files/sphere.3d" texture="../files/8k_mars.jpg"/>
+				<model file="../files/sphere.3d" texture="../files/2k_mars.jpg"/>
 			</models>
 		</group>
 		<!-- JUPITER -->
