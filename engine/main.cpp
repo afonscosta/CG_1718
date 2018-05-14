@@ -57,6 +57,10 @@ double beta1 = M_PI;
 Group scene;
 vector<Light> lights;
 
+//Flags
+int curveOff = 0;
+int spotOff = 1;
+
 
 
 /*
@@ -366,7 +370,7 @@ vector<Model> parseModels(pugi::xml_node_iterator models) {
 
 Light parseLight(pugi::xml_node_iterator light) {
 
-    float x, y, z;
+    float x = 0, y = 0, z = 0;
     Point p;
     Light l;
 
@@ -459,7 +463,6 @@ void parseXML() {
 
 
 
-
 /*
  * ============================================================================
  * CÓDIGO =====================================================================
@@ -511,6 +514,13 @@ void renderScene() {
     // set the camera
     glLoadIdentity();
 
+    // Turn on lights
+    if (!spotOff)
+        for (int i = 0; i < lights.size(); i++) {
+            if (strcmp(lights.at(i).type, "SPOT") == 0)
+                lights.at(i).turnOnLight(i);
+        }
+
     dx = sin(alfa);
     dy = sin(beta1);
     dz = cos(alfa);
@@ -519,85 +529,34 @@ void renderScene() {
               px + dx, py + dy, pz + dz,
               ux, uy, uz);
 
-//    float black[4] = {0.2, 0.2, 0.2, 1.0f};
-//    float yellow[4] = {255.0 / 255.0, 204.0 / 255.0, 102.0 / 255.0, 1.0f};
-//    GLfloat amb[4] = {0.1, 0.1, 0.1, 1.0};
-//    GLfloat diff[4] = {10.0, 10.0, 10.0, 1.0};
-//
-//
-//    glPushAttrib(GL_LIGHTING_BIT);
-//
-//    glMaterialfv(GL_FRONT, GL_DIFFUSE, yellow);
-//    glMaterialf(GL_FRONT,GL_SHININESS,50.0);
-//
-//    glLightfv(GL_LIGHT0, GL_POSITION, posL);
-//    glLightfv(GL_LIGHT0, GL_AMBIENT, amb);
-//    glLightfv(GL_LIGHT0, GL_DIFFUSE, diff);
-//
-//    glEnable(GL_LIGHT0);
-//
-//    glEnable(GL_LIGHTING);
-//
-//    glMaterialfv(GL_FRONT, GL_EMISSION, yellow);
-//
-//    scene.groups.front()->drawGroup();
-//
-//    glPopAttrib();
-//
-//
-//
-//
-//    glPushAttrib(GL_LIGHTING_BIT);
-//
-//    glMaterialfv(GL_FRONT, GL_DIFFUSE, yellow);
-//    glMaterialf(GL_FRONT,GL_SHININESS,50.0);
-//
-//    // light position- in renderScene function
-//    glLightfv(GL_LIGHT1, GL_POSITION, posL);
-//    glLightfv(GL_LIGHT1, GL_AMBIENT, amb);
-//    glLightfv(GL_LIGHT1, GL_DIFFUSE, diff);
-//
-//    glEnable(GL_LIGHT1);
-//
-//    glEnable(GL_LIGHTING);
-//
-//    glMaterialfv(GL_FRONT, GL_EMISSION, black);
-//
-//    scene.groups.back()->drawGroup();
-//
-//    glPopAttrib();
-
-
-//    glPushMatrix();
-//    glPushAttrib(GL_LIGHTING_BIT);
-//    glMaterialfv(GL_FRONT, GL_EMISSION, blue);
-//    glPopAttrib();
-//    glPopMatrix();
+    /*gluLookAt(camX, camY, camZ,
+              0.0,0.0,0.0,
+              0.0f,1.0f,0.0f);*/
 
     // Turn on lights
-//    int hasPointLight = 0;
-//    for (int i = 0; i < lights.size(); i++) {
-//        hasPointLight += lights.at(i).turnOnLight(i);
-//    }
+    for (int i = 0; i < lights.size(); i++) {
+        if (strcmp(lights.at(i).type, "SPOT") != 0)
+            lights.at(i).turnOnLight(i);
+    }
 
 
     //Eixos
-    glBegin(GL_LINES);
-    glColor3f(1,0,0);
-    glVertex3f(0.0f, 0.0f, 0.0f);
-    glVertex3f(200.0f, 0.0f, 0.0f);
-
-    glColor3f(0,1,0);
-    glVertex3f(0.0f, 0.0f, 0.0f);
-    glVertex3f(0.0f, 200.0f, 0.0f);
-
-    glColor3f(0,0,1);
-    glVertex3f(0.0f, 0.0f, 0.0f);
-    glVertex3f(0.0f, 0.0f, 200.0f);
-    glEnd();
+//    glBegin(GL_LINES);
+//    glColor3f(1,0,0);
+//    glVertex3f(0.0f, 0.0f, 0.0f);
+//    glVertex3f(200.0f, 0.0f, 0.0f);
+//
+//    glColor3f(0,1,0);
+//    glVertex3f(0.0f, 0.0f, 0.0f);
+//    glVertex3f(0.0f, 200.0f, 0.0f);
+//
+//    glColor3f(0,0,1);
+//    glVertex3f(0.0f, 0.0f, 0.0f);
+//    glVertex3f(0.0f, 0.0f, 200.0f);
+//    glEnd();
 
     // Coloca a cor como branca para as primitivas
-    glColor3f(1,1,1);
+//    glColor3f(1,1,1);
 
 
     //Muda o modo de desenho das figuras
@@ -616,16 +575,16 @@ void renderScene() {
     glScalef(scale, scale, scale);
 
     //Desenha a cena
-    scene.drawGroup();
+    scene.drawGroup(curveOff);
 
-//    if (hasPointLight) {
-//
-//        float black[4] = {0.2, 0.2, 0.2, 1.0f};
-//        glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, black);
-//    }
-//    glPopAttrib();
-//    glPopAttrib();
-
+    glDisable(GL_LIGHT0);
+    glDisable(GL_LIGHT1);
+    glDisable(GL_LIGHT2);
+    glDisable(GL_LIGHT3);
+    glDisable(GL_LIGHT4);
+    glDisable(GL_LIGHT5);
+    glDisable(GL_LIGHT6);
+    glDisable(GL_LIGHT7);
 
     // End of frame
     glutSwapBuffers();
@@ -668,6 +627,12 @@ void keyboard(unsigned char key, int x, int y){
 
     if (key == 'b')
         movebackwards();
+
+    if (key == 'o')
+        curveOff = (curveOff + 1) % 2;
+
+    if (key == 's')
+        spotOff = (spotOff + 1) % 2;
 
     glutPostRedisplay();
 }
@@ -774,9 +739,9 @@ void initGL() {
 
     glClearColor(0, 0, 0, 0);
 
-    glEnable(GL_LIGHTING);
-    glEnable(GL_LIGHT0);
-    glEnable(GL_LIGHT1);
+//    glEnable(GL_LIGHTING);
+//    glEnable(GL_LIGHT0);
+//    glEnable(GL_LIGHT1);
 //    glEnable(GL_LIGHT2);
 //    glEnable(GL_LIGHT3);
 //    glEnable(GL_LIGHT4);
@@ -833,3 +798,4 @@ int main(int argc, char **argv) {
 
     return 1;
 }
+

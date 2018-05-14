@@ -39,8 +39,8 @@ void Group::addGroup(Group* g) {
     groups.push_back(g);
 }
 
-void Group::doTranslate() {
-    translate.doTranslate();
+void Group::doTranslate(int curveOff) {
+    translate.doTranslate(curveOff);
 }
 
 void Group::doRotate() {
@@ -64,16 +64,17 @@ void Group::drawModels() {
     }
 }
 
-void Group::drawGroup() {
+void Group::drawGroup(int curveOff) {
     glPushMatrix();
     for (auto &it : order) {
         if (it == 't')
-            doTranslate();
+            doTranslate(curveOff);
         else if (it == 'r')
             doRotate();
         else if (it == 's')
             doScale();
     }
+
 
     int hasPointLight = 0;
 
@@ -81,28 +82,10 @@ void Group::drawGroup() {
         hasPointLight += lights.at(i).turnOnLight(i);
     }
 
-//    if (order.size() == 0) {
-//        float yellow[4] = {255.0 / 255.0, 204.0 / 255.0, 102.0 / 255.0, 1.0f};
-//        glMaterialfv(GL_FRONT, GL_EMISSION, yellow);
-//    }
-//    else {
-//        float black[4] = {0.2, 0.2, 0.2, 1.0f};
-//        glMaterialfv(GL_FRONT, GL_EMISSION, black);
-//    }
-
-
     drawModels();
 
-//    glPopAttrib();
-//    if (hasPointLight) {
-//
-//        glPopAttrib();
-//        float black[4] = {0.2, 0.2, 0.2, 1.0f};
-//        glMaterialfv(GL_FRONT, GL_EMISSION, black);
-//    }
-
     for (auto &it : groups) {
-        it->drawGroup();
+        it->drawGroup(curveOff);
     }
 
     glPopMatrix();

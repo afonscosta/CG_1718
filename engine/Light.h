@@ -9,9 +9,10 @@ class Light {
 
 private:
     Point pos;
-    char *type;
 
 public:
+    char *type;
+
     char *getType() const;
 
     void setType(char *type);

@@ -24,7 +24,7 @@ public:
     void setLights(const vector<Light> &lights);
 
 private:
-    void doTranslate();
+    void doTranslate(int i);
     void doRotate();
     void doScale();
     void drawModels();
@@ -36,7 +36,7 @@ public:
     void setScale (Point); //Null = 0, 0, 0
     void setModels (vector<Model>); //Null = vector vazio
     void addGroup (Group*); //Null = vector vazio
-    void drawGroup();
+    void drawGroup(int curveOff);
 
 };
 
