@@ -17,19 +17,17 @@ class Light {
 
 private:
     Point pos;
+    char *type;
 
 public:
-    char *type;
 
     char *getType() const;
 
     void setType(char *type);
 
-    const Point &getPos() const;
-
     void setPos(const Point &pos);
 
-    int turnOnLight(int numLight);
+    void turnOnLight(int numLight);
 };
 
 

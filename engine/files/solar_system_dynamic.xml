@@ -17,7 +17,7 @@
 		<scale X="20" Y="20" Z="20"/>
 		<rotate time="50" axisX="0" axisY="1" axisZ="0" />
 		<models>
-			<model file="../files/sphere.3d" texture="../files/8k_sun.jpg" emission="white" />
+			<model file="../files/sphere.3d" texture="../files/8k_sun.jpg" emissionX="0.9" emissionY="0.9" emissionZ="0.9" />
 		</models>
 	</group>
 	<group>

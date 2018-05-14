@@ -20,8 +20,6 @@ class Group {
     vector<Model> models;
     vector<Group *> groups;
     vector<Light> lights;
-public:
-    void setLights(const vector<Light> &lights);
 
 private:
     void doTranslate(int i);
@@ -30,6 +28,7 @@ private:
     void drawModels();
 
 public:
+    void setLights(const vector<Light> &lights);
     void addOrder(char);
     void setTranslate (Translate t); //Null = 0, 0, 0
     void setRotate(float t, Point p, int tipo);
