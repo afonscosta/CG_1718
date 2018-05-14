@@ -53,6 +53,7 @@ double alfa = M_PI;
 double beta1 = M_PI;
 int move = 0;
 int timebase = 0, frame = 0;
+char* fps_counter = new char[10];
 
 Group scene;
 vector<Light> lights;
@@ -528,6 +529,27 @@ void movebackwards(){
     pz = pz - 0.5 * dz;
 }
 
+void drawText(char *text, int length, int x, int y){
+    glMatrixMode(GL_PROJECTION);
+    double * matrix = new double[16];
+    glGetDoublev(GL_PROJECTION_MATRIX, matrix);
+    glLoadIdentity();
+    glOrtho(0, 800, 0, 600, -5, 5);
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+    glPushMatrix();
+    glLoadIdentity();
+    glRasterPos2i(x,y);
+
+    for (int i = 0; i < length; i++)
+        glutBitmapCharacter(GLUT_BITMAP_9_BY_15, (int)text[i]);
+
+    glPopMatrix();
+    glMatrixMode(GL_PROJECTION);
+    glLoadMatrixd(matrix);
+    glMatrixMode(GL_MODELVIEW);
+}
+
 void renderScene() {
 
     float fps;
@@ -573,11 +595,10 @@ void renderScene() {
         timebase = time;
         frame = 0;
         sprintf(s, "FPS: %f6.2", fps);
-        glutSetWindowTitle(s);
+        strcpy(fps_counter, s);
     }
 
-    //glRasterPos2f(0.0 , 0.0);
-    glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_10, *s);
+    drawText(fps_counter, 7, 10, 575);
 
     if (move)
         moveforward();
