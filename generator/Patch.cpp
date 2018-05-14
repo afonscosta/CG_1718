@@ -1,5 +1,6 @@
 
 #include "Patch.h"
+#include "Normal.h"
 
 void Patch::setTesselation(int tess) {
     this->tess = tess;
@@ -99,7 +100,7 @@ float Patch::calcBezierPoint(float *P, float *M, float U[4], float V[4]) {
 
 void Patch::calcPointsSurface(float *M, float *Px, float *Py, float *Pz) {
 
-    Point p0, p1, p2, p3;
+    Point p0, p1, p2, p3, normal, v1, v2, tex;
 
     float U[4];
     float V[4];
@@ -150,13 +151,46 @@ void Patch::calcPointsSurface(float *M, float *Px, float *Py, float *Pz) {
             //v+passo, u+passo
             p3.setPoint(calcBezierPoint(Px, M, Up, Vp), calcBezierPoint(Py, M, Up, Vp), calcBezierPoint(Pz, M, Up, Vp));
 
-            curve_points.push_back(p0);
-            curve_points.push_back(p2);
-            curve_points.push_back(p3);
+            v1 = difference(p1, p0);
+            v2 = difference(p2, p0);
+            normal = normalize(cross(v2 , v1));
+
+            tex.setPoint((float) v/tess, (float) u/tess, 0);
 
             curve_points.push_back(p0);
+            curve_points.push_back(normal);
+            curve_points.push_back(tex);
+
+            tex.setPoint((float) v/tess, (float) (u+1)/tess, 0);
+
+            curve_points.push_back(p2);
+            curve_points.push_back(normal);
+            curve_points.push_back(tex);
+
+            tex.setPoint((float) (v+1)/tess, (float) (u+1)/tess, 0);
+
             curve_points.push_back(p3);
+            curve_points.push_back(normal);
+            curve_points.push_back(tex);
+
+
+            tex.setPoint((float) v/tess, (float) u/tess, 0);
+
+            curve_points.push_back(p0);
+            curve_points.push_back(normal);
+            curve_points.push_back(tex);
+
+            tex.setPoint((float) (v+1)/tess, (float) (u+1)/tess, 0);
+
+            curve_points.push_back(p3);
+            curve_points.push_back(normal);
+            curve_points.push_back(tex);
+
+            tex.setPoint((float) (v+1)/tess, (float) u/tess, 0);
+
             curve_points.push_back(p1);
+            curve_points.push_back(normal);
+            curve_points.push_back(tex);
 
         }
     }

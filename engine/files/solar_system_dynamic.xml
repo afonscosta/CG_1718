@@ -1,16 +1,23 @@
 <scene>
+
+	<lights>
+		<light type="POINT" posX="0" posY="0" posZ="0" />
+        <light type="SPOT" posX="0" posY="0" posZ="10" />
+	</lights>
+
 	<!-- Ambiente -->
 	<group>
 		<models>
 			<model file="../files/ambient.3d" texture="../files/8k_stars_milky_way.jpg" />
 		</models>
 	</group>
+
 	<!-- SOL -->
 	<group>
 		<scale X="20" Y="20" Z="20"/>
 		<rotate time="50" axisX="0" axisY="1" axisZ="0" />
 		<models>
-			<model file="../files/sphere.3d" texture="../files/8k_sun.jpg" />
+			<model file="../files/sphere.3d" texture="../files/8k_sun.jpg" emission="white" />
 		</models>
 	</group>
 	<group>
@@ -30,7 +37,7 @@
 				</translate>
 				<rotate angle="-90" axisX="1" axisY="0" axisZ="0" />
 				<models>
-					<model file="../files/teapot.3d" />
+					<model file="../files/teapot.3d" texture="../files/ice.jpg"/>
 				</models>
 			</group>
 		</group>
@@ -49,7 +56,7 @@
 			<rotate time="10" axisX="0" axisY="1" axisZ="0"/>
 			<scale X="0.1915" Y="0.1915" Z="0.1915"/>
 			<models>
-				<model file="../files/sphere.3d" texture="../files/mercurymap.jpg"/>
+				<model file="../files/sphere.3d" texture="../files/8k_mercury.jpg"/>
 			</models>
 		</group>
 		<!-- VENUS -->
@@ -67,7 +74,7 @@
 			<rotate time="15" axisX="0" axisY="-1" axisZ="0"/>
 			<scale X="0.47495" Y="0.47495" Z="0.47495"/>
 			<models>
-				<model file="../files/sphere.3d" texture="../files/venusmap.jpg"/>
+				<model file="../files/sphere.3d" texture="../files/8k_venus_surface.jpg"/>
 			</models>
 		</group>
 		<!-- TERRA -->
@@ -102,7 +109,7 @@
                 <rotate time="616" axisX="0" axisY="1" axisZ="0"/>
 				<scale X="0.1" Y="0.1" Z="0.1"/>
 				<models>
-					<model file="../files/sphere.3d" texture="../files/moonmap1k.jpg"/>
+					<model file="../files/sphere.3d" texture="../files/8k_moon.jpg"/>
 				</models>
 			</group>
 
@@ -122,7 +129,7 @@
 			<rotate time="28" axisX="0" axisY="1" axisZ="0"/>
 			<scale X="0.2665" Y="0.2665" Z="0.2665"/>
 			<models>
-				<model file="../files/sphere.3d" texture="../files/mars_1k_color.jpg"/>
+				<model file="../files/sphere.3d" texture="../files/8k_mars.jpg"/>
 			</models>
 		</group>
 		<!-- JUPITER -->
@@ -140,7 +147,7 @@
             <rotate time="33" axisX="0" axisY="1" axisZ="0"/>
 			<scale X="5.6045" Y="5.6045" Z="5.6045"/>
 			<models>
-				<model file="../files/sphere.3d" texture="../files/jupitermap.jpg"/>
+				<model file="../files/sphere.3d" texture="../files/8k_jupiter.jpg"/>
 			</models>
 		</group>
 		<!-- SATURNO -->
@@ -158,13 +165,13 @@
             <rotate time="39" axisX="0" axisY="1" axisZ="0"/>
 			<scale X="4.7245" Y="4.7245" Z="4.7245"/>
 			<models>
-				<model file="../files/sphere.3d" texture="../files/saturnmap.jpg"/>
+				<model file="../files/sphere.3d" texture="../files/8k_saturn.jpg"/>
 			</models>
 			<group>
 				<rotate angle="60" axisX="1" axisY="0" axisZ="0"/>
 				<scale X="1" Y="1" Z="0.2"/>
 				<models>
-					<model file="../files/torus.3d" texture="../files/saturnringcolor.jpg"/>
+					<model file="../files/torus.3d" texture="../files/8k_saturn_ring_alpha.png"/>
 				</models>
 			</group>
 		</group>
@@ -183,7 +190,7 @@
             <rotate time="48" axisX="0" axisY="-1" axisZ="0"/>
 			<scale X="2" Y="2" Z="2"/>
 			<models>
-				<model file="../files/sphere.3d" texture="../files/uranusmap.jpg"/>
+				<model file="../files/sphere.3d" texture="../files/2k_uranus.jpg"/>
 			</models>
 		</group>
 		<!-- NEPTUNO -->
@@ -201,7 +208,7 @@
             <rotate time="60" axisX="0" axisY="1" axisZ="0"/>
 			<scale X="1.94" Y="1.94" Z="1.94"/>
 			<models>
-				<model file="../files/sphere.3d" texture="../files/neptunemap.jpg"/>
+				<model file="../files/sphere.3d" texture="../files/2k_neptune.jpg"/>
 			</models>
 		</group>
 		<!-- PLUTAO -->
@@ -218,7 +225,7 @@
 			</translate>
 			<scale X="0.09" Y="0.09" Z="0.09"/>
 			<models>
-				<model file="../files/sphere.3d" texture="plutomap1k.jpg"/>
+				<model file="../files/sphere.3d" texture="plutomap2k.jpg"/>
 			</models>
 		</group>
 	</group>
