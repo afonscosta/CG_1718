@@ -340,6 +340,7 @@ void loadModel(const pugi::char_t *string, Model* model) {
 Model parseModel(pugi::xml_node_iterator model) {
 
     Model modelDest;
+    float emission[4] = {0.0f, 0.0f, 0.0f, 1.0f};
 
     for (pugi::xml_attribute_iterator ait = model->attributes_begin(); ait != model->attributes_end(); ++ait)
     {
@@ -349,9 +350,18 @@ Model parseModel(pugi::xml_node_iterator model) {
         if (strcmp(ait->name(), "texture") == 0)
             modelDest.setTexIDPrimitive(loadTexture(ait->value()));
 
-        if (strcmp(ait->name(), "emission") == 0)
-            modelDest.setEmission((char *) ait->value());
+        if (strcmp(ait->name(), "emissionX") == 0)
+            emission[0] = strtof(ait->value(), nullptr);
+
+        if (strcmp(ait->name(), "emissionY") == 0)
+            emission[1] = strtof(ait->value(), nullptr);
+
+        if (strcmp(ait->name(), "emissionZ") == 0)
+            emission[2] = strtof(ait->value(), nullptr);
     }
+
+    modelDest.setEmission(emission);
+
     return modelDest;
 }
 
@@ -529,7 +539,7 @@ void renderScene() {
     // Turn on lights
     if (!spotOff)
         for (int i = 0; i < lights.size(); i++) {
-            if (strcmp(lights.at(i).type, "SPOT") == 0)
+            if (strcmp(lights.at(i).getType(), "SPOT") == 0)
                 lights.at(i).turnOnLight(i);
         }
 
@@ -547,7 +557,7 @@ void renderScene() {
 
     // Turn on lights
     for (int i = 0; i < lights.size(); i++) {
-        if (strcmp(lights.at(i).type, "SPOT") != 0)
+        if (strcmp(lights.at(i).getType(), "SPOT") != 0)
             lights.at(i).turnOnLight(i);
     }
 

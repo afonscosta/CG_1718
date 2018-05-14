@@ -9,28 +9,16 @@ void Light::setType(char *type) {
     Light::type = type;
 }
 
-const Point &Light::getPos() const {
-    return pos;
-}
-
 void Light::setPos(const Point &pos) {
     Light::pos = pos;
 }
 
-int Light::turnOnLight(int numLight) {
-
-    int res = 0;
-
-    float yellow[4] = {255.0 / 255.0, 204.0 / 255.0, 102.0 / 255.0, 1.0f};
-    float black[4] = {0.2, 0.2, 0.2, 1.0f};
+void Light::turnOnLight(int numLight) {
 
     GLfloat amb[4] = {0.1, 0.1, 0.1, 1.0};
     GLfloat diff[4] = {5.0, 5.0, 5.0, 1.0};
     GLfloat posL[4] = { pos.getX(), pos.getY(), pos.getZ() };
     GLfloat spotDir[3] = {0.0, 0.0, -1.0};
-
-
-//    glPushAttrib(GL_LIGHTING_BIT);
 
     if (strcmp(type, "DIRECTIONAL") == 0) {
         posL[3] = 0.0f;
@@ -127,10 +115,4 @@ int Light::turnOnLight(int numLight) {
                  break;
     }
 
-//    if (strcmp(type, "POINT") == 0) {
-//        glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, black);
-        res = 1;
-//    }
-
-    return res;
 }

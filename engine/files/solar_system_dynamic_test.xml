@@ -7,13 +7,13 @@
 
 	<group>
 		<models>
-			<model file="../files/sphere.3d" texture="../files/8k_sun.jpg" emission="white" />
+			<model file="../files/sphere.3d" texture="../files/8k_sun.jpg" emissionX="0.9" emissionY="0.9" emissionZ="0.9" />
 		</models>
 	</group>
 	<group>
 		<translate X="14" />
 		<models>
-			<model file="../files/sphere.3d" texture="../files/8k_sun.jpg" emission="white" />
+			<model file="../files/sphere.3d" texture="../files/8k_sun.jpg" emissionX="0.9" emissionY="0.9" emissionZ="0.9" />
 		</models>
 	</group>
 
@@ -22,19 +22,19 @@
 	<group>
 		<translate X="6" />
 		<models>
-			<model file="../files/sphere.3d" texture="../files/earthmap1k.jpg" />
+			<model file="../files/sphere.3d" texture="../files/2k_earth_daymap.jpg" />
 		</models>
 	</group>
 	<group>
 		<translate X="-6" />
 		<models>
-			<model file="../files/sphere.3d" texture="../files/earthmap1k.jpg" />
+			<model file="../files/sphere.3d" texture="../files/2k_earth_daymap.jpg" />
 		</models>
 	</group>
 	<group>
 		<translate X="-14" />
 		<models>
-			<model file="../files/sphere.3d" texture="../files/earthmap1k.jpg" />
+			<model file="../files/sphere.3d" texture="../files/2k_earth_daymap.jpg" />
 		</models>
 	</group>
 
@@ -42,25 +42,25 @@
 	<group>
 		<translate Y="6" />
 		<models>
-			<model file="../files/sphere.3d" texture="../files/earthmap1k.jpg" />
+			<model file="../files/sphere.3d" texture="../files/2k_earth_daymap.jpg" />
 		</models>
 	</group>
 	<group>
 		<translate Y="14" />
 		<models>
-			<model file="../files/sphere.3d" texture="../files/earthmap1k.jpg" />
+			<model file="../files/sphere.3d" texture="../files/2k_earth_daymap.jpg" />
 		</models>
 	</group>
 	<group>
 		<translate Y="-6" />
 		<models>
-			<model file="../files/sphere.3d" texture="../files/earthmap1k.jpg" />
+			<model file="../files/sphere.3d" texture="../files/2k_earth_daymap.jpg" />
 		</models>
 	</group>
 	<group>
 		<translate Y="-14" />
 		<models>
-			<model file="../files/sphere.3d" texture="../files/earthmap1k.jpg" />
+			<model file="../files/sphere.3d" texture="../files/2k_earth_daymap.jpg" />
 		</models>
 	</group>
 
@@ -69,25 +69,25 @@
 	<group>
 		<translate Z="6" />
 		<models>
-			<model file="../files/sphere.3d" texture="../files/earthmap1k.jpg" />
+			<model file="../files/sphere.3d" texture="../files/2k_earth_daymap.jpg" />
 		</models>
 	</group>
 	<group>
 		<translate Z="14" />
 		<models>
-			<model file="../files/sphere.3d" texture="../files/earthmap1k.jpg" />
+			<model file="../files/sphere.3d" texture="../files/2k_earth_daymap.jpg" />
 		</models>
 	</group>
 	<group>
 		<translate Z="-6" />
 		<models>
-			<model file="../files/sphere.3d" texture="../files/earthmap1k.jpg" />
+			<model file="../files/sphere.3d" texture="../files/2k_earth_daymap.jpg" />
 		</models>
 	</group>
 	<group>
 		<translate Z="-14" />
 		<models>
-			<model file="../files/sphere.3d" texture="../files/earthmap1k.jpg" />
+			<model file="../files/sphere.3d" texture="../files/2k_earth_daymap.jpg" />
 		</models>
 	</group>
 </scene>
