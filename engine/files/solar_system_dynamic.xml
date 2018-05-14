@@ -30,7 +30,7 @@
 				</translate>
 				<rotate angle="-90" axisX="1" axisY="0" axisZ="0" />
 				<models>
-					<model file="../files/teapot.3d" />
+					<model file="../files/teapot.3d" texture="../files/ice.jpg"/>
 				</models>
 			</group>
 		</group>
