@@ -75,13 +75,6 @@ void Group::drawGroup(int curveOff) {
             doScale();
     }
 
-
-    int hasPointLight = 0;
-
-    for (int i = 0; i < lights.size(); i++) {
-        hasPointLight += lights.at(i).turnOnLight(i);
-    }
-
     drawModels();
 
     for (auto &it : groups) {

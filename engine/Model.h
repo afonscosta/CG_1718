@@ -16,23 +16,19 @@ using std::vector;
 
 class Model {
 
-    char *emission;
-public:
-    void setEmission(char *emission);
-
 private:
     GLuint vertices;
     GLuint normals;
     GLuint texCoord;
     GLuint texIDPrimitive;
-
-private:
     int nvertices;
+    float emission[4];
 
 public:
     void setTexIDPrimitive(GLuint texIDPrimitive);
     void setPrimitive(vector<float> v, vector<float> n, vector<float> t, int nvertices);
     void drawPrimitive();
+    void setEmission(float emission[4]);
 };
 
 
