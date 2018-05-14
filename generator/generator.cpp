@@ -795,7 +795,7 @@ vector <Point> torus_generate_points(vector <Point> points, float radius, float 
             else p.setPoint(1 - (2 * (texture_aux + 1) * incrementT), 1, 0);
             points.push_back(p);
         }
-        if (i > stacks / 2)
+        if (i >= stacks / 2)
             texture_aux++;
     }
 
