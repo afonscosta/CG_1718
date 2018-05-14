@@ -48,11 +48,10 @@ int alpha = 0, beta = 45, r = 50;
 float camX = 5, camY=5, camZ = 5;
 int startX, startY, tracking = 0;
 
-
-
 float px = 0.0f, py = 0.0f, pz = 10.0f, dx= 0.0f, dy = 0.0f, dz = -1.0f, ux = 0.0f, uy = 1.0f, uz = 0.0f;
 double alfa = M_PI;
 double beta1 = M_PI;
+int move = 0;
 
 Group scene;
 vector<Light> lights;
@@ -504,6 +503,19 @@ void changeMode() {
     glPolygonMode(GL_FRONT_AND_BACK, mode);
 }
 
+void moveforward(){
+
+    px = px + 0.5 * dx;
+    py = py + 0.5 * dy;
+    pz = pz + 0.5 * dz;
+}
+
+void movebackwards(){
+
+    px = px - 0.5 * dx;
+    py = py - 0.5 * dy;
+    pz = pz - 0.5 * dz;
+}
 
 void renderScene() {
 
@@ -539,6 +551,8 @@ void renderScene() {
             lights.at(i).turnOnLight(i);
     }
 
+    if (move)
+        moveforward();
 
     //Eixos
 //    glBegin(GL_LINES);
@@ -590,20 +604,6 @@ void renderScene() {
     glutSwapBuffers();
 }
 
-void moveforward(){
-
-    px = px + 2 * dx;
-    py = py + 2 * dy;
-    pz = pz + 2 * dz;
-}
-
-void movebackwards(){
-
-    px = px - 2 * dx;
-    py = py - 2 * dy;
-    pz = pz - 2 * dz;
-}
-
 // write function to process keyboard events
 void keyboard(unsigned char key, int x, int y){
 
@@ -621,6 +621,9 @@ void keyboard(unsigned char key, int x, int y){
         if (scale <= 0.1)
             scale = 0.1;
     }
+
+    if (key == 'n')
+        move = (move + 1) % 2;
 
     if (key == ' ')
         moveforward();
@@ -647,10 +650,14 @@ void movement (int key, int x, int y) {
             alfa -= 0.1f;
             break;
         case GLUT_KEY_UP :
-            beta1 -= 0.1f;
+            beta1 -= 0.08f;
+            if (beta1 < M_PI / 2)
+                beta1 = M_PI / 2;
             break;
         case GLUT_KEY_DOWN :
-            beta1 += 0.1f;
+            beta1 += 0.08f;
+            if (beta1 > 3 * M_PI / 2)
+                beta1 = 3 * M_PI / 2;
             break;
     }
 
@@ -700,7 +707,8 @@ void processMouseMotion(int xx, int yy) {
     deltaY = yy - startY;
 
     if (tracking == 1) {
-
+        //alfa += 0.005 * alpha;
+        //beta += 0.005 * beta;
 
         alphaAux = alpha + deltaX;
         betaAux = beta + deltaY;
@@ -738,16 +746,6 @@ void initGL() {
     glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
     glClearColor(0, 0, 0, 0);
-
-//    glEnable(GL_LIGHTING);
-//    glEnable(GL_LIGHT0);
-//    glEnable(GL_LIGHT1);
-//    glEnable(GL_LIGHT2);
-//    glEnable(GL_LIGHT3);
-//    glEnable(GL_LIGHT4);
-//    glEnable(GL_LIGHT5);
-//    glEnable(GL_LIGHT6);
-//    glEnable(GL_LIGHT7);
 
     glEnable(GL_TEXTURE_2D);
 
