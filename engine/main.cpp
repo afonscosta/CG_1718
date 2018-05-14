@@ -570,9 +570,13 @@ void movement (int key, int x, int y) {
             break;
         case GLUT_KEY_UP :
             beta1 -= 0.08f;
+            if (beta1 < M_PI / 2)
+                beta1 = M_PI / 2;
             break;
         case GLUT_KEY_DOWN :
             beta1 += 0.08f;
+            if (beta1 > 3 * M_PI / 2)
+                beta1 = 3 * M_PI / 2;
             break;
     }
 
@@ -622,7 +626,8 @@ void processMouseMotion(int xx, int yy) {
     deltaY = yy - startY;
 
     if (tracking == 1) {
-
+        //alfa += 0.005 * alpha;
+        //beta += 0.005 * beta;
 
         alphaAux = alpha + deltaX;
         betaAux = beta + deltaY;
