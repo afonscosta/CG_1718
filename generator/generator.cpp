@@ -597,6 +597,7 @@ vector <Point> sphere_generate_points(vector <Point> points,float radius, int sl
             points.push_back(p);
             // Normal
             p.setPoint(cos(i * increment2- M_PI / 2) * sin((a + 1) * increment1), sin(i * increment2- M_PI / 2), cos(i * increment2- M_PI / 2) * cos((a + 1) * increment1));
+            p = normalize(p);
             points.push_back(p);
             // Texture
             p.setPoint((a+1) * increment1T, i * increment2T, 0);
@@ -605,6 +606,7 @@ vector <Point> sphere_generate_points(vector <Point> points,float radius, int sl
             p.setPoint(radius * cos((i + 1) * increment2- M_PI / 2) * sin(a * increment1), radius * sin((i + 1) * increment2- M_PI / 2), radius * cos((i + 1) * increment2- M_PI / 2) * cos(a * increment1));
             points.push_back(p);
             p.setPoint(cos((i + 1) * increment2- M_PI / 2) * sin(a * increment1), sin((i + 1) * increment2- M_PI / 2), cos((i + 1) * increment2- M_PI / 2) * cos(a * increment1));
+            p = normalize(p);
             points.push_back(p);
             p.setPoint(a * increment1T, (i+1) * increment2T, 0);
             points.push_back(p);
@@ -612,6 +614,7 @@ vector <Point> sphere_generate_points(vector <Point> points,float radius, int sl
             p.setPoint(radius * cos(i * increment2- M_PI / 2) * sin(a * increment1), radius * sin(i * increment2- M_PI / 2), radius * cos(i * increment2- M_PI / 2) * cos(a * increment1));
             points.push_back(p);
             p.setPoint(cos(i * increment2- M_PI / 2) * sin(a * increment1), sin(i * increment2- M_PI / 2), cos(i * increment2- M_PI / 2) * cos(a * increment1));
+            p = normalize(p);
             points.push_back(p);
             p.setPoint(a * increment1T, i * increment2T, 0);
             points.push_back(p);
@@ -621,6 +624,7 @@ vector <Point> sphere_generate_points(vector <Point> points,float radius, int sl
             p.setPoint(radius * cos((i + 1) * increment2- M_PI / 2) * sin(a * increment1), radius * sin((i + 1) * increment2- M_PI / 2), radius * cos((i + 1) * increment2- M_PI / 2) * cos(a * increment1));
             points.push_back(p);
             p.setPoint(cos((i + 1) * increment2- M_PI / 2) * sin(a * increment1), sin((i + 1) * increment2- M_PI / 2), cos((i + 1) * increment2- M_PI / 2) * cos(a * increment1));
+            p = normalize(p);
             points.push_back(p);
             p.setPoint(a * increment1T, (i+1) * increment2T, 0);
             points.push_back(p);
@@ -628,6 +632,7 @@ vector <Point> sphere_generate_points(vector <Point> points,float radius, int sl
             p.setPoint(radius * cos(i * increment2- M_PI / 2) * sin((a + 1) * increment1), radius * sin(i * increment2- M_PI / 2), radius * cos(i * increment2- M_PI / 2) * cos((a + 1) * increment1));
             points.push_back(p);
             p.setPoint(cos(i * increment2- M_PI / 2) * sin((a + 1) * increment1), sin(i * increment2- M_PI / 2), cos(i * increment2- M_PI / 2) * cos((a + 1) * increment1));
+            p = normalize(p);
             points.push_back(p);
             p.setPoint((a+1) * increment1T, i * increment2T, 0);
             points.push_back(p);
@@ -635,6 +640,7 @@ vector <Point> sphere_generate_points(vector <Point> points,float radius, int sl
             p.setPoint(radius * cos((i + 1) * increment2- M_PI / 2) * sin((a + 1) * increment1), radius * sin((i + 1) * increment2- M_PI / 2), radius * cos((i + 1) * increment2- M_PI / 2) * cos((a + 1) * increment1));
             points.push_back(p);
             p.setPoint(cos((i + 1) * increment2- M_PI / 2) * sin((a + 1) * increment1), sin((i + 1) * increment2- M_PI / 2), cos((i + 1) * increment2- M_PI / 2) * cos((a + 1) * increment1));
+            p = normalize(p);
             points.push_back(p);
             p.setPoint((a+1) * increment1T, (i+1) * increment2T, 0);
             points.push_back(p);
@@ -677,6 +683,7 @@ vector <Point> torus_generate_points(vector <Point> points, float radius, float 
             normal_y = (radius + (radius_torus * cos(i * increment1))) * sin(j * increment);
             normal_z = radius_torus * sin(i * increment1) - torus_center_z;
             p.setPoint(normal_x, normal_y, normal_z);
+            p = normalize(p);
             points.push_back(p);
 
             //Textura
@@ -697,6 +704,7 @@ vector <Point> torus_generate_points(vector <Point> points, float radius, float 
             normal_y = (radius + (radius_torus * cos(i * increment1))) * sin((j + 1) * increment);
             normal_z = radius_torus * sin(i * increment1) - torus_center_z;
             p.setPoint(normal_x, normal_y, normal_z);
+            p = normalize(p);
             points.push_back(p);
 
             //Textura
@@ -718,6 +726,7 @@ vector <Point> torus_generate_points(vector <Point> points, float radius, float 
             normal_y = (radius + (radius_torus * cos((i + 1) * increment1))) * sin(j * increment);
             normal_z = radius_torus * sin((i + 1) * increment1) - torus_center_z;
             p.setPoint(normal_x, normal_y, normal_z);
+            p = normalize(p);
             points.push_back(p);
 
             //Textura
@@ -745,6 +754,7 @@ vector <Point> torus_generate_points(vector <Point> points, float radius, float 
             normal_y = (radius + (radius_torus * cos(i * increment1))) * sin((j + 1) * increment);
             normal_z = radius_torus * sin(i * increment1) - torus_center_z;
             p.setPoint(normal_x, normal_y, normal_z);
+            p = normalize(p);
             points.push_back(p);
 
             //Textura
@@ -766,6 +776,7 @@ vector <Point> torus_generate_points(vector <Point> points, float radius, float 
             normal_y = (radius + (radius_torus * cos((i + 1) * increment1))) * sin((j + 1) * increment);
             normal_z = radius_torus * sin((i + 1) * increment1) - torus_center_z;
             p.setPoint(normal_x, normal_y, normal_z);
+            p = normalize(p);
             points.push_back(p);
 
             //Textura
@@ -787,6 +798,7 @@ vector <Point> torus_generate_points(vector <Point> points, float radius, float 
             normal_y = (radius + (radius_torus * cos((i + 1) * increment1))) * sin(j * increment);
             normal_z = radius_torus * sin((i + 1) * increment1) - torus_center_z;
             p.setPoint(normal_x, normal_y, normal_z);
+            p = normalize(p);
             points.push_back(p);
 
             //Textura

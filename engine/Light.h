@@ -3,6 +3,14 @@
 #define ENGINE_LIGHT_H
 
 
+#ifdef __APPLE__
+#include <GLUT/glut.h>
+#else
+#include <GL/glew.h>
+#include <GL/glut.h>
+#endif
+#include <cstring>
+#include <cstdio>
 #include "Point.h"
 
 class Light {

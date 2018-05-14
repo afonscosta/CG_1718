@@ -1,7 +1,4 @@
 
-#include <GL/glew.h>
-#include <cstring>
-#include <cstdio>
 #include "Light.h"
 
 char *Light::getType() const {
