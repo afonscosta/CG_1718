@@ -625,6 +625,79 @@ vector <Point> sphere_generate_points(vector <Point> points,float radius, int sl
     return points;
 }
 
+vector <Point> ambient_generate_points(vector <Point> points,float radius, int slices, int stacks) {
+
+    Point p;
+
+    double increment1 = (2 * M_PI) / slices;
+    double increment2 = M_PI / stacks;
+
+    double increment1T = 1.0f / slices;
+    double increment2T = 1.0f / stacks;
+
+    //z = radius * cos(BETA) * cos(ALFA)
+    //x = radius * cos(BETA) * sin(ALFA)
+    //y = radius * cos(BETA)
+
+    //horizontal -> slices -> alpha -> a
+
+    for (int i = 0; i < stacks; i++){
+
+        for (int a = 0; a < slices; a++){
+
+            //triangulo 1
+            // Vertice
+            p.setPoint(radius * cos(i * increment2 - M_PI / 2) * sin((a + 1) * increment1), radius * sin(i * increment2- M_PI / 2), radius * cos(i * increment2- M_PI / 2) * cos((a + 1) * increment1));
+            points.push_back(p);
+            // Normal
+            p.setPoint(- cos(i * increment2- M_PI / 2) * sin((a + 1) * increment1), - sin(i * increment2- M_PI / 2), - cos(i * increment2- M_PI / 2) * cos((a + 1) * increment1));
+            points.push_back(p);
+            // Texture
+            p.setPoint((a+1) * increment1T, i * increment2T, 0);
+            points.push_back(p);
+
+            p.setPoint(radius * cos(i * increment2- M_PI / 2) * sin(a * increment1), radius * sin(i * increment2- M_PI / 2), radius * cos(i * increment2- M_PI / 2) * cos(a * increment1));
+            points.push_back(p);
+            p.setPoint(- cos(i * increment2- M_PI / 2) * sin(a * increment1), - sin(i * increment2- M_PI / 2), - cos(i * increment2- M_PI / 2) * cos(a * increment1));
+            points.push_back(p);
+            p.setPoint(a * increment1T, i * increment2T, 0);
+            points.push_back(p);
+
+            p.setPoint(radius * cos((i + 1) * increment2- M_PI / 2) * sin(a * increment1), radius * sin((i + 1) * increment2- M_PI / 2), radius * cos((i + 1) * increment2- M_PI / 2) * cos(a * increment1));
+            points.push_back(p);
+            p.setPoint(- cos((i + 1) * increment2- M_PI / 2) * sin(a * increment1), - sin((i + 1) * increment2- M_PI / 2), - cos((i + 1) * increment2- M_PI / 2) * cos(a * increment1));
+            points.push_back(p);
+            p.setPoint(a * increment1T, (i+1) * increment2T, 0);
+            points.push_back(p);
+
+
+            //triangulo 2
+            p.setPoint(radius * cos((i + 1) * increment2- M_PI / 2) * sin(a * increment1), radius * sin((i + 1) * increment2- M_PI / 2), radius * cos((i + 1) * increment2- M_PI / 2) * cos(a * increment1));
+            points.push_back(p);
+            p.setPoint(- cos((i + 1) * increment2- M_PI / 2) * sin(a * increment1), - sin((i + 1) * increment2- M_PI / 2), - cos((i + 1) * increment2- M_PI / 2) * cos(a * increment1));
+            points.push_back(p);
+            p.setPoint(a * increment1T, (i+1) * increment2T, 0);
+            points.push_back(p);
+
+            p.setPoint(radius * cos((i + 1) * increment2- M_PI / 2) * sin((a + 1) * increment1), radius * sin((i + 1) * increment2- M_PI / 2), radius * cos((i + 1) * increment2- M_PI / 2) * cos((a + 1) * increment1));
+            points.push_back(p);
+            p.setPoint(- cos((i + 1) * increment2- M_PI / 2) * sin((a + 1) * increment1), - sin((i + 1) * increment2- M_PI / 2), - cos((i + 1) * increment2- M_PI / 2) * cos((a + 1) * increment1));
+            points.push_back(p);
+            p.setPoint((a+1) * increment1T, (i+1) * increment2T, 0);
+            points.push_back(p);
+
+            p.setPoint(radius * cos(i * increment2- M_PI / 2) * sin((a + 1) * increment1), radius * sin(i * increment2- M_PI / 2), radius * cos(i * increment2- M_PI / 2) * cos((a + 1) * increment1));
+            points.push_back(p);
+            p.setPoint(- cos(i * increment2- M_PI / 2) * sin((a + 1) * increment1), - sin(i * increment2- M_PI / 2), - cos(i * increment2- M_PI / 2) * cos((a + 1) * increment1));
+            points.push_back(p);
+            p.setPoint((a+1) * increment1T, i * increment2T, 0);
+            points.push_back(p);
+
+        }
+    }
+    return points;
+}
+
 
 vector <Point> torus_generate_points(vector <Point> points, float radius, float radius_torus, float slices, int stacks) {
 

@@ -24,6 +24,7 @@ vector <Point> box_generate_points(vector <Point> points, float x, float y, floa
 vector <Point> cone_generate_points(vector <Point> points, float radius, float height, float slices, float stacks);
 vector <Point> sphere_generate_points(vector <Point> points,float radius, int slices, int stacks);
 vector <Point> torus_generate_points(vector <Point> points, float radius, float radius_torus, float stacks, int slices);
+vector <Point> ambient_generate_points(vector <Point> points,float radius, int slices, int stacks);
 
 
 
