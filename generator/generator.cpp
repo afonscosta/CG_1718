@@ -1,30 +1,11 @@
 
 #include "generator.h"
+#include "Normal.h"
 
 using std::ofstream;
 using std::vector;
 
-Point cross(Point a, Point b) {
 
-    double x, y, z;
-
-    x = a.getY() * b.getZ() - a.getZ() * b.getY();
-    y = a.getZ() * b.getX() - a.getX() * b.getZ();
-    z = a.getX() * b.getY() - a.getY() * b.getX();
-
-    Point p;
-    p.setPoint(x, y, z);
-
-    return p;
-}
-
-Point normalize(Point a) {
-
-    double l = sqrt(pow(a.getX(), 2) + pow(a.getY(), 2) + pow(a.getZ(), 2));
-    a.setPoint(a.getX()/l, a.getY()/l, a.getZ()/l);
-
-    return a;
-}
 
 vector<Point> plane_generate_points(vector <Point> points, float a) {
     Point p;
@@ -490,8 +471,8 @@ vector <Point> cone_generate_points(vector <Point> points, float radius, float h
             p_aux[2].setPoint(radius_next * sin(increment * i), height_next, radius_next * cos(increment * i ));
 
             //Calcular normal
-            v1.setPoint(p_aux[1].getX() - p_aux[0].getX(), p_aux[1].getY() - p_aux[0].getY(), p_aux[1].getZ() - p_aux[0].getZ());
-            v2.setPoint(p_aux[2].getX() - p_aux[0].getX(), p_aux[2].getY() - p_aux[0].getY(), p_aux[2].getZ() - p_aux[0].getZ());
+            v1 = difference(p_aux[1], p_aux[0]);
+            v2 = difference(p_aux[2], p_aux[0]);
             normal = normalize( cross(v1, v2) );
 
 
@@ -795,7 +776,7 @@ vector <Point> torus_generate_points(vector <Point> points, float radius, float 
             else p.setPoint(1 - (2 * (texture_aux + 1) * incrementT), 1, 0);
             points.push_back(p);
         }
-        if (i > stacks / 2)
+        if (i >= stacks / 2)
             texture_aux++;
     }
 
