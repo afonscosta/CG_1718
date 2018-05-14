@@ -155,42 +155,42 @@ void Patch::calcPointsSurface(float *M, float *Px, float *Py, float *Pz) {
             v2 = difference(p2, p0);
             normal = normalize(cross(v2 , v1));
 
-            tex.setPoint(v/tess, u/tess, 0);
+            tex.setPoint((float) v/tess, (float) u/tess, 0);
 
             curve_points.push_back(p0);
             curve_points.push_back(normal);
-            curve_points.push_back(tex); //MUDAR
+            curve_points.push_back(tex);
 
             tex.setPoint((float) v/tess, (float) (u+1)/tess, 0);
 
             curve_points.push_back(p2);
             curve_points.push_back(normal);
-            curve_points.push_back(tex); //MUDAR
+            curve_points.push_back(tex);
 
             tex.setPoint((float) (v+1)/tess, (float) (u+1)/tess, 0);
 
             curve_points.push_back(p3);
             curve_points.push_back(normal);
-            curve_points.push_back(tex); //MUDAR
+            curve_points.push_back(tex);
 
 
             tex.setPoint((float) v/tess, (float) u/tess, 0);
 
             curve_points.push_back(p0);
             curve_points.push_back(normal);
-            curve_points.push_back(tex); //MUDAR
+            curve_points.push_back(tex);
 
             tex.setPoint((float) (v+1)/tess, (float) (u+1)/tess, 0);
 
             curve_points.push_back(p3);
             curve_points.push_back(normal);
-            curve_points.push_back(tex); //MUDAR
+            curve_points.push_back(tex);
 
             tex.setPoint((float) (v+1)/tess, (float) u/tess, 0);
 
             curve_points.push_back(p1);
             curve_points.push_back(normal);
-            curve_points.push_back(tex); //MUDAR
+            curve_points.push_back(tex);
 
         }
     }
