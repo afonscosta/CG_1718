@@ -1,4 +1,10 @@
 <scene>
+	<!-- Ambiente -->
+	<group>
+		<models>
+			<model file="../files/ambient.3d" texture="../files/8k_stars_milky_way.jpg" />
+		</models>
+	</group>
 	<!-- SOL -->
 	<group>
 		<scale X="20" Y="20" Z="20"/>

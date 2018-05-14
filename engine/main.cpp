@@ -52,6 +52,7 @@ int startX, startY, tracking = 0;
 float px = 0.0f, py = 0.0f, pz = 10.0f, dx= 0.0f, dy = 0.0f, dz = -1.0f, ux = 0.0f, uy = 1.0f, uz = 0.0f;
 double alfa = M_PI;
 double beta1 = M_PI;
+int move = 0;
 
 Group scene;
 
@@ -452,6 +453,19 @@ void changeMode() {
     glPolygonMode(GL_FRONT_AND_BACK, mode);
 }
 
+void moveforward(){
+
+    px = px + 0.5 * dx;
+    py = py + 0.5 * dy;
+    pz = pz + 0.5 * dz;
+}
+
+void movebackwards(){
+
+    px = px - 0.5 * dx;
+    py = py - 0.5 * dy;
+    pz = pz - 0.5 * dz;
+}
 
 void renderScene() {
 
@@ -472,6 +486,9 @@ void renderScene() {
     /*gluLookAt(camX, camY, camZ,
               0.0,0.0,0.0,
               0.0f,1.0f,0.0f);*/
+
+    if (move)
+        moveforward();
 
     glLightfv(GL_LIGHT0, GL_POSITION, pos);
 
@@ -518,20 +535,6 @@ void renderScene() {
     glutSwapBuffers();
 }
 
-void moveforward(){
-
-    px = px + 0.5 * dx;
-    py = py + 0.5 * dy;
-    pz = pz + 0.5 * dz;
-}
-
-void movebackwards(){
-
-    px = px - 0.5 * dx;
-    py = py - 0.5 * dy;
-    pz = pz - 0.5 * dz;
-}
-
 // write function to process keyboard events
 void keyboard(unsigned char key, int x, int y){
 
@@ -549,6 +552,9 @@ void keyboard(unsigned char key, int x, int y){
         if (scale <= 0.1)
             scale = 0.1;
     }
+
+    if (key == 'n')
+        move = (move + 1) % 2;
 
     if (key == ' ')
         moveforward();
@@ -570,9 +576,13 @@ void movement (int key, int x, int y) {
             break;
         case GLUT_KEY_UP :
             beta1 -= 0.08f;
+            if (beta1 < M_PI / 2)
+                beta1 = M_PI / 2;
             break;
         case GLUT_KEY_DOWN :
             beta1 += 0.08f;
+            if (beta1 > 3 * M_PI / 2)
+                beta1 = 3 * M_PI / 2;
             break;
     }
 
@@ -622,7 +632,8 @@ void processMouseMotion(int xx, int yy) {
     deltaY = yy - startY;
 
     if (tracking == 1) {
-
+        //alfa += 0.005 * alpha;
+        //beta += 0.005 * beta;
 
         alphaAux = alpha + deltaX;
         betaAux = beta + deltaY;
