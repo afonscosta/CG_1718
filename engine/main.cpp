@@ -5,6 +5,7 @@
 #include <fstream>
 #include <stdlib.h>
 #include "Group.h"
+#include "Light.h"
 #include <stdio.h>
 #include <string>
 #include <math.h>
@@ -47,16 +48,17 @@ int alpha = 0, beta = 45, r = 50;
 float camX = 5, camY=5, camZ = 5;
 int startX, startY, tracking = 0;
 
-
-
 float px = 0.0f, py = 0.0f, pz = 10.0f, dx= 0.0f, dy = 0.0f, dz = -1.0f, ux = 0.0f, uy = 1.0f, uz = 0.0f;
 double alfa = M_PI;
 double beta1 = M_PI;
 int move = 0;
 
 Group scene;
+vector<Light> lights;
 
-
+//Flags
+int curveOff = 0;
+int spotOff = 1;
 
 
 
@@ -346,6 +348,9 @@ Model parseModel(pugi::xml_node_iterator model) {
 
         if (strcmp(ait->name(), "texture") == 0)
             modelDest.setTexIDPrimitive(loadTexture(ait->value()));
+
+        if (strcmp(ait->name(), "emission") == 0)
+            modelDest.setEmission((char *) ait->value());
     }
     return modelDest;
 }
@@ -360,6 +365,46 @@ vector<Model> parseModels(pugi::xml_node_iterator models) {
     }
 
     return modelsDest;
+}
+
+Light parseLight(pugi::xml_node_iterator light) {
+
+    float x = 0, y = 0, z = 0;
+    Point p;
+    Light l;
+
+    for (pugi::xml_attribute_iterator ait = light->attributes_begin(); ait != light->attributes_end(); ++ait)
+    {
+        if (strcmp(ait->name(), "type") == 0)
+            l.setType((char *) ait->value());
+
+        else if (strcmp(ait->name(), "posX") == 0)
+            x = strtof(ait->value(), nullptr);
+
+        else if (strcmp(ait->name(), "posY") == 0)
+            y = strtof(ait->value(), nullptr);
+
+        else if (strcmp(ait->name(), "posZ") == 0)
+            z = strtof(ait->value(), nullptr);
+    }
+
+    p.setPoint(x, y, z);
+
+    l.setPos(p);
+
+    return l;
+}
+
+vector<Light> parseLights(pugi::xml_node_iterator lightSrc) {
+
+    vector<Light> lights;
+
+    for (pugi::xml_node_iterator it = lightSrc->begin(); it != lightSrc->end(); ++it) {
+        if (strcmp(it->name(), "light") == 0) {
+            lights.push_back(parseLight(it));
+        }
+    }
+    return lights;
 }
 
 Group* parseGroup(pugi::xml_node_iterator groupSrc) {
@@ -388,6 +433,9 @@ Group* parseGroup(pugi::xml_node_iterator groupSrc) {
         else if (strcmp(it->name(), "group") == 0) {
             (*groupDest).addGroup(parseGroup(it));
         }
+        else if (strcmp(it->name(), "lights") == 0) {
+            (*groupDest).setLights(parseLights(it));
+        }
     }
 
     return groupDest;
@@ -404,11 +452,13 @@ void parseXML() {
         if (strcmp(it->name(), "group") == 0) {
             (*groupDest).addGroup(parseGroup(it));
         }
+        else if (strcmp(it->name(), "lights") == 0) {
+            lights = parseLights(it);
+        }
     }
 
     scene = *groupDest;
 }
-
 
 
 
@@ -469,13 +519,20 @@ void movebackwards(){
 
 void renderScene() {
 
-    float pos[4] = {1.0, 1.0, 1.0, 0.0};
-
     // clear buffers
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+
     // set the camera
     glLoadIdentity();
+
+    // Turn on lights
+    if (!spotOff)
+        for (int i = 0; i < lights.size(); i++) {
+            if (strcmp(lights.at(i).type, "SPOT") == 0)
+                lights.at(i).turnOnLight(i);
+        }
+
     dx = sin(alfa);
     dy = sin(beta1);
     dz = cos(alfa);
@@ -483,39 +540,42 @@ void renderScene() {
     gluLookAt(px, py, pz,
               px + dx, py + dy, pz + dz,
               ux, uy, uz);
+
     /*gluLookAt(camX, camY, camZ,
               0.0,0.0,0.0,
               0.0f,1.0f,0.0f);*/
 
+    // Turn on lights
+    for (int i = 0; i < lights.size(); i++) {
+        if (strcmp(lights.at(i).type, "SPOT") != 0)
+            lights.at(i).turnOnLight(i);
+    }
+
     if (move)
         moveforward();
 
-    glLightfv(GL_LIGHT0, GL_POSITION, pos);
+    //Eixos
+//    glBegin(GL_LINES);
+//    glColor3f(1,0,0);
+//    glVertex3f(0.0f, 0.0f, 0.0f);
+//    glVertex3f(200.0f, 0.0f, 0.0f);
+//
+//    glColor3f(0,1,0);
+//    glVertex3f(0.0f, 0.0f, 0.0f);
+//    glVertex3f(0.0f, 200.0f, 0.0f);
+//
+//    glColor3f(0,0,1);
+//    glVertex3f(0.0f, 0.0f, 0.0f);
+//    glVertex3f(0.0f, 0.0f, 200.0f);
+//    glEnd();
 
-    float white[4] = { 1,1,1,1 };
-    glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, white);
+    // Coloca a cor como branca para as primitivas
+//    glColor3f(1,1,1);
 
 
     //Muda o modo de desenho das figuras
     changeMode();
 
-    //Eixos
-    //glBegin(GL_LINES);
-    //glColor3f(1,0,0);
-    //glVertex3f(0.0f, 0.0f, 0.0f);
-    //glVertex3f(10.0f, 0.0f, 0.0f);
-
-    //glColor3f(0,1,0);
-    //glVertex3f(0.0f, 0.0f, 0.0f);
-    //glVertex3f(0.0f, 10.0f, 0.0f);
-
-    //glColor3f(0,0,1);
-    //glVertex3f(0.0f, 0.0f, 0.0f);
-    //glVertex3f(0.0f, 0.0f, 10.0f);
-    //glEnd();
-
-    //Coloca a cor como branca para as primitivas
-    //glColor3f(1,1,1);
 
     // movimento no plano XZ
     glTranslatef(X_TRANSLATE ,Y_TRANSLATE ,Z_TRANSLATE);
@@ -529,7 +589,16 @@ void renderScene() {
     glScalef(scale, scale, scale);
 
     //Desenha a cena
-    scene.drawGroup();
+    scene.drawGroup(curveOff);
+
+    glDisable(GL_LIGHT0);
+    glDisable(GL_LIGHT1);
+    glDisable(GL_LIGHT2);
+    glDisable(GL_LIGHT3);
+    glDisable(GL_LIGHT4);
+    glDisable(GL_LIGHT5);
+    glDisable(GL_LIGHT6);
+    glDisable(GL_LIGHT7);
 
     // End of frame
     glutSwapBuffers();
@@ -562,6 +631,12 @@ void keyboard(unsigned char key, int x, int y){
     if (key == 'b')
         movebackwards();
 
+    if (key == 'o')
+        curveOff = (curveOff + 1) % 2;
+
+    if (key == 's')
+        spotOff = (spotOff + 1) % 2;
+
     glutPostRedisplay();
 }
 
@@ -569,10 +644,10 @@ void movement (int key, int x, int y) {
 
     switch (key) {
         case GLUT_KEY_LEFT :
-            alfa += 0.08f;
+            alfa += 0.1f;
             break;
         case GLUT_KEY_RIGHT :
-            alfa -= 0.08f;
+            alfa -= 0.1f;
             break;
         case GLUT_KEY_UP :
             beta1 -= 0.08f;
@@ -672,9 +747,6 @@ void initGL() {
 
     glClearColor(0, 0, 0, 0);
 
-    glEnable(GL_LIGHTING);
-    glEnable(GL_LIGHT0);
-
     glEnable(GL_TEXTURE_2D);
 
 }
@@ -703,6 +775,7 @@ int main(int argc, char **argv) {
     glutSpecialFunc(movement);
     glutMouseFunc(processMouseButtons);
     glutMotionFunc(processMouseMotion);
+
 //  OpenGL settings
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_CULL_FACE);
@@ -723,3 +796,4 @@ int main(int argc, char **argv) {
 
     return 1;
 }
+

@@ -16,6 +16,11 @@ using std::vector;
 
 class Model {
 
+    char *emission;
+public:
+    void setEmission(char *emission);
+
+private:
     GLuint vertices;
     GLuint normals;
     GLuint texCoord;

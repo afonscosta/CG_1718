@@ -1,16 +1,23 @@
 <scene>
+
+	<lights>
+		<light type="POINT" posX="0" posY="0" posZ="0" />
+        <light type="SPOT" posX="0" posY="0" posZ="10" />
+	</lights>
+
 	<!-- Ambiente -->
 	<group>
 		<models>
 			<model file="../files/ambient.3d" texture="../files/8k_stars_milky_way.jpg" />
 		</models>
 	</group>
+
 	<!-- SOL -->
 	<group>
 		<scale X="20" Y="20" Z="20"/>
 		<rotate time="50" axisX="0" axisY="1" axisZ="0" />
 		<models>
-			<model file="../files/sphere.3d" texture="../files/8k_sun.jpg" />
+			<model file="../files/sphere.3d" texture="../files/8k_sun.jpg" emission="white" />
 		</models>
 	</group>
 	<group>
@@ -140,7 +147,7 @@
             <rotate time="33" axisX="0" axisY="1" axisZ="0"/>
 			<scale X="5.6045" Y="5.6045" Z="5.6045"/>
 			<models>
-				<model file="../files/sphere.3d" texture="../files/jupitermap.jpg"/>
+				<model file="../files/sphere.3d" texture="../files/jupitermap.jpg" />
 			</models>
 		</group>
 		<!-- SATURNO -->
