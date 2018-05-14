@@ -40,6 +40,10 @@ int main(int argc, char **argv) {
             points = box_generate_points(points, strtof(argv[2], NULL) / 2, strtof(argv[3], NULL) / 2,
                                          strtof(argv[4], NULL) / 2, 1);
             writeFile(points, argv[5]);
+        } else if (strcmp(argv[1], "ambient") == 0) {
+            points = ambient_generate_points(points, strtof(argv[2], NULL), strtof(argv[3], NULL),
+                                            strtof(argv[4], NULL));
+            writeFile(points, argv[5]);
         }
     } else if (argc == 7) {
         if (strcmp(argv[1], "cone") == 0) {
