@@ -211,22 +211,5 @@
 				<model file="../files/sphere.3d" texture="../files/2k_neptune.jpg"/>
 			</models>
 		</group>
-		<!-- PLUTAO -->
-        <group>
-			<translate time="3720">
-				<point X="530" Y="0" Z="0"/>
-				<point X="374.766586" Y="0" Z="374.766586"/>
-				<point X="0" Y="0" Z="530"/>
-				<point X="-374.766586" Y="0" Z="374.766586"/>
-				<point X="-530" Y="0" Z="0"/>
-				<point X="-374.766586" Y="0" Z="-374.766586"/>
-				<point X="0" Y="0" Z="-530"/>
-				<point X="374.766586" Y="0" Z="-374.766586"/>
-			</translate>
-			<scale X="0.09" Y="0.09" Z="0.09"/>
-			<models>
-				<model file="../files/sphere.3d" texture="plutomap2k.jpg"/>
-			</models>
-		</group>
 	</group>
 </scene>
