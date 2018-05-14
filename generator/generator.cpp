@@ -35,42 +35,42 @@ vector<Point> plane_generate_points(vector <Point> points, float a) {
     p.setPoint(0,1,0);
     points.push_back(p);
     //Texture
-    p.setPoint(1, 0, 0);
+    p.setPoint(0, 0, 0);
     points.push_back(p);
 
     p.setPoint(a, 0, a);
     points.push_back(p);
     p.setPoint(0, 1, 0);
     points.push_back(p);
-    p.setPoint(0, 0, 0);
+    p.setPoint(1, 0, 0);
     points.push_back(p);
 
     p.setPoint(a, 0, -a);
     points.push_back(p);
     p.setPoint(0, 1, 0);
     points.push_back(p);
-    p.setPoint(0, 1, 1);
+    p.setPoint(1, 1, 1);
     points.push_back(p);
 
     p.setPoint(a, 0, -a);
-    points.push_back(p);
-    p.setPoint(0, 1, 0);
-    points.push_back(p);
-    p.setPoint(0, 1, 0);
-    points.push_back(p);
-
-    p.setPoint(-a, 0, -a);
     points.push_back(p);
     p.setPoint(0, 1, 0);
     points.push_back(p);
     p.setPoint(1, 1, 0);
     points.push_back(p);
 
+    p.setPoint(-a, 0, -a);
+    points.push_back(p);
+    p.setPoint(0, 1, 0);
+    points.push_back(p);
+    p.setPoint(0, 1, 0);
+    points.push_back(p);
+
     p.setPoint(-a, 0, a);
     points.push_back(p);
     p.setPoint(0, 1, 0);
     points.push_back(p);
-    p.setPoint(1, 0, 0);
+    p.setPoint(0, 0, 0);
     points.push_back(p);
 
     return points;
