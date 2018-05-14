@@ -4,21 +4,75 @@
 using std::ofstream;
 using std::vector;
 
+Point cross(Point a, Point b) {
+
+    double x, y, z;
+
+    x = a.getY() * b.getZ() - a.getZ() * b.getY();
+    y = a.getZ() * b.getX() - a.getX() * b.getZ();
+    z = a.getX() * b.getY() - a.getY() * b.getX();
+
+    Point p;
+    p.setPoint(x, y, z);
+
+    return p;
+}
+
+Point normalize(Point a) {
+
+    double l = sqrt(pow(a.getX(), 2) + pow(a.getY(), 2) + pow(a.getZ(), 2));
+    a.setPoint(a.getX()/l, a.getY()/l, a.getZ()/l);
+
+    return a;
+}
 
 vector<Point> plane_generate_points(vector <Point> points, float a) {
     Point p;
+    //Vertice
     p.setPoint(-a, 0, a);
     points.push_back(p);
+    //Normal
+    p.setPoint(0,1,0);
+    points.push_back(p);
+    //Texture
+    p.setPoint(0, 0, 0);
+    points.push_back(p);
+
     p.setPoint(a, 0, a);
     points.push_back(p);
+    p.setPoint(0, 1, 0);
+    points.push_back(p);
+    p.setPoint(1, 0, 0);
+    points.push_back(p);
+
     p.setPoint(a, 0, -a);
     points.push_back(p);
+    p.setPoint(0, 1, 0);
+    points.push_back(p);
+    p.setPoint(1, 1, 1);
+    points.push_back(p);
+
     p.setPoint(a, 0, -a);
     points.push_back(p);
+    p.setPoint(0, 1, 0);
+    points.push_back(p);
+    p.setPoint(1, 1, 0);
+    points.push_back(p);
+
     p.setPoint(-a, 0, -a);
     points.push_back(p);
+    p.setPoint(0, 1, 0);
+    points.push_back(p);
+    p.setPoint(0, 1, 0);
+    points.push_back(p);
+
     p.setPoint(-a, 0, a);
     points.push_back(p);
+    p.setPoint(0, 1, 0);
+    points.push_back(p);
+    p.setPoint(0, 0, 0);
+    points.push_back(p);
+
     return points;
 }
 
@@ -28,6 +82,8 @@ vector <Point> box_generate_points(vector <Point> points, float x, float y, floa
     double increment_x = x / divisions;
     double increment_y = y / divisions;
     double increment_z = z / divisions;
+
+    double increment_T = 1.0 / divisions;
 
     x = x / 2;
     y = y / 2;
@@ -47,18 +103,50 @@ vector <Point> box_generate_points(vector <Point> points, float x, float y, floa
 
         for (int j = 0; j < divisions; j++){
 
+            //Vertice
             p.setPoint(x_aux, y_aux, z_aux);
             points.push_back(p);
+            //Normal
+            p.setPoint(0, 0, 1);
+            points.push_back(p);
+            //Texture
+            p.setPoint(j * increment_T, i * increment_T, 0);
+            points.push_back(p);
+
             p.setPoint(x_aux + increment_x, y_aux, z_aux);
             points.push_back(p);
-            p.setPoint(x_aux, y_aux + increment_y, z_aux );
+            p.setPoint(0, 0, 1);
+            points.push_back(p);
+            p.setPoint((j+1) * increment_T, i * increment_T, 0);
             points.push_back(p);
 
             p.setPoint(x_aux, y_aux + increment_y, z_aux );
             points.push_back(p);
+            p.setPoint(0, 0, 1);
+            points.push_back(p);
+            p.setPoint(j * increment_T, (i+1) * increment_T, 0);
+            points.push_back(p);
+
+
+            p.setPoint(x_aux, y_aux + increment_y, z_aux );
+            points.push_back(p);
+            p.setPoint(0, 0, 1);
+            points.push_back(p);
+            p.setPoint(j * increment_T, (i+1) * increment_T, 0);
+            points.push_back(p);
+
             p.setPoint(x_aux + increment_x, y_aux, z_aux);
             points.push_back(p);
+            p.setPoint(0, 0, 1);
+            points.push_back(p);
+            p.setPoint((j+1) * increment_T, i * increment_T, 0);
+            points.push_back(p);
+
             p.setPoint(x_aux + increment_x, y_aux + increment_y, z_aux );
+            points.push_back(p);
+            p.setPoint(0, 0, 1);
+            points.push_back(p);
+            p.setPoint((j+1) * increment_T, (i+1) * increment_T, 0);
             points.push_back(p);
 
             x_aux += increment_x;
@@ -80,16 +168,45 @@ vector <Point> box_generate_points(vector <Point> points, float x, float y, floa
 
             p.setPoint(x_aux, y_aux, z_aux);
             points.push_back(p);
+            p.setPoint(0, 0, -1);
+            points.push_back(p);
+            p.setPoint(j * increment_T, i * increment_T, 0);
+            points.push_back(p);
+
             p.setPoint(x_aux - increment_x, y_aux, z_aux);
             points.push_back(p);
+            p.setPoint(0, 0, -1);
+            points.push_back(p);
+            p.setPoint((j+1) * increment_T, i * increment_T, 0);
+            points.push_back(p);
+
             p.setPoint(x_aux ,y_aux + increment_y ,z_aux );
             points.push_back(p);
+            p.setPoint(0, 0, -1);
+            points.push_back(p);
+            p.setPoint(j * increment_T, (i+1) * increment_T, 0);
+            points.push_back(p);
+
 
             p.setPoint(x_aux, y_aux + increment_y, z_aux );
             points.push_back(p);
+            p.setPoint(0, 0, -1);
+            points.push_back(p);
+            p.setPoint(j * increment_T, (i+1) * increment_T, 0);
+            points.push_back(p);
+
             p.setPoint(x_aux - increment_x, y_aux, z_aux);
             points.push_back(p);
+            p.setPoint(0, 0, -1);
+            points.push_back(p);
+            p.setPoint((j+1) * increment_T, i * increment_T, 0);
+            points.push_back(p);
+
             p.setPoint(x_aux - increment_x, y_aux + increment_y, z_aux );
+            points.push_back(p);
+            p.setPoint(0, 0, -1);
+            points.push_back(p);
+            p.setPoint((j+1) * increment_T, (i+1) * increment_T, 0);
             points.push_back(p);
 
             x_aux -= increment_x;
@@ -111,16 +228,45 @@ vector <Point> box_generate_points(vector <Point> points, float x, float y, floa
 
             p.setPoint(x_aux, y_aux, z_aux);
             points.push_back(p);
+            p.setPoint(0, 1, 0);
+            points.push_back(p);
+            p.setPoint(j * increment_T, i * increment_T, 0);
+            points.push_back(p);
+
             p.setPoint(x_aux + increment_x, y_aux, z_aux);
             points.push_back(p);
-            p.setPoint(x_aux, y_aux, z_aux - increment_z );
+            p.setPoint(0, 1, 0);
+            points.push_back(p);
+            p.setPoint((j+1) * increment_T, i * increment_T, 0);
             points.push_back(p);
 
             p.setPoint(x_aux, y_aux, z_aux - increment_z );
             points.push_back(p);
+            p.setPoint(0, 1, 0);
+            points.push_back(p);
+            p.setPoint(j * increment_T, (i+1) * increment_T, 0);
+            points.push_back(p);
+
+
+            p.setPoint(x_aux, y_aux, z_aux - increment_z );
+            points.push_back(p);
+            p.setPoint(0, 1, 0);
+            points.push_back(p);
+            p.setPoint(j * increment_T, (i+1) * increment_T, 0);
+            points.push_back(p);
+
             p.setPoint(x_aux + increment_x, y_aux, z_aux);
             points.push_back(p);
+            p.setPoint(0, 1, 0);
+            points.push_back(p);
+            p.setPoint((j+1) * increment_T, i * increment_T, 0);
+            points.push_back(p);
+
             p.setPoint(x_aux + increment_x, y_aux, z_aux - increment_z );
+            points.push_back(p);
+            p.setPoint(0, 1, 0);
+            points.push_back(p);
+            p.setPoint((j+1) * increment_T, (i+1) * increment_T, 0);
             points.push_back(p);
 
             x_aux += increment_x;
@@ -142,16 +288,45 @@ vector <Point> box_generate_points(vector <Point> points, float x, float y, floa
 
             p.setPoint(x_aux, y_aux, z_aux);
             points.push_back(p);
+            p.setPoint(0, -1, 0);
+            points.push_back(p);
+            p.setPoint(j * increment_T, i * increment_T, 0);
+            points.push_back(p);
+
             p.setPoint(x_aux + increment_x, y_aux, z_aux);
             points.push_back(p);
-            p.setPoint(x_aux, y_aux, z_aux + increment_z );
+            p.setPoint(0, -1, 0);
+            points.push_back(p);
+            p.setPoint((j+1) * increment_T, i * increment_T, 0);
             points.push_back(p);
 
             p.setPoint(x_aux, y_aux, z_aux + increment_z );
             points.push_back(p);
+            p.setPoint(0, -1, 0);
+            points.push_back(p);
+            p.setPoint(j * increment_T, (i+1) * increment_T, 0);
+            points.push_back(p);
+
+
+            p.setPoint(x_aux, y_aux, z_aux + increment_z );
+            points.push_back(p);
+            p.setPoint(0, -1, 0);
+            points.push_back(p);
+            p.setPoint(j * increment_T, (i+1) * increment_T, 0);
+            points.push_back(p);
+
             p.setPoint(x_aux + increment_x, y_aux, z_aux);
             points.push_back(p);
+            p.setPoint(0, -1, 0);
+            points.push_back(p);
+            p.setPoint((j+1) * increment_T, i * increment_T, 0);
+            points.push_back(p);
+
             p.setPoint(x_aux + increment_x, y_aux, z_aux + increment_z );
+            points.push_back(p);
+            p.setPoint(0, -1, 0);
+            points.push_back(p);
+            p.setPoint((j+1) * increment_T, (i+1) * increment_T, 0);
             points.push_back(p);
 
             x_aux += increment_x;
@@ -173,17 +348,47 @@ vector <Point> box_generate_points(vector <Point> points, float x, float y, floa
 
             p.setPoint(x_aux, y_aux, z_aux);
             points.push_back(p);
+            p.setPoint(1, 0, 0);
+            points.push_back(p);
+            p.setPoint(j * increment_T, i * increment_T, 0);
+            points.push_back(p);
+
             p.setPoint(x_aux, y_aux, z_aux - increment_z);
             points.push_back(p);
-            p.setPoint(x_aux, y_aux + increment_y, z_aux );
+            p.setPoint(1, 0, 0);
+            points.push_back(p);
+            p.setPoint((j+1) * increment_T, i * increment_T, 0);
             points.push_back(p);
 
             p.setPoint(x_aux, y_aux + increment_y, z_aux );
             points.push_back(p);
+            p.setPoint(1, 0, 0);
+            points.push_back(p);
+            p.setPoint(j * increment_T, (i+1) * increment_T, 0);
+            points.push_back(p);
+
+
+            p.setPoint(x_aux, y_aux + increment_y, z_aux );
+            points.push_back(p);
+            p.setPoint(1, 0, 0);
+            points.push_back(p);
+            p.setPoint(j * increment_T, (i+1) * increment_T, 0);
+            points.push_back(p);
+
             p.setPoint(x_aux, y_aux, z_aux - increment_z);
             points.push_back(p);
+            p.setPoint(1, 0, 0);
+            points.push_back(p);
+            p.setPoint((j+1) * increment_T, i * increment_T, 0);
+            points.push_back(p);
+
             p.setPoint(x_aux, y_aux + increment_y, z_aux - increment_z );
             points.push_back(p);
+            p.setPoint(1, 0, 0);
+            points.push_back(p);
+            p.setPoint((j+1) * increment_T, (i+1) * increment_T, 0);
+            points.push_back(p);
+
 
             z_aux -= increment_z;
         }
@@ -204,17 +409,47 @@ vector <Point> box_generate_points(vector <Point> points, float x, float y, floa
 
             p.setPoint(x_aux, y_aux, z_aux);
             points.push_back(p);
+            p.setPoint(-1, 0, 0);
+            points.push_back(p);
+            p.setPoint(j * increment_T, i * increment_T, 0);
+            points.push_back(p);
+
             p.setPoint(x_aux, y_aux, z_aux + increment_z);
             points.push_back(p);
-            p.setPoint(x_aux, y_aux + increment_y, z_aux );
+            p.setPoint(-1, 0, 0);
+            points.push_back(p);
+            p.setPoint((j+1) * increment_T, i * increment_T, 0);
             points.push_back(p);
 
             p.setPoint(x_aux, y_aux + increment_y, z_aux );
             points.push_back(p);
+            p.setPoint(-1, 0, 0);
+            points.push_back(p);
+            p.setPoint(j * increment_T, (i+1) * increment_T, 0);
+            points.push_back(p);
+
+
+            p.setPoint(x_aux, y_aux + increment_y, z_aux );
+            points.push_back(p);
+            p.setPoint(-1, 0, 0);
+            points.push_back(p);
+            p.setPoint(j * increment_T, (i+1) * increment_T, 0);
+            points.push_back(p);
+
             p.setPoint(x_aux, y_aux, z_aux + increment_z);
             points.push_back(p);
+            p.setPoint(-1, 0, 0);
+            points.push_back(p);
+            p.setPoint((j+1) * increment_T, i * increment_T, 0);
+            points.push_back(p);
+
             p.setPoint(x_aux, y_aux + increment_y, z_aux + increment_z );
             points.push_back(p);
+            p.setPoint(-1, 0, 0);
+            points.push_back(p);
+            p.setPoint((j+1) * increment_T, (i+1) * increment_T, 0);
+            points.push_back(p);
+
 
             z_aux += increment_z;
         }
@@ -231,6 +466,8 @@ vector <Point> cone_generate_points(vector <Point> points, float radius, float h
     Point p;
 
     double increment = (2 * M_PI) / slices;
+    double increment_Tx = 1.0 / slices;
+    double increment_Ty = 1.0 / stacks;
     double height_aux = height / 2;
     double height_increment = height / stacks;
     double radius_decrement = radius / stacks;
@@ -242,21 +479,59 @@ vector <Point> cone_generate_points(vector <Point> points, float radius, float h
     for (int j = 0; j < stacks; j++){
 
         for (int i = 0; i < slices; i++) {
+                                                      
 
-            p.setPoint(radius_now * sin(increment * i), height_now, radius_now * cos(increment * i) );
+            Point p_aux[3];
+            Point v1, v2, normal;
+
+            //Vertice
+            p_aux[0].setPoint(radius_now * sin(increment * i), height_now, radius_now * cos(increment * i) );
+            p_aux[1].setPoint(radius_now * sin(increment * (i + 1)), height_now, radius_now * cos(increment * (i + 1)) );
+            p_aux[2].setPoint(radius_next * sin(increment * i), height_next, radius_next * cos(increment * i ));
+
+            //Calcular normal
+            v1.setPoint(p_aux[1].getX() - p_aux[0].getX(), p_aux[1].getY() - p_aux[0].getY(), p_aux[1].getZ() - p_aux[0].getZ());
+            v2.setPoint(p_aux[2].getX() - p_aux[0].getX(), p_aux[2].getY() - p_aux[0].getY(), p_aux[2].getZ() - p_aux[0].getZ());
+            normal = normalize( cross(v1, v2) );
+
+
+            //Push vertice 1, push normal, push textura
+            points.push_back(p_aux[0]);
+            points.push_back(normal);
+            p.setPoint(i * increment_Tx, j * increment_Ty, 0);
             points.push_back(p);
-            p.setPoint(radius_now * sin(increment * (i + 1)), height_now, radius_now * cos(increment * (i + 1)) );
+
+//            Push vertice 2, push normal, push textura
+            points.push_back(p_aux[1]);
+            points.push_back(normal);
+            p.setPoint((i + 1) * increment_Tx, j * increment_Ty, 0);
             points.push_back(p);
+
+//            Push vertice 3, push normal, push textura
+            points.push_back(p_aux[2]);
+            points.push_back(normal);
+            p.setPoint(i * increment_Tx, (j + 1) * increment_Ty, 0);
+            points.push_back(p);
+
+
+
             p.setPoint(radius_next * sin(increment * i), height_next, radius_next * cos(increment * i ));
             points.push_back(p);
-
-            p.setPoint(radius_next * sin(increment * i), height_next, radius_next * cos(increment * i ));
+            points.push_back(normal);
+            p.setPoint(i * increment_Tx, (j + 1) * increment_Ty, 0);
             points.push_back(p);
+
             p.setPoint(radius_now * sin(increment * (i + 1)), height_now, radius_now * cos(increment * (i + 1)) );
             points.push_back(p);
+            points.push_back(normal);
+            p.setPoint((i + 1) * increment_Tx, j * increment_Ty, 0);
+            points.push_back(p);
+
             p.setPoint(radius_next * sin(increment * (i + 1)) ,height_next ,radius_next * cos(increment * (i + 1)) );
             points.push_back(p);
-
+            points.push_back(normal);
+            p.setPoint((i + 1) * increment_Tx, (j + 1) * increment_Ty, 0);
+            points.push_back(p);
         }
 
         height_now = height_next;
@@ -266,16 +541,30 @@ vector <Point> cone_generate_points(vector <Point> points, float radius, float h
         radius_next -= radius_decrement;
     }
 
+
     for (int a = 0; a < slices; a++) {
 
         //face inferior
         p.setPoint(0, -height_aux, 0);
         points.push_back(p);
-        p.setPoint(sin(increment * (a + 1)) * radius, -height_aux, cos(increment * (a + 1)) * radius);
+        p.setPoint(0, -1, 0);
         points.push_back(p);
-        p.setPoint(sin(increment * a) * radius, -height_aux, cos(increment * a) * radius);
+        p.setPoint(0.5, 0.5, 0);
         points.push_back(p);
 
+        p.setPoint(sin(increment * (a + 1)) * radius, -height_aux, cos(increment * (a + 1)) * radius);
+        points.push_back(p);
+        p.setPoint(0, -1, 0);
+        points.push_back(p);
+        p.setPoint(sin(increment * (a + 1)) * 0.5 + 0.5, cos(increment * (a + 1)) * 0.5 + 0.5, 0);
+        points.push_back(p);
+
+        p.setPoint(sin(increment * a) * radius, -height_aux, cos(increment * a) * radius);
+        points.push_back(p);
+        p.setPoint(0, -1, 0);
+        points.push_back(p);
+        p.setPoint(sin(increment * a) * 0.5 + 0.5, cos(increment * a) * 0.5 + 0.5, 0);
+        points.push_back(p);
     }
 
     return points;
