@@ -133,14 +133,15 @@ void Translate::setTranslate(float time, vector<Point> points) {
 
 float Y[3] = {0, 1, 0};
 
-void Translate::doTranslate(){
+void Translate::doTranslate(int curveOff){
 
     float pos[3];
     float deriv[3];
     float Z[3];
 
     if (time != 0) {
-        renderCatmullRomCurve();
+        if (!curveOff)
+            renderCatmullRomCurve();
 
         //regra de 3 simples para que o tempo dado ao getGlobalCatmullRomPoint seja sempre entre 0 e 1
         float t = glutGet(GLUT_ELAPSED_TIME) % (int) (time * 1000);
