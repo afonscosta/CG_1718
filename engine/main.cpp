@@ -53,6 +53,7 @@ float px = 0.0f, py = 0.0f, pz = 10.0f, dx= 0.0f, dy = 0.0f, dz = -1.0f, ux = 0.
 double alfa = M_PI;
 double beta1 = M_PI;
 int move = 0;
+int timebase = 0, frame = 0;
 
 Group scene;
 
@@ -469,7 +470,11 @@ void movebackwards(){
 
 void renderScene() {
 
-    float pos[4] = {1.0, 1.0, 1.0, 0.0};
+    float pos[4] = {0.0, 0.0, 10.0, 0.0};
+
+    float fps;
+    int time;
+    char s[64];
 
     // clear buffers
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -487,6 +492,19 @@ void renderScene() {
               0.0,0.0,0.0,
               0.0f,1.0f,0.0f);*/
 
+    frame++;
+    time=glutGet(GLUT_ELAPSED_TIME);
+    if (time - timebase > 1000) {
+        fps = frame*1000.0/(time-timebase);
+        timebase = time;
+        frame = 0;
+        sprintf(s, "FPS: %f6.2", fps);
+        glutSetWindowTitle(s);
+    }
+
+    //glRasterPos2f(0.0 , 0.0);
+    glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_10, *s);
+
     if (move)
         moveforward();
 
@@ -500,22 +518,22 @@ void renderScene() {
     changeMode();
 
     //Eixos
-    //glBegin(GL_LINES);
-    //glColor3f(1,0,0);
-    //glVertex3f(0.0f, 0.0f, 0.0f);
-    //glVertex3f(10.0f, 0.0f, 0.0f);
+    glBegin(GL_LINES);
+    glColor3f(1,0,0);
+    glVertex3f(0.0f, 0.0f, 0.0f);
+    glVertex3f(10.0f, 0.0f, 0.0f);
 
-    //glColor3f(0,1,0);
-    //glVertex3f(0.0f, 0.0f, 0.0f);
-    //glVertex3f(0.0f, 10.0f, 0.0f);
+    glColor3f(0,1,0);
+    glVertex3f(0.0f, 0.0f, 0.0f);
+    glVertex3f(0.0f, 10.0f, 0.0f);
 
-    //glColor3f(0,0,1);
-    //glVertex3f(0.0f, 0.0f, 0.0f);
-    //glVertex3f(0.0f, 0.0f, 10.0f);
-    //glEnd();
+    glColor3f(0,0,1);
+    glVertex3f(0.0f, 0.0f, 0.0f);
+    glVertex3f(0.0f, 0.0f, 10.0f);
+    glEnd();
 
     //Coloca a cor como branca para as primitivas
-    //glColor3f(1,1,1);
+    glColor3f(1,1,1);
 
     // movimento no plano XZ
     glTranslatef(X_TRANSLATE ,Y_TRANSLATE ,Z_TRANSLATE);
