@@ -7,13 +7,13 @@
 
 	<group>
 		<models>
-			<model file="../files/sphere.3d" texture="../files/8k_sun.jpg" emission="white" />
+			<model file="../files/sphere.3d" texture="../files/8k_sun.jpg" emissionX="0.9" emissionY="0.9" emissionZ="0.9" />
 		</models>
 	</group>
 	<group>
 		<translate X="14" />
 		<models>
-			<model file="../files/sphere.3d" texture="../files/8k_sun.jpg" emission="white" />
+			<model file="../files/sphere.3d" texture="../files/8k_sun.jpg" emissionX="0.9" emissionY="0.9" emissionZ="0.9" />
 		</models>
 	</group>
 
