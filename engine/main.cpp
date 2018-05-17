@@ -52,6 +52,7 @@ float px = 0.0f, py = 0.0f, pz = 10.0f, dx= 0.0f, dy = 0.0f, dz = -1.0f, ux = 0.
 double alfa = M_PI;
 double beta1 = M_PI;
 int move = 0;
+int timebase = 0, frame = 0;
 
 Group scene;
 vector<Light> lights;
@@ -529,6 +530,10 @@ void movebackwards(){
 
 void renderScene() {
 
+    float fps;
+    int time;
+    char s[64];
+
     // clear buffers
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -560,6 +565,19 @@ void renderScene() {
         if (strcmp(lights.at(i).getType(), "SPOT") != 0)
             lights.at(i).turnOnLight(i);
     }
+
+    frame++;
+    time=glutGet(GLUT_ELAPSED_TIME);
+    if (time - timebase > 1000) {
+        fps = frame*1000.0/(time-timebase);
+        timebase = time;
+        frame = 0;
+        sprintf(s, "FPS: %f6.2", fps);
+        glutSetWindowTitle(s);
+    }
+
+    //glRasterPos2f(0.0 , 0.0);
+    glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_10, *s);
 
     if (move)
         moveforward();
@@ -806,4 +824,3 @@ int main(int argc, char **argv) {
 
     return 1;
 }
-
