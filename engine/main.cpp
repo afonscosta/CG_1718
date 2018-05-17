@@ -731,8 +731,8 @@ void processMouseMotion(int xx, int yy) {
     deltaY = yy - startY;
 
     if (tracking == 1) {
-        alfa += 0.001 * (xx - startX);
-        beta1 += 0.001 * -(yy - startY);
+        alfa += 0.001 * -(xx - startX);
+        beta1 += 0.001 * (yy - startY);
 
         alphaAux = alpha + deltaX;
         betaAux = beta + deltaY;
