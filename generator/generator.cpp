@@ -489,28 +489,26 @@ vector <Point> cone_generate_points(vector <Point> points, float radius, float h
         radius_next -= radius_decrement;
     }
 
+    normal.setPoint(0, -1, 0);
 
     for (int a = 0; a < slices; a++) {
 
         //face inferior
         p.setPoint(0, -height_aux, 0);
         points.push_back(p);
-        p.setPoint(0, -1, 0);
-        points.push_back(p);
+        points.push_back(normal);
         p.setPoint(0.5, 0.5, 0);
         points.push_back(p);
 
         p.setPoint(sin(increment * (a + 1)) * radius, -height_aux, cos(increment * (a + 1)) * radius);
         points.push_back(p);
-        p.setPoint(0, -1, 0);
-        points.push_back(p);
+        points.push_back(normal);
         p.setPoint(sin(increment * (a + 1)) * 0.5 + 0.5, cos(increment * (a + 1)) * 0.5 + 0.5, 0);
         points.push_back(p);
 
         p.setPoint(sin(increment * a) * radius, -height_aux, cos(increment * a) * radius);
         points.push_back(p);
-        p.setPoint(0, -1, 0);
-        points.push_back(p);
+        points.push_back(normal);
         p.setPoint(sin(increment * a) * 0.5 + 0.5, cos(increment * a) * 0.5 + 0.5, 0);
         points.push_back(p);
     }
@@ -809,32 +807,6 @@ vector <Point> torus_generate_points(vector <Point> points, float radius, float 
 
             //Vertice
             p.setPoint((radius + (radius_torus * cos((i + 1) * increment1))) * cos(j * increment), (radius + (radius_torus * cos((i + 1) * increment1))) * sin(j * increment), radius_torus * sin((i + 1) * increment1));
-            points.push_back(p);
-
-            //Normal
-            torus_center_x = radius * sin(j * increment);
-            torus_center_z = radius * cos(j * increment);
-
-            normal_x = (radius + (radius_torus * cos((i + 1) * increment1))) * cos(j * increment) - torus_center_x;
-            normal_y = (radius + (radius_torus * cos((i + 1) * increment1))) * sin(j * increment);
-            normal_z = radius_torus * sin((i + 1) * increment1) - torus_center_z;
-            p.setPoint(normal_x, normal_y, normal_z);
-            p = normalize(p);
-            points.push_back(p);
-
-            //Textura
-            if (i < stacks / 2)
-                p.setPoint(2 * (i + 1) * incrementT, 1, 0);
-            else p.setPoint(1 - (2 * (texture_aux + 1) * incrementT), 1, 0);
-            points.push_back(p);
-        }
-        if (i >= stacks / 2)
-            texture_aux++;
-    }
-
-    return points;
-}
-ent1));
             points.push_back(p);
 
             //Normal
