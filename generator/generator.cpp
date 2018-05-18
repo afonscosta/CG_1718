@@ -424,13 +424,12 @@ vector <Point> cone_generate_points(vector <Point> points, float radius, float h
     double radius_next = radius_now - radius_decrement;
     double height_next = height_increment + height_now;
 
+    Point p_aux[3];
+    Point v1, v2, normal;
+
     for (int j = 0; j < stacks; j++){
 
         for (int i = 0; i < slices; i++) {
-                                                      
-
-            Point p_aux[3];
-            Point v1, v2, normal;
 
             //Vertice
             p_aux[0].setPoint(radius_now * sin(increment * i), height_now, radius_now * cos(increment * i) );
