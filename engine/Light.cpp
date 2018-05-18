@@ -29,7 +29,6 @@ void Light::turnOnLight(int numLight) {
     else if (strcmp(type, "POINT") == 0) {
         posL[3] = 1.0f;
 
-        glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 50.0);
     }
 
     switch(numLight) {

@@ -342,6 +342,8 @@ Model parseModel(pugi::xml_node_iterator model) {
 
     Model modelDest;
     float emission[4] = {0.0f, 0.0f, 0.0f, 1.0f};
+    float diffuse[4] = {1.0f, 1.0f, 1.0f, 1.0f};
+    float specular[4] = {1.0f, 1.0f, 1.0f, 1.0f};
 
     for (pugi::xml_attribute_iterator ait = model->attributes_begin(); ait != model->attributes_end(); ++ait)
     {
@@ -359,9 +361,29 @@ Model parseModel(pugi::xml_node_iterator model) {
 
         if (strcmp(ait->name(), "emissionZ") == 0)
             emission[2] = strtof(ait->value(), nullptr);
+
+        if (strcmp(ait->name(), "diffR") == 0)
+            diffuse[0] = strtof(ait->value(), nullptr);
+
+        if (strcmp(ait->name(), "diffG") == 0)
+            diffuse[1] = strtof(ait->value(), nullptr);
+
+        if (strcmp(ait->name(), "diffB") == 0)
+            diffuse[2] = strtof(ait->value(), nullptr);
+
+        if (strcmp(ait->name(), "specX") == 0)
+            specular[0] = strtof(ait->value(), nullptr);
+
+        if (strcmp(ait->name(), "specY") == 0)
+            specular[1] = strtof(ait->value(), nullptr);
+
+        if (strcmp(ait->name(), "specZ") == 0)
+            specular[2] = strtof(ait->value(), nullptr);
     }
 
     modelDest.setEmission(emission);
+    modelDest.setDiffuse(diffuse);
+    modelDest.setSpecular(specular);
 
     return modelDest;
 }
