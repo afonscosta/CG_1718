@@ -118,7 +118,7 @@ void Translate::renderCatmullRomCurve() {
     float deriv[3];
 
     glBegin(GL_LINE_LOOP);
-    for (float i = 0; i < 1; i += 0.01){
+    for (float i = 0; i < 1; i += 0.001){
         getGlobalCatmullRomPoint(i, pos, deriv);
         glVertex3f(pos[0], pos[1], pos[2]);
     }
