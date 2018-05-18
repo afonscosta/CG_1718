@@ -598,29 +598,25 @@ void renderScene() {
         glutSetWindowTitle(s);
     }
 
-    //glRasterPos2f(0.0 , 0.0);
-    glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_10, *s);
-
     if (move)
         moveforward();
 
     //Eixos
-//    glBegin(GL_LINES);
-//    glColor3f(1,0,0);
-//    glVertex3f(0.0f, 0.0f, 0.0f);
-//    glVertex3f(200.0f, 0.0f, 0.0f);
-//
-//    glColor3f(0,1,0);
-//    glVertex3f(0.0f, 0.0f, 0.0f);
-//    glVertex3f(0.0f, 200.0f, 0.0f);
-//
-//    glColor3f(0,0,1);
-//    glVertex3f(0.0f, 0.0f, 0.0f);
-//    glVertex3f(0.0f, 0.0f, 200.0f);
-//    glEnd();
+    /*glBegin(GL_LINES);
+    glColor3f(1,0,0);
+    glVertex3f(0.0f, 0.0f, 0.0f);
+    glVertex3f(200.0f, 0.0f, 0.0f);
+    glColor3f(0,1,0);
+    glVertex3f(0.0f, 0.0f, 0.0f);
+    glVertex3f(0.0f, 200.0f, 0.0f);
+
+    glColor3f(0,0,1);
+    glVertex3f(0.0f, 0.0f, 0.0f);
+    glVertex3f(0.0f, 0.0f, 200.0f);
+    glEnd();*/
 
     // Coloca a cor como branca para as primitivas
-//    glColor3f(1,1,1);
+    glColor3f(1,1,1);
 
 
     //Muda o modo de desenho das figuras
@@ -757,8 +753,8 @@ void processMouseMotion(int xx, int yy) {
     deltaY = yy - startY;
 
     if (tracking == 1) {
-        //alfa += 0.005 * alpha;
-        //beta += 0.005 * beta;
+        alfa += 0.001 * -(xx - startX);
+        beta1 += 0.001 * (yy - startY);
 
         alphaAux = alpha + deltaX;
         betaAux = beta + deltaY;

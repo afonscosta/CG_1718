@@ -8,49 +8,46 @@ using std::vector;
 
 
 vector<Point> plane_generate_points(vector <Point> points, float a) {
-    Point p;
+    Point p, normal;
+
+    normal.setPoint(0, 1, 0);
+
     //Vertice
     p.setPoint(-a, 0, a);
     points.push_back(p);
     //Normal
-    p.setPoint(0,1,0);
-    points.push_back(p);
+    points.push_back(normal);
     //Texture
     p.setPoint(0, 0, 0);
     points.push_back(p);
 
     p.setPoint(a, 0, a);
     points.push_back(p);
-    p.setPoint(0, 1, 0);
-    points.push_back(p);
+    points.push_back(normal);
     p.setPoint(1, 0, 0);
     points.push_back(p);
 
     p.setPoint(a, 0, -a);
     points.push_back(p);
-    p.setPoint(0, 1, 0);
-    points.push_back(p);
+    points.push_back(normal);
     p.setPoint(1, 1, 1);
     points.push_back(p);
 
     p.setPoint(a, 0, -a);
     points.push_back(p);
-    p.setPoint(0, 1, 0);
-    points.push_back(p);
+    points.push_back(normal);
     p.setPoint(1, 1, 0);
     points.push_back(p);
 
     p.setPoint(-a, 0, -a);
     points.push_back(p);
-    p.setPoint(0, 1, 0);
-    points.push_back(p);
+    points.push_back(normal);
     p.setPoint(0, 1, 0);
     points.push_back(p);
 
     p.setPoint(-a, 0, a);
     points.push_back(p);
-    p.setPoint(0, 1, 0);
-    points.push_back(p);
+    points.push_back(normal);
     p.setPoint(0, 0, 0);
     points.push_back(p);
 
@@ -58,7 +55,7 @@ vector<Point> plane_generate_points(vector <Point> points, float a) {
 }
 
 vector <Point> box_generate_points(vector <Point> points, float x, float y, float z, int divisions) {
-    Point p;
+    Point p, normal;
 
     double increment_x = x / divisions;
     double increment_y = y / divisions;
@@ -78,6 +75,7 @@ vector <Point> box_generate_points(vector <Point> points, float x, float y, floa
     x_aux = -x;
     y_aux = -y;
     z_aux = z;
+    normal.setPoint(0, 0, 1);
 
     //ciclo de desenho da face frontal
     for (int i = 0; i < divisions; i++){
@@ -88,45 +86,39 @@ vector <Point> box_generate_points(vector <Point> points, float x, float y, floa
             p.setPoint(x_aux, y_aux, z_aux);
             points.push_back(p);
             //Normal
-            p.setPoint(0, 0, 1);
-            points.push_back(p);
+            points.push_back(normal);
             //Texture
             p.setPoint(j * increment_T, i * increment_T, 0);
             points.push_back(p);
 
             p.setPoint(x_aux + increment_x, y_aux, z_aux);
             points.push_back(p);
-            p.setPoint(0, 0, 1);
-            points.push_back(p);
+            points.push_back(normal);
             p.setPoint((j+1) * increment_T, i * increment_T, 0);
             points.push_back(p);
 
             p.setPoint(x_aux, y_aux + increment_y, z_aux );
             points.push_back(p);
-            p.setPoint(0, 0, 1);
-            points.push_back(p);
+            points.push_back(normal);
             p.setPoint(j * increment_T, (i+1) * increment_T, 0);
             points.push_back(p);
 
 
             p.setPoint(x_aux, y_aux + increment_y, z_aux );
             points.push_back(p);
-            p.setPoint(0, 0, 1);
-            points.push_back(p);
+            points.push_back(normal);
             p.setPoint(j * increment_T, (i+1) * increment_T, 0);
             points.push_back(p);
 
             p.setPoint(x_aux + increment_x, y_aux, z_aux);
             points.push_back(p);
-            p.setPoint(0, 0, 1);
-            points.push_back(p);
+            points.push_back(normal);
             p.setPoint((j+1) * increment_T, i * increment_T, 0);
             points.push_back(p);
 
             p.setPoint(x_aux + increment_x, y_aux + increment_y, z_aux );
             points.push_back(p);
-            p.setPoint(0, 0, 1);
-            points.push_back(p);
+            points.push_back(normal);
             p.setPoint((j+1) * increment_T, (i+1) * increment_T, 0);
             points.push_back(p);
 
@@ -141,6 +133,7 @@ vector <Point> box_generate_points(vector <Point> points, float x, float y, floa
     x_aux = x;
     y_aux = -y;
     z_aux = -z;
+    normal.setPoint(0, 0, -1);
 
     //ciclo de desenho da face traseira
     for (int i = 0; i < divisions; i++){
@@ -149,44 +142,38 @@ vector <Point> box_generate_points(vector <Point> points, float x, float y, floa
 
             p.setPoint(x_aux, y_aux, z_aux);
             points.push_back(p);
-            p.setPoint(0, 0, -1);
-            points.push_back(p);
+            points.push_back(normal);
             p.setPoint(j * increment_T, i * increment_T, 0);
             points.push_back(p);
 
             p.setPoint(x_aux - increment_x, y_aux, z_aux);
             points.push_back(p);
-            p.setPoint(0, 0, -1);
-            points.push_back(p);
+            points.push_back(normal);
             p.setPoint((j+1) * increment_T, i * increment_T, 0);
             points.push_back(p);
 
             p.setPoint(x_aux ,y_aux + increment_y ,z_aux );
             points.push_back(p);
-            p.setPoint(0, 0, -1);
-            points.push_back(p);
+            points.push_back(normal);
             p.setPoint(j * increment_T, (i+1) * increment_T, 0);
             points.push_back(p);
 
 
             p.setPoint(x_aux, y_aux + increment_y, z_aux );
             points.push_back(p);
-            p.setPoint(0, 0, -1);
-            points.push_back(p);
+            points.push_back(normal);
             p.setPoint(j * increment_T, (i+1) * increment_T, 0);
             points.push_back(p);
 
             p.setPoint(x_aux - increment_x, y_aux, z_aux);
             points.push_back(p);
-            p.setPoint(0, 0, -1);
-            points.push_back(p);
+            points.push_back(normal);
             p.setPoint((j+1) * increment_T, i * increment_T, 0);
             points.push_back(p);
 
             p.setPoint(x_aux - increment_x, y_aux + increment_y, z_aux );
             points.push_back(p);
-            p.setPoint(0, 0, -1);
-            points.push_back(p);
+            points.push_back(normal);
             p.setPoint((j+1) * increment_T, (i+1) * increment_T, 0);
             points.push_back(p);
 
@@ -201,6 +188,7 @@ vector <Point> box_generate_points(vector <Point> points, float x, float y, floa
     x_aux = -x;
     y_aux = y;
     z_aux = z;
+    normal.setPoint(0, 1, 0);
 
     //ciclo de desenho da face de cima
     for (int i = 0; i < divisions; i++){
@@ -209,44 +197,38 @@ vector <Point> box_generate_points(vector <Point> points, float x, float y, floa
 
             p.setPoint(x_aux, y_aux, z_aux);
             points.push_back(p);
-            p.setPoint(0, 1, 0);
-            points.push_back(p);
+            points.push_back(normal);
             p.setPoint(j * increment_T, i * increment_T, 0);
             points.push_back(p);
 
             p.setPoint(x_aux + increment_x, y_aux, z_aux);
             points.push_back(p);
-            p.setPoint(0, 1, 0);
-            points.push_back(p);
+            points.push_back(normal);
             p.setPoint((j+1) * increment_T, i * increment_T, 0);
             points.push_back(p);
 
             p.setPoint(x_aux, y_aux, z_aux - increment_z );
             points.push_back(p);
-            p.setPoint(0, 1, 0);
-            points.push_back(p);
+            points.push_back(normal);
             p.setPoint(j * increment_T, (i+1) * increment_T, 0);
             points.push_back(p);
 
 
             p.setPoint(x_aux, y_aux, z_aux - increment_z );
             points.push_back(p);
-            p.setPoint(0, 1, 0);
-            points.push_back(p);
+            points.push_back(normal);
             p.setPoint(j * increment_T, (i+1) * increment_T, 0);
             points.push_back(p);
 
             p.setPoint(x_aux + increment_x, y_aux, z_aux);
             points.push_back(p);
-            p.setPoint(0, 1, 0);
-            points.push_back(p);
+            points.push_back(normal);
             p.setPoint((j+1) * increment_T, i * increment_T, 0);
             points.push_back(p);
 
             p.setPoint(x_aux + increment_x, y_aux, z_aux - increment_z );
             points.push_back(p);
-            p.setPoint(0, 1, 0);
-            points.push_back(p);
+            points.push_back(normal);
             p.setPoint((j+1) * increment_T, (i+1) * increment_T, 0);
             points.push_back(p);
 
@@ -261,6 +243,7 @@ vector <Point> box_generate_points(vector <Point> points, float x, float y, floa
     x_aux = -x;
     y_aux = -y;
     z_aux = -z;
+    normal.setPoint(0, -1, 0);
 
     //ciclo de desenho da face de baixo
     for (int i = 0; i < divisions; i++){
@@ -269,44 +252,38 @@ vector <Point> box_generate_points(vector <Point> points, float x, float y, floa
 
             p.setPoint(x_aux, y_aux, z_aux);
             points.push_back(p);
-            p.setPoint(0, -1, 0);
-            points.push_back(p);
+            points.push_back(normal);
             p.setPoint(j * increment_T, i * increment_T, 0);
             points.push_back(p);
 
             p.setPoint(x_aux + increment_x, y_aux, z_aux);
             points.push_back(p);
-            p.setPoint(0, -1, 0);
-            points.push_back(p);
+            points.push_back(normal);
             p.setPoint((j+1) * increment_T, i * increment_T, 0);
             points.push_back(p);
 
             p.setPoint(x_aux, y_aux, z_aux + increment_z );
             points.push_back(p);
-            p.setPoint(0, -1, 0);
-            points.push_back(p);
+            points.push_back(normal);
             p.setPoint(j * increment_T, (i+1) * increment_T, 0);
             points.push_back(p);
 
 
             p.setPoint(x_aux, y_aux, z_aux + increment_z );
             points.push_back(p);
-            p.setPoint(0, -1, 0);
-            points.push_back(p);
+            points.push_back(normal);
             p.setPoint(j * increment_T, (i+1) * increment_T, 0);
             points.push_back(p);
 
             p.setPoint(x_aux + increment_x, y_aux, z_aux);
             points.push_back(p);
-            p.setPoint(0, -1, 0);
-            points.push_back(p);
+            points.push_back(normal);
             p.setPoint((j+1) * increment_T, i * increment_T, 0);
             points.push_back(p);
 
             p.setPoint(x_aux + increment_x, y_aux, z_aux + increment_z );
             points.push_back(p);
-            p.setPoint(0, -1, 0);
-            points.push_back(p);
+            points.push_back(normal);
             p.setPoint((j+1) * increment_T, (i+1) * increment_T, 0);
             points.push_back(p);
 
@@ -321,6 +298,7 @@ vector <Point> box_generate_points(vector <Point> points, float x, float y, floa
     x_aux = x;
     y_aux = -y;
     z_aux = z;
+    normal.setPoint(1, 0, 0);
 
     //ciclo de desenho da face da direita
     for (int i = 0; i < divisions; i++){
@@ -329,44 +307,38 @@ vector <Point> box_generate_points(vector <Point> points, float x, float y, floa
 
             p.setPoint(x_aux, y_aux, z_aux);
             points.push_back(p);
-            p.setPoint(1, 0, 0);
-            points.push_back(p);
+            points.push_back(normal);
             p.setPoint(j * increment_T, i * increment_T, 0);
             points.push_back(p);
 
             p.setPoint(x_aux, y_aux, z_aux - increment_z);
             points.push_back(p);
-            p.setPoint(1, 0, 0);
-            points.push_back(p);
+            points.push_back(normal);
             p.setPoint((j+1) * increment_T, i * increment_T, 0);
             points.push_back(p);
 
             p.setPoint(x_aux, y_aux + increment_y, z_aux );
             points.push_back(p);
-            p.setPoint(1, 0, 0);
-            points.push_back(p);
+            points.push_back(normal);
             p.setPoint(j * increment_T, (i+1) * increment_T, 0);
             points.push_back(p);
 
 
             p.setPoint(x_aux, y_aux + increment_y, z_aux );
             points.push_back(p);
-            p.setPoint(1, 0, 0);
-            points.push_back(p);
+            points.push_back(normal);
             p.setPoint(j * increment_T, (i+1) * increment_T, 0);
             points.push_back(p);
 
             p.setPoint(x_aux, y_aux, z_aux - increment_z);
             points.push_back(p);
-            p.setPoint(1, 0, 0);
-            points.push_back(p);
+            points.push_back(normal);
             p.setPoint((j+1) * increment_T, i * increment_T, 0);
             points.push_back(p);
 
             p.setPoint(x_aux, y_aux + increment_y, z_aux - increment_z );
             points.push_back(p);
-            p.setPoint(1, 0, 0);
-            points.push_back(p);
+            points.push_back(normal);
             p.setPoint((j+1) * increment_T, (i+1) * increment_T, 0);
             points.push_back(p);
 
@@ -382,6 +354,7 @@ vector <Point> box_generate_points(vector <Point> points, float x, float y, floa
     x_aux = -x;
     y_aux = -y;
     z_aux = -z;
+    normal.setPoint(-1, 0, 0);
 
     //ciclo de desenho da face da esquerda
     for (int i = 0; i < divisions; i++){
@@ -390,44 +363,38 @@ vector <Point> box_generate_points(vector <Point> points, float x, float y, floa
 
             p.setPoint(x_aux, y_aux, z_aux);
             points.push_back(p);
-            p.setPoint(-1, 0, 0);
-            points.push_back(p);
+            points.push_back(normal);
             p.setPoint(j * increment_T, i * increment_T, 0);
             points.push_back(p);
 
             p.setPoint(x_aux, y_aux, z_aux + increment_z);
             points.push_back(p);
-            p.setPoint(-1, 0, 0);
-            points.push_back(p);
+            points.push_back(normal);
             p.setPoint((j+1) * increment_T, i * increment_T, 0);
             points.push_back(p);
 
             p.setPoint(x_aux, y_aux + increment_y, z_aux );
             points.push_back(p);
-            p.setPoint(-1, 0, 0);
-            points.push_back(p);
+            points.push_back(normal);
             p.setPoint(j * increment_T, (i+1) * increment_T, 0);
             points.push_back(p);
 
 
             p.setPoint(x_aux, y_aux + increment_y, z_aux );
             points.push_back(p);
-            p.setPoint(-1, 0, 0);
-            points.push_back(p);
+            points.push_back(normal);
             p.setPoint(j * increment_T, (i+1) * increment_T, 0);
             points.push_back(p);
 
             p.setPoint(x_aux, y_aux, z_aux + increment_z);
             points.push_back(p);
-            p.setPoint(-1, 0, 0);
-            points.push_back(p);
+            points.push_back(normal);
             p.setPoint((j+1) * increment_T, i * increment_T, 0);
             points.push_back(p);
 
             p.setPoint(x_aux, y_aux + increment_y, z_aux + increment_z );
             points.push_back(p);
-            p.setPoint(-1, 0, 0);
-            points.push_back(p);
+            points.push_back(normal);
             p.setPoint((j+1) * increment_T, (i+1) * increment_T, 0);
             points.push_back(p);
 
@@ -522,28 +489,26 @@ vector <Point> cone_generate_points(vector <Point> points, float radius, float h
         radius_next -= radius_decrement;
     }
 
+    normal.setPoint(0, -1, 0);
 
     for (int a = 0; a < slices; a++) {
 
         //face inferior
         p.setPoint(0, -height_aux, 0);
         points.push_back(p);
-        p.setPoint(0, -1, 0);
-        points.push_back(p);
+        points.push_back(normal);
         p.setPoint(0.5, 0.5, 0);
         points.push_back(p);
 
         p.setPoint(sin(increment * (a + 1)) * radius, -height_aux, cos(increment * (a + 1)) * radius);
         points.push_back(p);
-        p.setPoint(0, -1, 0);
-        points.push_back(p);
+        points.push_back(normal);
         p.setPoint(sin(increment * (a + 1)) * 0.5 + 0.5, cos(increment * (a + 1)) * 0.5 + 0.5, 0);
         points.push_back(p);
 
         p.setPoint(sin(increment * a) * radius, -height_aux, cos(increment * a) * radius);
         points.push_back(p);
-        p.setPoint(0, -1, 0);
-        points.push_back(p);
+        points.push_back(normal);
         p.setPoint(sin(increment * a) * 0.5 + 0.5, cos(increment * a) * 0.5 + 0.5, 0);
         points.push_back(p);
     }
@@ -725,20 +690,23 @@ vector <Point> torus_generate_points(vector <Point> points, float radius, float 
 
     for (int i = 0; i < stacks; i++){
         for (int j = 0; j < slices; j++){
+
+            Point p_aux[3];
+            Point v1, v2, normal;
+
             //Vertice
-            p.setPoint((radius + (radius_torus * cos(i * increment1))) * cos(j * increment), (radius + (radius_torus * cos(i * increment1))) * sin(j * increment), radius_torus * sin(i * increment1));
-            points.push_back(p);
+            p_aux[0].setPoint((radius + (radius_torus * cos(i * increment1))) * cos(j * increment), (radius + (radius_torus * cos(i * increment1))) * sin(j * increment), radius_torus * sin(i * increment1));
+            p_aux[1].setPoint((radius + (radius_torus * cos(i * increment1))) * cos((j + 1) * increment), (radius + (radius_torus * cos(i * increment1))) * sin((j + 1) * increment), radius_torus * sin(i * increment1));
+            p_aux[2].setPoint((radius + (radius_torus * cos((i + 1) * increment1))) * cos(j * increment), (radius + (radius_torus * cos((i + 1) * increment1))) * sin(j * increment), radius_torus * sin((i + 1) * increment1));
 
-            //Normal
-            torus_center_x = radius * sin(j * increment);
-            torus_center_z = radius * cos(j * increment);
+            //Calcular normal
+            v1 = difference(p_aux[1], p_aux[0]);
+            v2 = difference(p_aux[2], p_aux[0]);
+            normal = normalize( cross(v1, v2) );
 
-            normal_x = (radius + (radius_torus * cos(i * increment1))) * cos(j * increment) - torus_center_x;
-            normal_y = (radius + (radius_torus * cos(i * increment1))) * sin(j * increment);
-            normal_z = radius_torus * sin(i * increment1) - torus_center_z;
-            p.setPoint(normal_x, normal_y, normal_z);
-            p = normalize(p);
-            points.push_back(p);
+            //Vertice
+            points.push_back(p_aux[0]);
+            points.push_back(normal);
 
             //Textura
             if (i < stacks / 2)
@@ -747,19 +715,8 @@ vector <Point> torus_generate_points(vector <Point> points, float radius, float 
             points.push_back(p);
 
             //Vertice
-            p.setPoint((radius + (radius_torus * cos(i * increment1))) * cos((j + 1) * increment), (radius + (radius_torus * cos(i * increment1))) * sin((j + 1) * increment), radius_torus * sin(i * increment1));
-            points.push_back(p);
-
-            //Normal
-            torus_center_x = radius * sin((j + 1) * increment);
-            torus_center_z = radius * cos((j + 1) * increment);
-
-            normal_x = (radius + (radius_torus * cos(i * increment1))) * cos((j + 1) * increment) - torus_center_x;
-            normal_y = (radius + (radius_torus * cos(i * increment1))) * sin((j + 1) * increment);
-            normal_z = radius_torus * sin(i * increment1) - torus_center_z;
-            p.setPoint(normal_x, normal_y, normal_z);
-            p = normalize(p);
-            points.push_back(p);
+            points.push_back(p_aux[1]);
+            points.push_back(normal);
 
             //Textura
             if (i < stacks / 2)
@@ -769,19 +726,8 @@ vector <Point> torus_generate_points(vector <Point> points, float radius, float 
 
 
             //Vertice
-            p.setPoint((radius + (radius_torus * cos((i + 1) * increment1))) * cos(j * increment), (radius + (radius_torus * cos((i + 1) * increment1))) * sin(j * increment), radius_torus * sin((i + 1) * increment1));
-            points.push_back(p);
-
-            //Normal
-            torus_center_x = radius * sin(j * increment);
-            torus_center_z = radius * cos(j * increment);
-
-            normal_x = (radius + (radius_torus * cos((i + 1) * increment1))) * cos(j * increment) - torus_center_x;
-            normal_y = (radius + (radius_torus * cos((i + 1) * increment1))) * sin(j * increment);
-            normal_z = radius_torus * sin((i + 1) * increment1) - torus_center_z;
-            p.setPoint(normal_x, normal_y, normal_z);
-            p = normalize(p);
-            points.push_back(p);
+            points.push_back(p_aux[2]);
+            points.push_back(normal);
 
             //Textura
             if (i < stacks / 2)
@@ -801,15 +747,7 @@ vector <Point> torus_generate_points(vector <Point> points, float radius, float 
             points.push_back(p);
 
             //Normal
-            torus_center_x = radius * sin((j + 1) * increment);
-            torus_center_z = radius * cos((j + 1) * increment);
-
-            normal_x = (radius + (radius_torus * cos(i * increment1))) * cos((j + 1) * increment) - torus_center_x;
-            normal_y = (radius + (radius_torus * cos(i * increment1))) * sin((j + 1) * increment);
-            normal_z = radius_torus * sin(i * increment1) - torus_center_z;
-            p.setPoint(normal_x, normal_y, normal_z);
-            p = normalize(p);
-            points.push_back(p);
+            points.push_back(normal);
 
             //Textura
             if (i < stacks / 2)
@@ -823,15 +761,7 @@ vector <Point> torus_generate_points(vector <Point> points, float radius, float 
             points.push_back(p);
 
             //Normal
-            torus_center_x = radius * sin((j + 1) * increment);
-            torus_center_z = radius * cos((j + 1) * increment);
-
-            normal_x = (radius + (radius_torus * cos((i + 1) * increment1))) * cos((j + 1) * increment) - torus_center_x;
-            normal_y = (radius + (radius_torus * cos((i + 1) * increment1))) * sin((j + 1) * increment);
-            normal_z = radius_torus * sin((i + 1) * increment1) - torus_center_z;
-            p.setPoint(normal_x, normal_y, normal_z);
-            p = normalize(p);
-            points.push_back(p);
+            points.push_back(normal);
 
             //Textura
             if (i < stacks / 2)
@@ -845,15 +775,7 @@ vector <Point> torus_generate_points(vector <Point> points, float radius, float 
             points.push_back(p);
 
             //Normal
-            torus_center_x = radius * sin(j * increment);
-            torus_center_z = radius * cos(j * increment);
-
-            normal_x = (radius + (radius_torus * cos((i + 1) * increment1))) * cos(j * increment) - torus_center_x;
-            normal_y = (radius + (radius_torus * cos((i + 1) * increment1))) * sin(j * increment);
-            normal_z = radius_torus * sin((i + 1) * increment1) - torus_center_z;
-            p.setPoint(normal_x, normal_y, normal_z);
-            p = normalize(p);
-            points.push_back(p);
+            points.push_back(normal);
 
             //Textura
             if (i < stacks / 2)
