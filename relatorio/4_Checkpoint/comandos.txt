@@ -1,0 +1,7 @@
+######## COMANDOS ########
+
+	* MOVIMENTO *
+		SETA PARA CIMA ->
+		SETA PARA BAIXO ->
+		DETA PARA A ESQUERDA ->
+		SETA PARA A DIREITA ->
