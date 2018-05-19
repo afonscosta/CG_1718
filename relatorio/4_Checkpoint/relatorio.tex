@@ -138,6 +138,42 @@ Por sua vez, para o cálculo das normais da face lateral do cone, recorreu-se à
 
 \subsubsection{Esfera}%[DANIEL]
 \subsubsection{Torus} % [MARCO]
+
+\hspace{3mm} Antes de qualquer explicação teórica, observe-se na imagem abaixo uma representação de alguns dos vetores normais a calcular.
+
+\begin{figure}[!h]
+    \centering
+    \includegraphics[width=0.5\linewidth]{TorusNormalVector.png}
+    \caption{Representação gráfica de alguns vetores normais à superficie do \textit{Torus}.}
+    \label{fig:ref_normalTorus}
+\end{figure}
+
+Como se pode observar, as normais da superficie do \textit{Torus} são bastante distintas ao longo da superficie, pelo que, foi utilizado o produto vetorial para o cálculo das mesmas. Uma vez que, todas a figuras são constituidas por triângulos, será apenas necessário calcular um vetor normal para cada conjunto de 3 pontos.
+
+Deste modo, foi desenvolvido o seguinte código.
+
+\begin{lstlisting}[language=C++, caption=Código responsável pelo cálculo do vetor normal para um triângulo.]
+            p_aux[0].setPoint((radius + (radius_torus * cos(i * increment1))) * cos(j * increment), (radius + (radius_torus * cos(i * increment1))) * sin(j * increment), radius_torus * sin(i * increment1));
+            p_aux[1].setPoint((radius + (radius_torus * cos(i * increment1))) * cos((j + 1) * increment), (radius + (radius_torus * cos(i * increment1))) * sin((j + 1) * increment), radius_torus * sin(i * increment1));
+            p_aux[2].setPoint((radius + (radius_torus * cos((i + 1) * increment1))) * cos(j * increment), (radius + (radius_torus * cos((i + 1) * increment1))) * sin(j * increment), radius_torus * sin((i + 1) * increment1));
+
+            //Calculo do vetor normal
+            v1 = difference(p_aux[1], p_aux[0]);
+            v2 = difference(p_aux[2], p_aux[0]);
+            normal = normalize( cross(v1, v2) );
+\end{lstlisting}
+
+Como se pode observar, numa primeira fase, os pontos do primeiro vértice a desenhar são colocados numa estrutura de dados auxiliar por forma a facilitar os cálculos do vetor normal. Assim, de seguida procede-se ao cálculo dos vetores \textit{v1} e \textit{v2} recorrendo aos pontos presentes na estrutura de dados auxiliar. Finalmente, tendo dois vetores com a mesma origem, procede-se finalmente ao do vetor normal para o triângulo. De salientar também que este deve encontrar-se normalizado.
+
+
+\begin{figure}[!h]
+    \centering
+    \includegraphics[width=0.5\linewidth]{regra_mao_direita.jpg}
+    \caption{Representação gráfica da regra da mão direita utilizada no produto cruzado entre dois vetores.}
+    \label{fig:ref_mao_direita}
+\end{figure}
+
+
 \subsubsection{Patch}%[DANIEL]
 
 % ---------------------------------------------------
@@ -148,6 +184,39 @@ Por sua vez, para o cálculo das normais da face lateral do cone, recorreu-se à
 \subsubsection{Cone}
 \subsubsection{Esfera}
 \subsubsection{Torus}%[MARCO]
+
+\hspace{3mm} Para o revestimento do \textit{Torus}, a textura não foi aplicada diretamente à figura geométrica. Esta abordagem não foi adotada uma vez que iria originar quebras bastante bruscas na cor tornando assim a figura desagradável à vista. Por forma a evitar a situação apresentada anteriormente, decidiu-se dividir a figura horizontalmente ao meio e aplicar a textura completa na parte superior e inferior. Foi também necessário que a aplicação da textura numa das faces fosse feita no sentido inverso por forma a evitar quebras de cor.
+
+Observe-se agora um exemplo de textura para o torus.
+
+\begin{figure}[!h]
+    \centering
+    \includegraphics[width=0.5\linewidth]{8k_saturn_ring_alpha.png}
+    \caption{Exemplo de textura.}
+    \label{fig:ref_texture}
+\end{figure}
+
+Para que no \textit{Torus} fosse representado o efeito de inúmeros aneis, optou-se por para cada uma das \textit{slices} proceder-se à aplicação da textura completa. Deste modo, o eixo do \textit{x} da textura ficará representado ao longo das \textit{stacks}. Relativamente ao eixo do \textit{y} da textura, uma vez que em cada uma das \textit{slices} será aplicada uma textura completa, não será necessário efetuar qualquer cálculo para percorrer a textura visto que as coordenadas desta componente apenas tomarão os valores 0 e 1.
+
+Deste modo, na face superior o eixo do \textit{x} da textura será percorrido segundo a seguinte fórmula,
+
+\[ 2 * i * incrementT \]
+
+sendo \textit{i} representativo do número de stacks (na parte superior do \textit{Torus}), \textit{incrementT} o incremento em cada uma das iterações e finalmente
+
+\[ 1 - (2 * texture_aux * incrementT) \]
+
+sendo \textit{texture\_aux} uma variável auxiliar para percorrer a textura do fim para o início.
+
+Deste modo, obtemos o seguinte resultado.
+
+\begin{figure}[!h]
+    \centering
+    \includegraphics[width=0.5\linewidth]{exemplo_torus.png}
+    \caption{Exemplificação da figura \textit{Torus}.}
+    \label{fig:ref_ex_torus}
+\end{figure}
+
 \subsubsection{Patch}
 
 
@@ -182,7 +251,7 @@ Por forma a obter resultados mais precisos e com o menor esforço computacional 
     \centering
     \includegraphics[width=0.5\linewidth]{camera_pitch.png}
     \caption{Representação do vetor de direção do olhar da câmara, sendo o ângulo \textit{pitch} representativo de $\beta$.}
-    \label{fig:ref_FPS}
+    \label{fig:ref_FPS1}
 \end{figure}
 
 Como resultado da observação das imagens apresentadas acima, percebeu-se facilmente que o vetor \textit{D} pode ser calculado da seguinte forma.
@@ -225,7 +294,7 @@ Por forma a permitir o deslocamento da câmara, foram definidas duas funções r
     \centering
     \includegraphics[width=0.5\linewidth]{referencial_FPS2.png}
     \caption{Esquema representativo do movimento da câmara.}
-    \label{fig:ref_FPS}
+    \label{fig:ref_FPS3}
 \end{figure}
 
 Finalmente, foram definidas teclas que permissem a alteração de todos os parâmetros referidos anteriormente. Vejamos então as funções \textit{movement} e \textit{keyboard}.
