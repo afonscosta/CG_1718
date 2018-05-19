@@ -34,7 +34,7 @@ int main(int argc, char **argv) {
     } else if (argc == 6) {
         if (strcmp(argv[1], "sphere") == 0) {
             points = sphere_generate_points(points, strtof(argv[2], NULL), strtof(argv[3], NULL),
-                                            strtof(argv[4], NULL));
+                                            strtof(argv[4], NULL), 0, 0, 0);
             writeFile(points, argv[5]);
         } else if (strcmp(argv[1], "box") == 0) {
             points = box_generate_points(points, strtof(argv[2], NULL) / 2, strtof(argv[3], NULL) / 2,
@@ -43,6 +43,9 @@ int main(int argc, char **argv) {
         } else if (strcmp(argv[1], "ambient") == 0) {
             points = ambient_generate_points(points, strtof(argv[2], NULL), strtof(argv[3], NULL),
                                             strtof(argv[4], NULL));
+            writeFile(points, argv[5]);
+        } else if (strcmp(argv[1], "belt") == 0) {
+            points = generate_belt(points, strtof(argv[2], NULL), strtof(argv[3], NULL), strtof(argv[4], NULL));
             writeFile(points, argv[5]);
         }
     } else if (argc == 7) {
@@ -60,6 +63,5 @@ int main(int argc, char **argv) {
             writeFile(points, argv[6]);
         }
     }
-
     return 0;
 }

@@ -8,6 +8,7 @@
 	<!-- Ambiente -->
 	<group>
 		<models>
+			<model file="../files/belt.3d"/>
 			<model file="../files/ambient.3d" texture="../files/8k_stars_milky_way.jpg" />
 		</models>
 	</group>
