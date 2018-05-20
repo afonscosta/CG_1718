@@ -10,6 +10,20 @@ void Model::setEmission(float emission[4]) {
     Model::emission[3] = emission[3];
 }
 
+void Model::setDiffuse(float diffuse[4]) {
+    Model::diffuse[0] = diffuse[0];
+    Model::diffuse[1] = diffuse[1];
+    Model::diffuse[2] = diffuse[2];
+    Model::diffuse[3] = diffuse[3];
+}
+
+void Model::setSpecular(float specular[4]) {
+    Model::specular[0] = specular[0];
+    Model::specular[1] = specular[1];
+    Model::specular[2] = specular[2];
+    Model::specular[3] = specular[3];
+}
+
 void Model::setTexIDPrimitive(GLuint texIDPrimitive) {
     Model::texIDPrimitive = texIDPrimitive;
 }
@@ -35,7 +49,14 @@ void Model::setPrimitive(vector<float> v, vector<float> n, vector<float> t, int 
 
 void Model::drawPrimitive() {
 
-    glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, emission);
+    glPushMatrix();
+
+    glMaterialfv(GL_FRONT, GL_DIFFUSE, diffuse);
+    glMaterialfv(GL_FRONT, GL_SPECULAR, specular);
+    glMaterialf(GL_FRONT, GL_SHININESS, 100.0);
+    glMaterialfv(GL_FRONT, GL_EMISSION, emission);
+
+
 
     glBindBuffer(GL_ARRAY_BUFFER, vertices);
     glVertexPointer(3, GL_FLOAT, 0,  0);
@@ -51,7 +72,10 @@ void Model::drawPrimitive() {
     glDrawArrays(GL_TRIANGLES, 0, nvertices);
     glDisable(GL_LIGHTING);
 
+
+
     glBindTexture(GL_TEXTURE_2D, 0);
+    glPopMatrix();
 }
 
 

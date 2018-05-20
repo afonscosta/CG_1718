@@ -172,7 +172,7 @@
 				<rotate angle="60" axisX="1" axisY="0" axisZ="0"/>
 				<scale X="1" Y="1" Z="0.2"/>
 				<models>
-					<model file="../files/torus.3d" texture="../files/8k_saturn_ring_alpha.jpg"/>
+					<model file="../files/torus.3d" texture="../files/8k_saturn_ring_alpha.jpg" />
 				</models>
 			</group>
 		</group>
