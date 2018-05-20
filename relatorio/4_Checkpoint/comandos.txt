@@ -1,7 +1,18 @@
 ######## COMANDOS ########
 
-	* MOVIMENTO *
-		SETA PARA CIMA ->
-		SETA PARA BAIXO ->
-		DETA PARA A ESQUERDA ->
-		SETA PARA A DIREITA ->
+* MOVIMENTO *
+    RATO                 -> quando premido, permite alterar a direção do
+                            olhar da câmara
+
+    SETA PARA CIMA       -> movimentação do olhar da câmara para cima
+    SETA PARA BAIXO      -> movimentação do olhar da câmara para baixo
+    DETA PARA A ESQUERDA -> movimentação do olhar da câmara para a esquerda
+    SETA PARA A DIREITA  -> movimentação do olhar da câmara para a direita
+
+    N                    -> ativação do movimento automático em frente
+    SPACE                -> movimento em frente único
+    B                    -> movimento para trás único
+    O                    -> ativação/desativação das órbitas dos planetas
+    S                    -> ativação/desativação da luz de mineiro
+    M                    -> alteração do modo de visualização 
+                            (linhas, pontos ou faces)
