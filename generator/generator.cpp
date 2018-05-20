@@ -516,7 +516,7 @@ vector <Point> cone_generate_points(vector <Point> points, float radius, float h
 }
 
 
-vector <Point> sphere_generate_points(vector <Point> points,float radius, int slices, int stacks) {
+vector <Point> sphere_generate_points(vector <Point> points,float radius, int slices, int stacks, float center_x, float center_y, float center_z) {
 
     Point p;
 
@@ -538,7 +538,7 @@ vector <Point> sphere_generate_points(vector <Point> points,float radius, int sl
 
             //triangulo 1
             // Vertice
-            p.setPoint(radius * cos(i * increment2 - M_PI / 2) * sin((a + 1) * increment1), radius * sin(i * increment2- M_PI / 2), radius * cos(i * increment2- M_PI / 2) * cos((a + 1) * increment1));
+            p.setPoint(center_x + radius * cos(i * increment2 - M_PI / 2) * sin((a + 1) * increment1), center_y + radius * sin(i * increment2- M_PI / 2), center_z + radius * cos(i * increment2- M_PI / 2) * cos((a + 1) * increment1));
             points.push_back(p);
             // Normal
             p.setPoint(cos(i * increment2- M_PI / 2) * sin((a + 1) * increment1), sin(i * increment2- M_PI / 2), cos(i * increment2- M_PI / 2) * cos((a + 1) * increment1));
@@ -548,7 +548,7 @@ vector <Point> sphere_generate_points(vector <Point> points,float radius, int sl
             p.setPoint((a+1) * increment1T, i * increment2T, 0);
             points.push_back(p);
 
-            p.setPoint(radius * cos((i + 1) * increment2- M_PI / 2) * sin(a * increment1), radius * sin((i + 1) * increment2- M_PI / 2), radius * cos((i + 1) * increment2- M_PI / 2) * cos(a * increment1));
+            p.setPoint(center_x + radius * cos((i + 1) * increment2- M_PI / 2) * sin(a * increment1), center_y + radius * sin((i + 1) * increment2- M_PI / 2), center_z + radius * cos((i + 1) * increment2- M_PI / 2) * cos(a * increment1));
             points.push_back(p);
             p.setPoint(cos((i + 1) * increment2- M_PI / 2) * sin(a * increment1), sin((i + 1) * increment2- M_PI / 2), cos((i + 1) * increment2- M_PI / 2) * cos(a * increment1));
             p = normalize(p);
@@ -556,7 +556,7 @@ vector <Point> sphere_generate_points(vector <Point> points,float radius, int sl
             p.setPoint(a * increment1T, (i+1) * increment2T, 0);
             points.push_back(p);
 
-            p.setPoint(radius * cos(i * increment2- M_PI / 2) * sin(a * increment1), radius * sin(i * increment2- M_PI / 2), radius * cos(i * increment2- M_PI / 2) * cos(a * increment1));
+            p.setPoint(center_x + radius * cos(i * increment2- M_PI / 2) * sin(a * increment1), center_y + radius * sin(i * increment2- M_PI / 2), center_z + radius * cos(i * increment2- M_PI / 2) * cos(a * increment1));
             points.push_back(p);
             p.setPoint(cos(i * increment2- M_PI / 2) * sin(a * increment1), sin(i * increment2- M_PI / 2), cos(i * increment2- M_PI / 2) * cos(a * increment1));
             p = normalize(p);
@@ -566,7 +566,7 @@ vector <Point> sphere_generate_points(vector <Point> points,float radius, int sl
 
 
             //triangulo 2
-            p.setPoint(radius * cos((i + 1) * increment2- M_PI / 2) * sin(a * increment1), radius * sin((i + 1) * increment2- M_PI / 2), radius * cos((i + 1) * increment2- M_PI / 2) * cos(a * increment1));
+            p.setPoint(center_x + radius * cos((i + 1) * increment2- M_PI / 2) * sin(a * increment1), center_y + radius * sin((i + 1) * increment2- M_PI / 2), center_z + radius * cos((i + 1) * increment2- M_PI / 2) * cos(a * increment1));
             points.push_back(p);
             p.setPoint(cos((i + 1) * increment2- M_PI / 2) * sin(a * increment1), sin((i + 1) * increment2- M_PI / 2), cos((i + 1) * increment2- M_PI / 2) * cos(a * increment1));
             p = normalize(p);
@@ -574,7 +574,7 @@ vector <Point> sphere_generate_points(vector <Point> points,float radius, int sl
             p.setPoint(a * increment1T, (i+1) * increment2T, 0);
             points.push_back(p);
 
-            p.setPoint(radius * cos(i * increment2- M_PI / 2) * sin((a + 1) * increment1), radius * sin(i * increment2- M_PI / 2), radius * cos(i * increment2- M_PI / 2) * cos((a + 1) * increment1));
+            p.setPoint(center_x + radius * cos(i * increment2- M_PI / 2) * sin((a + 1) * increment1), center_y + radius * sin(i * increment2- M_PI / 2), center_z + radius * cos(i * increment2- M_PI / 2) * cos((a + 1) * increment1));
             points.push_back(p);
             p.setPoint(cos(i * increment2- M_PI / 2) * sin((a + 1) * increment1), sin(i * increment2- M_PI / 2), cos(i * increment2- M_PI / 2) * cos((a + 1) * increment1));
             p = normalize(p);
@@ -582,7 +582,7 @@ vector <Point> sphere_generate_points(vector <Point> points,float radius, int sl
             p.setPoint((a+1) * increment1T, i * increment2T, 0);
             points.push_back(p);
 
-            p.setPoint(radius * cos((i + 1) * increment2- M_PI / 2) * sin((a + 1) * increment1), radius * sin((i + 1) * increment2- M_PI / 2), radius * cos((i + 1) * increment2- M_PI / 2) * cos((a + 1) * increment1));
+            p.setPoint(center_x + radius * cos((i + 1) * increment2- M_PI / 2) * sin((a + 1) * increment1), center_y + radius * sin((i + 1) * increment2- M_PI / 2), center_z + radius * cos((i + 1) * increment2- M_PI / 2) * cos((a + 1) * increment1));
             points.push_back(p);
             p.setPoint(cos((i + 1) * increment2- M_PI / 2) * sin((a + 1) * increment1), sin((i + 1) * increment2- M_PI / 2), cos((i + 1) * increment2- M_PI / 2) * cos((a + 1) * increment1));
             p = normalize(p);
@@ -784,6 +784,26 @@ vector <Point> torus_generate_points(vector <Point> points, float radius, float 
         }
         if (i >= stacks / 2)
             texture_aux++;
+    }
+
+    return points;
+}
+
+vector <Point> generate_belt(vector<Point> points, int nr, int min, int max){
+
+    for (int i = 0; i < nr; i++){
+
+        int raio = rand()%(max-min + 1) + min;
+        float alfa = (static_cast <float> (rand()) / static_cast <float> (RAND_MAX)) * (2 * M_PI);
+
+        float x = raio * sin(alfa);
+        float y = 0;
+        float z = raio * cos(alfa);
+
+        printf("%f - %f \n", x,z );
+
+        points = sphere_generate_points(points, 0.25, 20, 20, x, y, z);
+
     }
 
     return points;
