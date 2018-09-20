@@ -10,4 +10,4 @@ The assignment is split in four phases:
 - Phase 3: Curves, Cubic Surfaces and VBOs
 - Phase 4: Normals and Texture Coordinates
 
-In the end we got a fairly complete system. As an example of use one has the representation of a solar system, where we can surf throughout the solar system \o/
+At the end we got a fairly complete system. As an example of use one has the representation of a solar system, where we can surf throughout the space \o/
